@@ -1,0 +1,83 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib" 
+        xmlns:local="clr-namespace:ySlide"
+        xmlns:dxprg="http://schemas.devexpress.com/winfx/2008/xaml/propertygrid" x:Class="ySlide.MainWindow"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen" WindowState="Maximized">
+    <Grid>
+        <Grid>
+            <TabControl x:Name="tabControl" Width="200" HorizontalAlignment="Left" Margin="0,100,0,0" >
+                <TabControl.Resources>
+                    <Style TargetType="{x:Type TabItem}">
+                        <Setter Property="AllowDrop" Value="True"/>
+                        <EventSetter Event="UIElement.PreviewMouseMove" Handler="TabItem_PreviewMouseMove"/>
+                        <EventSetter Event="UIElement.Drop" Handler="TabItem_Drop"/>
+                    </Style>
+                </TabControl.Resources>
+
+                <TabItem Header="Tabitem 1">
+                    <Grid Name="PropertiesBar">
+                        <dxprg:PropertyGridControl SelectedObject="{Binding}" ShowProperties="All">
+                            <dxprg:PropertyDefinition Path="RenderTransform" />
+                        </dxprg:PropertyGridControl>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Tabitem 2"/>
+                <TabItem Header="Tabitem 3"/>
+                <TabItem Header="Tabitem 4"/>
+                <TabItem Header="Tabitem 5"/>
+                
+            </TabControl>
+        </Grid>
+        <Grid>
+            <TabControl x:Name="tabToolBox" Height="100" VerticalAlignment="Top" Margin="0,0,0,319">
+                <TabItem Header="TabItem">
+                    <ToolBar x:Name="toolBar" DockPanel.Dock ="Top" Height="50">
+                        <RadioButton BorderBrush="#ff969696" x:Name="NoneButton" Click="NoneButton_Click"
+                                     Content="None" Height="50" Width="80" GroupName="ShapeGroup"
+                                     IsChecked="True"/>
+                        <RadioButton BorderBrush="#ff969696" x:Name="MoveButton" Click="MoveButton_Click"
+                                     Content="Move" Height="50" Width="80" GroupName="ShapeGroup"/>
+                        <RadioButton BorderBrush="#ff969696" x:Name="PencilButton" Click="PencilButton_Click"
+                                     Content="Pencil" Height="50" Width="80" GroupName="ShapeGroup"/>
+                        <RadioButton BorderBrush="#ff969696" x:Name="LineButton" Click="LineButton_Click"
+                                     Content="Line" Height="50" Width="80" GroupName="ShapeGroup"/>
+                        <RadioButton BorderBrush="#ff969696" x:Name="EllipseButton" Click="EllipseButton_Click"
+                                     Content="Ellipse" Height="50" Width="80" GroupName="ShapeGroup"/>
+                        <RadioButton BorderBrush="#ff969696" x:Name="RectangleButton" Click="RectangleButton_Click"
+                                     Content="Rectangle" Height="50" Width="80" GroupName="ShapeGroup"/>
+                        <RadioButton BorderBrush="#ff969696" x:Name="TextButton" Click="TextButton_Click"
+                                     Content="Text" Height="50" Width="80" GroupName="ShapeGroup"/>
+                        <RadioButton BorderBrush="#ff969696" x:Name="ImageButton" Click="ImageButton_Click"
+                                     Content="Image" Height="50" Width="80" GroupName="ShapeGroup"/>
+                    </ToolBar>
+                </TabItem>
+                <TabItem Header="TabItem"/>
+            </TabControl>
+        </Grid>
+        <Grid Background="Blue" VerticalAlignment="Top" HorizontalAlignment="Left" Height="308" Width="571" Margin="205,105,0,0">
+            <Canvas x:Name="canvas" Background="WhiteSmoke" Margin="0,0,0,0" AllowDrop="True"
+                    MouseDown="canvas_MouseDown" MouseUp="canvas_MouseUp" MouseMove="canvas_MouseMove">
+                <Line X1="10" Y1="20" X2="50" Y2="50" Stroke="Black" StrokeThickness="4" />
+
+                <Ellipse Width="50" Height="50" Stroke="Black" StrokeThickness="2" Fill="Yellow" 
+                         Canvas.Top="20" Canvas.Left="100" />
+
+                <Rectangle Fill="Blue" Height="50" Width="100" Canvas.Left="240" Canvas.Top="20" MouseDown="canvasChildren_MouseDown">
+                    <Rectangle.RenderTransform>
+                        <RotateTransform x:Name="rotate" CenterX="0" CenterY="0" Angle="45" />
+                    </Rectangle.RenderTransform>
+                </Rectangle>
+
+
+                <local:EditableTextBlock Text="sdfsdfs" Cursor="IBeam" Canvas.Left="240" Canvas.Top="200"/>
+                <Image Height="100" Canvas.Left="313" Canvas.Top="143" Width="100" Source="Images/testImage.jpg"/>
+            </Canvas>
+
+        </Grid>
+    </Grid>
+</Window>
