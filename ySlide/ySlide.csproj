@@ -34,14 +34,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DevExpress.Data.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Mvvm.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Printing.v17.2.Core, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Xpf.Core.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Xpf.PropertyGrid.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Controls.Ribbon" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -63,10 +59,27 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CustomShapes.cs" />
+    <Compile Include="CustomVideo.xaml.cs">
+      <DependentUpon>CustomVideo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DesignerItemDecorator.cs" />
+    <Compile Include="Document.cs" />
     <Compile Include="EditableTextBlock.cs" />
-    <Compile Include="EditableTextBlockAdorner.cs" />
+    <Compile Include="Adorners\EditableTextBlockAdorner.cs" />
+    <Compile Include="MoveThumb.cs" />
     <Compile Include="PersonCollectionViewModel.cs" />
+    <Compile Include="Adorners\ResizeRotateAdorner.cs" />
+    <Compile Include="Adorners\ResizeRotateChrome.cs" />
+    <Compile Include="ResizeThumb.cs" />
+    <Compile Include="RotateThumb.cs" />
+    <Compile Include="Adorners\SizeAdorner.cs" />
+    <Compile Include="Adorners\SizeChrome.cs" />
     <Compile Include="ViewModelBase.cs" />
+    <Page Include="CustomVideo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -79,6 +92,18 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Resources\DesignerItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\ResizeRotateChrome.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\SizeChrome.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Person.cs" />
@@ -109,9 +134,54 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Icons\A.png" />
+    <Resource Include="Icons\Antistatic Brush.jpg" />
+    <Resource Include="Icons\app_icon.png" />
+    <Resource Include="Icons\Arrow.png" />
+    <Resource Include="Icons\Bold.png" />
+    <Resource Include="Icons\brush.png" />
+    <Resource Include="Icons\cursor.png" />
+    <Resource Include="Icons\EditColor.png" />
+    <Resource Include="Icons\Editing-Line-icon.png" />
+    <Resource Include="Icons\Editing-Line-Width-icon.png" />
+    <Resource Include="Icons\Ellipse.png" />
+    <Resource Include="Icons\eraser.png" />
+    <Resource Include="Icons\File-btn.png" />
+    <Resource Include="Icons\Heart.png" />
+    <Resource Include="Icons\Italic.png" />
+    <Resource Include="Icons\Open-icon.png" />
+    <Resource Include="Icons\open.png" />
+    <Resource Include="Icons\Paint-bucket.png" />
+    <Resource Include="Icons\Paint_brush.cur" />
+    <Resource Include="Icons\Pencil-icon.png" />
+    <Resource Include="Icons\Rectangle.png" />
+    <Resource Include="Icons\Save-as-icon.png" />
+    <Resource Include="Icons\save.png" />
+    <Resource Include="Icons\Thickness1.png" />
+    <Resource Include="Icons\Thickness3.png" />
+    <Resource Include="Icons\Thickness5.png" />
+    <Resource Include="Icons\Thickness7.png" />
+    <Resource Include="Icons\Thicknesses.png" />
+    <Resource Include="Icons\Triangle.png" />
+    <Resource Include="Icons\Underlined.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\testImage.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Task.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\DefaultImage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Image.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\noneVideo.png" />
+    <Resource Include="Icons\video.png" />
+    <Content Include="Videos\video.mkv" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
