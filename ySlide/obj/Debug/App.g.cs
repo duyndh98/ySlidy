@@ -9,13 +9,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using DevExpress.Xpf.DXBinding;
 using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Automation;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Controls.Ribbon;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Ink;

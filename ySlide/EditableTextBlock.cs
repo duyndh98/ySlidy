@@ -130,6 +130,10 @@ namespace ySlide
             {
                 IsInEditMode = true;
             }
+            else if (Document.DrawType == DrawType.text)
+            {
+                IsInEditMode = true;
+            }
         }
     }
 }
