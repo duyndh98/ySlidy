@@ -29,18 +29,38 @@
             </Grid.ColumnDefinitions>
             <ScrollViewer Grid.Column="1" HorizontalAlignment="Stretch" x:Name="mainArea">
                 <StackPanel Width="800" Height="600" x:Name="canvasParents">
-                    <InkCanvas EditingMode="Select" x:Name="curCanvas" Background="WhiteSmoke" AllowDrop="True" Height="600" Width="800"
-                            MouseDown="canvas_MouseDown" MouseUp="canvas_MouseUp" MouseMove="canvas_MouseMove" MouseLeftButtonUp="canvas_MouseLeftButtonUp" PreviewMouseLeftButtonDown="canvas_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="canvas_PreviewMouseLeftButtonUp">
-                        <Ellipse Width="50" Height="50" Stroke="Black" StrokeThickness="2" Fill="Yellow" 
+                    <StackPanel.ContextMenu x:Uid="cxt">
+                        <ContextMenu Name="ContextMenu">
+                            <MenuItem Name="ChangeBackground" Header="Change Background">
+                                <MenuItem Name="ChangeColor" Header="Color" Click="ChangeBackGroundColor_Click"></MenuItem>
+                                <MenuItem Name="ChangeImage" Header="Image" Click="ChangeBackGroundImage_Click"></MenuItem>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Name="CopyItem" Header="Copy(Ctrl + C)" ></MenuItem>
+                        </ContextMenu>
+                    </StackPanel.ContextMenu>
+                    <InkCanvas EditingMode="Select" x:Name="curCanvas" AllowDrop="True" Height="600" Width="800"
+                            MouseDown="canvas_MouseDown" MouseUp="canvas_MouseUp" MouseMove="canvas_MouseMove" MouseLeftButtonUp="canvas_MouseLeftButtonUp" PreviewMouseLeftButtonDown="canvas_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="canvas_PreviewMouseLeftButtonUp" ResizeEnabled="True" SelectionMoved="curCanvas_SelectionMoved">
+                        <InkCanvas.Background>
+                            <ImageBrush/>
+                        </InkCanvas.Background>
+                        <ContentControl>
+                            <Ellipse Width="50" Height="50" Stroke="Black" StrokeThickness="2" Fill="Yellow" 
                                      Canvas.Top="20" Canvas.Left="100" />
-                        <Image Height="100" Width="100" Source="Images/testImage.jpg" Margin="0"/>
-                        <RichTextBox  Background="Transparent" Width="100" BorderBrush="Transparent">
-                            <RichTextBox.Resources>
-                                <Style TargetType="{x:Type Paragraph}">
-                                    <Setter Property="Margin" Value="0" />
-                                </Style>
-                            </RichTextBox.Resources>
-                        </RichTextBox>
+                        </ContentControl>
+                        <ContentControl>
+                            <Image Height="100" Width="100" Source="Images/testImage.jpg" Margin="0"/>
+                        </ContentControl>
+
+                        <ContentControl>
+                            <RichTextBox  Background="Transparent" Width="100" BorderBrush="Transparent">
+                                <RichTextBox.Resources>
+                                    <Style TargetType="{x:Type Paragraph}">
+                                        <Setter Property="Margin" Value="0" />
+                                    </Style>
+                                </RichTextBox.Resources>
+                            </RichTextBox>
+                        </ContentControl>
                         <!--<Line X1="10" Y1="20" X2="50" Y2="50" Stroke="Black" StrokeThickness="4" />
                         <Grid>
                             <Ellipse Width="50" Height="50" Stroke="Black" StrokeThickness="2" Fill="Yellow" 

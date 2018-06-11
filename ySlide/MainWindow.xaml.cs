@@ -171,6 +171,7 @@ namespace ySlide
             fontStyle = FontStyles.Normal;
             fontWeight = FontWeights.Normal;
             decoration = null;
+            UpdateCanvasSize();
         }
 
         private void btnPencil_Click(object sender, RoutedEventArgs e)
@@ -969,6 +970,59 @@ namespace ySlide
                     focusedTextbox.FontSize = fontSize;
                 }
             }
+        }
+
+        private void ChangeBackGroundColor_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.ColorDialog dlg = new System.Windows.Forms.ColorDialog();
+            dlg.AllowFullOpen = true;
+            dlg.ShowDialog();
+            Color color = new Color();
+            color.A = dlg.Color.A;
+            color.R = dlg.Color.R;
+            color.G = dlg.Color.G;
+            color.B = dlg.Color.B;
+            curCanvas.Background = new SolidColorBrush(color);
+        }
+
+        private void ChangeBackGroundImage_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            dlg.Filter = "PNG Files (*.png)|*.png|JPEG Files (*.jpeg)|*.jpeg|JPG Files (*.jpg)|*.jpg|GIF Files (*.gif)|*.gif";
+
+            Nullable<bool> result = dlg.ShowDialog();
+
+            if (result == true)
+            {
+                ImageBrush newImage = new ImageBrush();
+                newImage.ImageSource = new BitmapImage(new Uri(dlg.FileName));
+
+                curCanvas.Background = newImage;                
+            }
+
+        }
+
+        private void curCanvas_SelectionMoved(object sender, EventArgs e)
+        {
+            ScaleTransform scaler = new ScaleTransform(2, 2);
+
+            ReadOnlyCollection<UIElement> selectedElements = curCanvas.GetSelectedElements();
+
+            foreach (ContentControl element in selectedElements)
+            {
+                double x = InkCanvas.GetLeft(element);
+                if (x > curCanvas.Width - element.RenderSize.Width)
+                    InkCanvas.SetLeft(element, curCanvas.Width - element.RenderSize.Width);
+                else if (x < 0)
+                    InkCanvas.SetLeft(element, 0);
+
+                x = InkCanvas.GetTop(element);
+                if (x > curCanvas.Height - element.RenderSize.Height)
+                    InkCanvas.SetTop(element, curCanvas.Height - element.RenderSize.Height);
+                else if (x < 0)
+                    InkCanvas.SetTop(element, 0);
+            }
+
         }
 
         private void listSlides_SelectionChanged(object sender, SelectionChangedEventArgs e)
