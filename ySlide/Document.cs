@@ -15,6 +15,7 @@ using System.IO;
 using System.Collections.ObjectModel;
 using System.Xml.Serialization;
 using System.Xml;
+using System.ComponentModel;
 
 namespace ySlide
 {
@@ -455,7 +456,8 @@ namespace ySlide
         }
     }
 
-    public class SetUpTextBox{
+    public class SetUpTextBox
+    {
         private System.Windows.Media.FontFamily fontFamily;
         private double fontSize;
         private System.Windows.FontStyle fontStyle;
@@ -472,7 +474,7 @@ namespace ySlide
 
         public SetUpTextBox()
         {
-            fontFamily = new System.Windows.Media.FontFamily();
+            fontFamily = new System.Windows.Media.FontFamily("Arial");
             fontSize = 14;
             fontStyle = FontStyles.Normal;
             fontWeight = FontWeights.Normal;

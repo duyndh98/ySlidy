@@ -39,11 +39,8 @@
                             <MenuItem Name="CopyItem" Header="Copy(Ctrl + C)" ></MenuItem>
                         </ContextMenu>
                     </StackPanel.ContextMenu>
-                    <InkCanvas EditingMode="Select" x:Name="curCanvas" AllowDrop="True" Height="600" Width="800"
+                    <InkCanvas EditingMode="Select" x:Name="curCanvas" AllowDrop="True" Height="600" Width="800" Background="WhiteSmoke"
                             MouseDown="canvas_MouseDown" MouseUp="canvas_MouseUp" MouseMove="canvas_MouseMove" MouseLeftButtonUp="canvas_MouseLeftButtonUp" PreviewMouseLeftButtonDown="canvas_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="canvas_PreviewMouseLeftButtonUp" ResizeEnabled="True" SelectionMoved="curCanvas_SelectionMoved" SelectionChanged="curCanvas_SelectionChanged">
-                        <InkCanvas.Background>
-                            <ImageBrush/>
-                        </InkCanvas.Background>
                         <ContentControl>
                             <Ellipse Width="50" Height="50" Stroke="Black" StrokeThickness="2" Fill="Yellow" 
                                      Canvas.Top="20" Canvas.Left="100" />
@@ -467,24 +464,8 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <ComboBox Grid.Column="0"  Name="cbxFontSize" Width="40" IsEditable="True" SelectedIndex="-1" ScrollViewer.VerticalScrollBarVisibility="Disabled" MaxDropDownHeight="500" SelectionChanged="cbxFontSize_SelectionChanged">
-                                <ComboBoxItem Content="8"/>
-                                <ComboBoxItem Content="9"/>
-                                <ComboBoxItem Content="10"/>
-                                <ComboBoxItem Content="11"/>
-                                <ComboBoxItem Content="12"/>
-                                <ComboBoxItem Content="14" IsSelected="true"/>
-                                <ComboBoxItem Content="16"/>
-                                <ComboBoxItem Content="18"/>
-                                <ComboBoxItem Content="20"/>
-                                <ComboBoxItem Content="22"/>
-                                <ComboBoxItem Content="24"/>
-                                <ComboBoxItem Content="26"/>
-                                <ComboBoxItem Content="28"/>
-                                <ComboBoxItem Content="36"/>
-                                <ComboBoxItem Content="48"/>
-                                <ComboBoxItem Content="72"/>
-                            </ComboBox>
+                            <ComboBox Grid.Column="0" Name="cbxFontSize" Width="40" IsEditable="True" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxDropDownHeight="500" SelectionChanged="cbxFontSize_SelectionChanged" />
+
                             <Button Grid.Column="1" Name="btnBold" Width="20" Height="20" Margin="5, 0, 0, 0" Padding="2, 2, 2, 2" BorderBrush="{x:Null}" Click="btnBold_Click" >
                                 <Button.Background>
                                     <ImageBrush ImageSource="Icons/Bold.png" Stretch="Uniform"/>

@@ -44,11 +44,18 @@ namespace ySlide
         private string currentFilePath;
         private ContentControl selectedControl;
         private TextBox focusedTextbox;
-
-        private TextDecorationCollection decoration;
-        private Color fontColor;
+        public TextBox FocusedTextbox
+        {
+            get { return focusedTextbox; }
+            set
+            {
+                focusedTextbox = value;
+                cbxFontSize.SelectedValue = focusedTextbox.FontSize;
+                cbxFontFamily.SelectedItem = focusedTextbox.FontFamily;
+                btnColorText.Background = focusedTextbox.Foreground;
+            }
+        }
         bool bold = false, italic = false, underlined = false;
-        float oldLineCount;
         /// </Text Adjustment>
 
         #endregion
@@ -136,8 +143,9 @@ namespace ySlide
             fillColor = Colors.Black;
             penThickness = 1;
             btnSmooth.IsChecked = true;
-            decoration = null;
             UpdateCanvasSize();
+            cbxFontSize.ItemsSource = new double[] { 8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72 };
+            cbxFontSize.SelectedItem = Document.Instance.SetUpTextBox.FontSize;
         }
 
         private void btnPencil_Click(object sender, RoutedEventArgs e)
@@ -262,16 +270,16 @@ namespace ySlide
             bold = !bold;
             if (bold)
             {
-                if (focusedTextbox != null)
+                if (FocusedTextbox != null)
                 {
-                    focusedTextbox.FontWeight = FontWeights.Bold;
+                    FocusedTextbox.FontWeight = FontWeights.Bold;
                 }
             }
             else
             {
-                if (focusedTextbox != null)
+                if (FocusedTextbox != null)
                 {
-                    focusedTextbox.FontWeight = FontWeights.Normal;
+                    FocusedTextbox.FontWeight = FontWeights.Normal;
                 }
             }
         }
@@ -281,16 +289,16 @@ namespace ySlide
             italic = !italic;
             if (italic)
             {
-                if (focusedTextbox != null)
+                if (FocusedTextbox != null)
                 {
-                    focusedTextbox.FontStyle = FontStyles.Italic;
+                    FocusedTextbox.FontStyle = FontStyles.Italic;
                 }
             }
             else
             {
-                if (focusedTextbox != null)
+                if (FocusedTextbox != null)
                 {
-                    focusedTextbox.FontStyle = FontStyles.Normal;
+                    FocusedTextbox.FontStyle = FontStyles.Normal;
                 }
             }
         }
@@ -298,33 +306,33 @@ namespace ySlide
         private void btnUnderlined_Click(object sender, RoutedEventArgs e)
         {
             underlined = !underlined;
-            //if (underlined)
-            //{
-            //    if (focusedTextbox != null)
-            //    {
-            //        if (focusedTextbox.TextDecorations == null)
-            //        {
-            //            focusedTextbox.TextDecorations = new TextDecorationCollection();
-            //        }
-            //        focusedTextbox.TextDecorations = TextDecorations.Underline;
+            if (underlined)
+            {
+                if (FocusedTextbox != null)
+                {
+                    if (FocusedTextbox.TextDecorations == null)
+                    {
+                        FocusedTextbox.TextDecorations = new TextDecorationCollection();
+                    }
+                    FocusedTextbox.TextDecorations = TextDecorations.Underline;
 
-            //    }
-            //}
-            //else
-            //{
-            //    if (focusedTextbox != null)
-            //    {
-            //        focusedTextbox.TextDecorations = null;
-            //    }
-            //}
+                }
+            }
+            else
+            {
+                if (FocusedTextbox != null)
+                {
+                    FocusedTextbox.TextDecorations = null;
+                }
+            }
         }
 
         private void ColorTextButton_Click(object sender, RoutedEventArgs e)
         {
             btnColorText.Background = ((Button)sender).Background;
-            if (focusedTextbox != null)
+            if (FocusedTextbox != null)
             {
-                focusedTextbox.Foreground = btnColorText.Background;
+                FocusedTextbox.Foreground = btnColorText.Background;
             }
         }
 
@@ -340,9 +348,9 @@ namespace ySlide
             color.G = dlg.Color.G;
             color.B = dlg.Color.B;
             btnColorText.Background = new SolidColorBrush(color);
-            if (focusedTextbox != null)
+            if (FocusedTextbox != null)
             {
-                focusedTextbox.Foreground = btnColorText.Background;
+                FocusedTextbox.Foreground = btnColorText.Background;
             }
         }
 
@@ -358,7 +366,7 @@ namespace ySlide
 
             foreach(InkCanvas cv in Document.Instance.slides)
             {
-                foreach(ContentControl cc in cv.Children)
+                foreach(UIElement cc in cv.Children)
                 {
                     //cc.Style = FindResource("DesignerItemStyle") as Style;
                 }
@@ -617,9 +625,9 @@ namespace ySlide
                 }
                 if (e.Source.GetType() == typeof(TextBox))
                 {
-                    focusedTextbox = e.Source as TextBox;
+                    FocusedTextbox = e.Source as TextBox;
                     curCanvas.Select(curCanvas.Strokes, new UIElement[] { e.Source as TextBox });
-                    Document.Instance.UpdateSetUpTextBox(focusedTextbox);
+                    Document.Instance.UpdateSetUpTextBox(FocusedTextbox);
                 }
             }
             else if (Document.DrawType == DrawType.text && e.Source.GetType() != typeof(TextBox))  //Insert text
@@ -910,25 +918,23 @@ namespace ySlide
 
         private void cbxFontFamily_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
             Document.Instance.SetUpTextBox.FontFamily = new FontFamily(cbxFontFamily.Items[cbxFontFamily.SelectedIndex].ToString());
-            if (focusedTextbox != null)
+            if (FocusedTextbox != null)
             {
-                focusedTextbox.FontFamily = Document.Instance.SetUpTextBox.FontFamily;
+                FocusedTextbox.FontFamily = Document.Instance.SetUpTextBox.FontFamily;
             }
         }
 
         private void cbxFontSize_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (cbxFontSize.SelectionBoxItem != null)
+            if (cbxFontSize.SelectedItem != null)
             {
-                ComboBoxItem ComboItem = (ComboBoxItem)cbxFontSize.SelectedItem;
-                string value = ComboItem.Content.ToString();
+                string value = cbxFontSize.SelectedItem.ToString();
                 Document.Instance.SetUpTextBox.FontSize = Convert.ToDouble(value);
-                if (focusedTextbox != null)
+                if (FocusedTextbox != null)
                 {
-                    focusedTextbox.FontSize = Document.Instance.SetUpTextBox.FontSize;
-                    Document.Instance.SetLocationInCanvas(focusedTextbox, curCanvas);
+                    FocusedTextbox.FontSize = Document.Instance.SetUpTextBox.FontSize;
+                    Document.Instance.SetLocationInCanvas(FocusedTextbox, curCanvas);
                 }
             }
         }
@@ -986,8 +992,8 @@ namespace ySlide
             foreach (UIElement element in selectedElements)
             {
                 if (element.GetType() == typeof(TextBox)) {
-                    focusedTextbox = element as TextBox;
-                    Document.Instance.UpdateSetUpTextBox(focusedTextbox);
+                    FocusedTextbox = element as TextBox;
+                    Document.Instance.UpdateSetUpTextBox(FocusedTextbox);
                 }
             }
         }
@@ -1015,7 +1021,7 @@ namespace ySlide
 
         void txt_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            //focusedTextbox = (EditableTextBlock)sender;
+            //FocusedTextbox = (EditableTextBlock)sender;
         }
 
         void txt_SizeChanged(object sender, SizeChangedEventArgs e)
