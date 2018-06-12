@@ -43,12 +43,8 @@ namespace ySlide
         private PathFigure pathFigure;
         private string currentFilePath;
         private ContentControl selectedControl;
-        private RichTextBox focusedTextbox;
-        /// <Text Adjustment>
-        private FontFamily fontFamily;
-        private double fontSize;
-        private FontStyle fontStyle;
-        private FontWeight fontWeight;
+        private TextBox focusedTextbox;
+
         private TextDecorationCollection decoration;
         private Color fontColor;
         bool bold = false, italic = false, underlined = false;
@@ -117,35 +113,10 @@ namespace ySlide
             curCanvas.PreviewMouseLeftButtonUp += canvas_PreviewMouseLeftButtonUp;
         }
 
-        //public System.Drawing.Bitmap CanvasToBitmap(Canvas cv)
-        //{
-        //    System.Drawing.Bitmap bm;
-        //    Rect bounds = VisualTreeHelper.GetDescendantBounds(cv);
-        //    double dpi = 96d;
-        //    RenderTargetBitmap renderBitmap = new RenderTargetBitmap((int)bounds.Width, (int)bounds.Height, dpi, dpi, System.Windows.Media.PixelFormats.Default);
+        private void AddNumberForEachSlide()
+        {
 
-
-        //    DrawingVisual dv = new DrawingVisual();
-        //    using (DrawingContext dc = dv.RenderOpen())
-        //    {
-        //        VisualBrush vb = new VisualBrush(cv);
-        //        dc.DrawRectangle(vb, null, new Rect(new System.Windows.Point(), bounds.Size));
-        //    }
-        //    renderBitmap.Render(dv);
-
-        //    System.IO.MemoryStream stream = new System.IO.MemoryStream();
-        //    BitmapEncoder encoder = new BmpBitmapEncoder();
-        //    encoder.Frames.Add(BitmapFrame.Create(renderBitmap));
-        //    encoder.Save(stream);
-        //    bm = new System.Drawing.Bitmap(stream);
-        //    return bm;
-        //}
-
-        //private ImageSource BitmapToImageSource(System.Drawing.Bitmap bm)
-        //{
-        //    System.Windows.Media.Imaging.BitmapSource b = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(bm.GetHbitmap(), IntPtr.Zero, System.Windows.Int32Rect.Empty, BitmapSizeOptions.FromWidthAndHeight(bm.Width, bm.Height));
-        //    return b;
-        //}
+        }
 
         #endregion
 
@@ -165,11 +136,6 @@ namespace ySlide
             fillColor = Colors.Black;
             penThickness = 1;
             btnSmooth.IsChecked = true;
-            fontFamily = new FontFamily();
-            fontSize = 12;
-            fontColor = Colors.Black;
-            fontStyle = FontStyles.Normal;
-            fontWeight = FontWeights.Normal;
             decoration = null;
             UpdateCanvasSize();
         }
@@ -290,6 +256,7 @@ namespace ySlide
             curCanvas.Cursor = Cursors.Cross;
         }
 
+        #region Edit Text
         private void btnBold_Click(object sender, RoutedEventArgs e)
         {
             bold = !bold;
@@ -378,6 +345,8 @@ namespace ySlide
                 focusedTextbox.Foreground = btnColorText.Background;
             }
         }
+
+        #endregion
 
         private void menuFileOpen_Click(object sender, RoutedEventArgs e)
         {
@@ -634,7 +603,7 @@ namespace ySlide
                 }
                 Selector.SetIsSelected((DependencyObject)e.Source, true);
             }
-            else if(e.Source.GetType() == typeof(Image) || e.Source.GetType() == typeof(CustomVideo) || e.Source.GetType() == typeof(RichTextBox))
+            else if(e.Source.GetType() == typeof(Image) || e.Source.GetType() == typeof(CustomVideo) || e.Source.GetType() == typeof(TextBox))
             {
                 foreach (UIElement control in curCanvas.Children)
                 {
@@ -646,44 +615,36 @@ namespace ySlide
                         }
                     }
                 }
-                if (e.Source.GetType() == typeof(RichTextBox))
+                if (e.Source.GetType() == typeof(TextBox))
                 {
-                    focusedTextbox = e.Source as RichTextBox;
+                    focusedTextbox = e.Source as TextBox;
+                    curCanvas.Select(curCanvas.Strokes, new UIElement[] { e.Source as TextBox });
+                    Document.Instance.UpdateSetUpTextBox(focusedTextbox);
                 }
-                else focusedTextbox = null;
             }
-            else if (Document.DrawType == DrawType.text && e.Source.GetType() != typeof(Run))  //Insert text
+            else if (Document.DrawType == DrawType.text && e.Source.GetType() != typeof(TextBox))  //Insert text
             {
-                string x = e.Source.GetType().ToString();
-                RichTextBox txt = new RichTextBox();
-                txt.DataContext = "Double click to edit";
-                txt.FontFamily = fontFamily;
-                txt.FontSize = fontSize;
-                txt.FontStyle = fontStyle;
-                txt.FontWeight = fontWeight;
-                Style style = new Style(typeof(Paragraph));
-
-                style.Setters.Add(new Setter(Paragraph.MarginProperty, new Thickness(0)));
-
-                txt.Resources.Add(typeof(Paragraph), style);
+                TextBox txt = new TextBox();
+                txt.Text = "Add text here.";
+                txt.TextWrapping = TextWrapping.Wrap;
+                txt.AcceptsReturn = true;
+                txt.FontFamily = Document.Instance.SetUpTextBox.FontFamily;
+                txt.FontSize = Document.Instance.SetUpTextBox.FontSize;
+                txt.FontStyle = Document.Instance.SetUpTextBox.FontStyle;
+                txt.FontWeight = Document.Instance.SetUpTextBox.FontWeight;
+                txt.TextAlignment = Document.Instance.SetUpTextBox.TextAlignment;
+                txt.Foreground = Document.Instance.SetUpTextBox.Foreground;
 
                 txt.Background = Brushes.Transparent;
                 txt.BorderBrush = Brushes.Transparent;
                 txt.LostKeyboardFocus += txt_LostKeyboardFocus;
-                txt.SizeChanged += txt_SizeChanged;
-                //txt.TextChanged += txt_TextChanged;
+                txt.SizeChanged += TextBox_SizeChanged;
                 txt.GotKeyboardFocus += txt_GotKeyboardFocus;
                 txt.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
-                ContentControl control = new ContentControl();
-                InkCanvas.SetLeft(control, e.GetPosition(curCanvas).X);
-                InkCanvas.SetTop(control, e.GetPosition(curCanvas).Y);
-                control.Content = txt;
-                control.Width = 100;
-                control.Height = 50;
-                //control.Padding = new Thickness(1);
-                control.Background = new SolidColorBrush(Colors.White);
-                //control.Style = FindResource("DesignerItemStyle") as Style;
-                Document.Instance.InsertText(control);
+
+                InkCanvas.SetLeft(txt, e.GetPosition(curCanvas).X);
+                InkCanvas.SetTop(txt, e.GetPosition(curCanvas).Y);
+                Document.Instance.InsertText(txt);
 
                 curCanvas.Cursor = Cursors.Arrow;
                 Document.DrawType = DrawType.nothing;
@@ -701,7 +662,6 @@ namespace ySlide
                     foreach (UIElement control in curCanvas.Children)
                     {
                         Selector.SetIsSelected(control, false);
-                        focusedTextbox = null;
                     }
                 }
             //}
@@ -951,10 +911,10 @@ namespace ySlide
         private void cbxFontFamily_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
-            fontFamily = new FontFamily(cbxFontFamily.Items[cbxFontFamily.SelectedIndex].ToString());
+            Document.Instance.SetUpTextBox.FontFamily = new FontFamily(cbxFontFamily.Items[cbxFontFamily.SelectedIndex].ToString());
             if (focusedTextbox != null)
             {
-                focusedTextbox.FontFamily = fontFamily;
+                focusedTextbox.FontFamily = Document.Instance.SetUpTextBox.FontFamily;
             }
         }
 
@@ -964,10 +924,11 @@ namespace ySlide
             {
                 ComboBoxItem ComboItem = (ComboBoxItem)cbxFontSize.SelectedItem;
                 string value = ComboItem.Content.ToString();
-                fontSize = Convert.ToDouble(value);
+                Document.Instance.SetUpTextBox.FontSize = Convert.ToDouble(value);
                 if (focusedTextbox != null)
                 {
-                    focusedTextbox.FontSize = fontSize;
+                    focusedTextbox.FontSize = Document.Instance.SetUpTextBox.FontSize;
+                    Document.Instance.SetLocationInCanvas(focusedTextbox, curCanvas);
                 }
             }
         }
@@ -1004,25 +965,31 @@ namespace ySlide
 
         private void curCanvas_SelectionMoved(object sender, EventArgs e)
         {
-            ScaleTransform scaler = new ScaleTransform(2, 2);
-
             ReadOnlyCollection<UIElement> selectedElements = curCanvas.GetSelectedElements();
 
-            foreach (ContentControl element in selectedElements)
+            foreach (UIElement element in selectedElements)
             {
-                double x = InkCanvas.GetLeft(element);
-                if (x > curCanvas.Width - element.RenderSize.Width)
-                    InkCanvas.SetLeft(element, curCanvas.Width - element.RenderSize.Width);
-                else if (x < 0)
-                    InkCanvas.SetLeft(element, 0);
-
-                x = InkCanvas.GetTop(element);
-                if (x > curCanvas.Height - element.RenderSize.Height)
-                    InkCanvas.SetTop(element, curCanvas.Height - element.RenderSize.Height);
-                else if (x < 0)
-                    InkCanvas.SetTop(element, 0);
+                Document.Instance.SetLocationInCanvas(element, curCanvas);
             }
 
+        }
+
+        private void TextBox_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            Document.Instance.SetLocationInCanvas(e.Source as TextBox, curCanvas);
+        }
+
+        private void curCanvas_SelectionChanged(object sender, EventArgs e)
+        {
+            ReadOnlyCollection<UIElement> selectedElements = curCanvas.GetSelectedElements();
+
+            foreach (UIElement element in selectedElements)
+            {
+                if (element.GetType() == typeof(TextBox)) {
+                    focusedTextbox = element as TextBox;
+                    Document.Instance.UpdateSetUpTextBox(focusedTextbox);
+                }
+            }
         }
 
         private void listSlides_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -1060,7 +1027,7 @@ namespace ySlide
 
         private void txt_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            RichTextBox txt = (RichTextBox)sender;
+            TextBox txt = (TextBox)sender;
         }
 
         #endregion

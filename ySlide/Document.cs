@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Shapes;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -20,12 +21,12 @@ namespace ySlide
     /// <summary>
     /// Các kiểu vẽ/chức năng của paint
     /// </summary>
-    enum DrawType { nothing, pencil, brush, line, ellipse, rectangle, triangle, arrow, heart, fill, erase, text, image, video};
+    enum DrawType { nothing, pencil, brush, line, ellipse, rectangle, triangle, arrow, heart, fill, erase, text, image, video };
 
     /// <summary>
     /// Trang hiện hành chứa các hình đang được vẽ
     /// </summary>
-    public class Document  : Window
+    public class Document : Window
     {
         private static Document instance;
         public ObservableCollection<InkCanvas> slides;
@@ -33,10 +34,12 @@ namespace ySlide
         public ObservableCollection<InkCanvas> minislides;
         public InkCanvas canvas;  //Danh sách các hình trên trang
         private static DrawType drawType; //Kiểu vẽ hiện tại.
+        private SetUpTextBox setUpTextBox = new SetUpTextBox();
 
         public static Document Instance { get { if (instance == null) instance = new Document(); return instance; } set => instance = value; }
 
         internal static DrawType DrawType { get => drawType; set => drawType = value; }
+        public SetUpTextBox SetUpTextBox { get => setUpTextBox; set => setUpTextBox = value; }
 
         public Document()
         {
@@ -65,7 +68,7 @@ namespace ySlide
             thumbs = new ObservableCollection<System.Windows.Controls.Image>();
             canvas = slides.First<InkCanvas>();
             DrawType = DrawType.nothing;
-            foreach(InkCanvas item in l)
+            foreach (InkCanvas item in l)
             {
                 AddThumb(CanvasToImage(item));
             }
@@ -89,7 +92,7 @@ namespace ySlide
         public void UpdateThumbs()
         {
             thumbs.Clear();
-            foreach(InkCanvas item in slides)
+            foreach (InkCanvas item in slides)
             {
                 AddThumb(CanvasToImage(item));
             }
@@ -110,7 +113,7 @@ namespace ySlide
         {
             double[] dashes = { 2, 2 };
             shape.StrokeDashArray = new System.Windows.Media.DoubleCollection(dashes);
-           
+
             canvas.Children.Add(shape);
         }
 
@@ -135,7 +138,7 @@ namespace ySlide
             }
             //
             canvas.Children.Add(control);
-       
+
         }
 
         public void DrawShape(Shape shape, int outline)
@@ -156,9 +159,9 @@ namespace ySlide
                 //shape.SnapsToDevicePixels = true;
                 shape.StrokeDashArray = new System.Windows.Media.DoubleCollection(dashes);
             }
-            
+
             canvas.Children.Add(shape);
-            
+
         }
 
         public void RemoveShape(ContentControl shape)
@@ -177,7 +180,7 @@ namespace ySlide
                 if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     List<string> stringlist = File.ReadAllLines(dlg.FileName).OfType<string>().ToList();
-                    foreach(String item in stringlist)
+                    foreach (String item in stringlist)
                     {
                         InkCanvas deepCopy = System.Windows.Markup.XamlReader.Parse(item) as InkCanvas;
                         AddSlide(deepCopy);
@@ -258,7 +261,7 @@ namespace ySlide
 
             List<string> stringlist = new List<string>();
 
-            foreach(InkCanvas item in Instance.slides)
+            foreach (InkCanvas item in Instance.slides)
             {
                 var xaml = System.Windows.Markup.XamlWriter.Save(item);
                 stringlist.Add(xaml.ToString());
@@ -280,7 +283,7 @@ namespace ySlide
 
                 // Set the Attribute property of this file to Temporary. 
                 fileInfo.Attributes = System.IO.FileAttributes.Temporary;
-               
+
             }
             catch (Exception ex)
             {
@@ -316,7 +319,7 @@ namespace ySlide
             {
                 if (canvas.Children[i] == shape)
                 {
-                    Shape temp = (Shape) canvas.Children[i];
+                    Shape temp = (Shape)canvas.Children[i];
                     temp.Fill = new SolidColorBrush(fillColor);
                 }
             }
@@ -324,9 +327,36 @@ namespace ySlide
 
         public void InsertText(ContentControl control)
         {
-            canvas.Children.Add(control);  
+            canvas.Children.Add(control);
+        }
 
-            
+        public void InsertText(TextBox textBox)
+        {
+            canvas.Children.Add(textBox);
+        }
+
+        public void SetLocationInCanvas(UIElement element, InkCanvas curCanvas)
+        {
+            double x = InkCanvas.GetLeft(element);
+            if (x > curCanvas.Width - element.RenderSize.Width)
+                InkCanvas.SetLeft(element, curCanvas.Width - element.RenderSize.Width);
+            else if (x < 0)
+                InkCanvas.SetLeft(element, 0);
+
+            x = InkCanvas.GetTop(element);
+            if (x > curCanvas.Height - element.RenderSize.Height)
+                InkCanvas.SetTop(element, curCanvas.Height - element.RenderSize.Height);
+            else if (x < 0)
+                InkCanvas.SetTop(element, 0);
+        }
+
+        public void UpdateSetUpTextBox(TextBox t)
+        {
+            setUpTextBox.FontFamily = t.FontFamily;
+            setUpTextBox.FontSize = t.FontSize;
+            setUpTextBox.FontStyle = t.FontStyle;
+            setUpTextBox.FontWeight = t.FontWeight;
+            setUpTextBox.Foreground = t.Foreground;
         }
 
         public void FloodFill(System.Drawing.Bitmap bm, System.Drawing.Point p, System.Drawing.Color Color)
@@ -404,7 +434,7 @@ namespace ySlide
             bm = new System.Drawing.Bitmap(stream);
             return bm;
         }
-        
+
         public void RefreshCanvas()
         {
             //System.Windows.Controls.Image img = new System.Windows.Controls.Image();
@@ -422,6 +452,32 @@ namespace ySlide
             img.Height = c.ActualHeight;
             img.Source = BitmapToImageSource(CanvasToBitmap(c));
             return img;
+        }
+    }
+
+    public class SetUpTextBox{
+        private System.Windows.Media.FontFamily fontFamily;
+        private double fontSize;
+        private System.Windows.FontStyle fontStyle;
+        private FontWeight fontWeight;
+        private System.Windows.TextAlignment textAlignment;
+        private System.Windows.Media.Brush foreground;
+
+        public System.Windows.Media.FontFamily FontFamily { get => fontFamily; set => fontFamily = value; }
+        public double FontSize { get => fontSize; set => fontSize = value; }
+        public System.Windows.FontStyle FontStyle { get => fontStyle; set => fontStyle = value; }
+        public FontWeight FontWeight { get => fontWeight; set => fontWeight = value; }
+        public TextAlignment TextAlignment { get => textAlignment; set => textAlignment = value; }
+        public System.Windows.Media.Brush Foreground { get => foreground; set => foreground = value; }
+
+        public SetUpTextBox()
+        {
+            fontFamily = new System.Windows.Media.FontFamily();
+            fontSize = 14;
+            fontStyle = FontStyles.Normal;
+            fontWeight = FontWeights.Normal;
+            textAlignment = TextAlignment.Left;
+            foreground = System.Windows.Media.Brushes.Black;
         }
     }
 }
