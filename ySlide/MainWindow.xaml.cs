@@ -109,9 +109,9 @@ namespace ySlide
             return deepCopy;
         }
 
-        private void AddNumberForEachSlide()
+        private void AddNumberForEachSlide(object sender, RoutedEventArgs e)
         {
-
+            Document.Instance.IsNumberSlide = !Document.Instance.IsNumberSlide;
         }
 
         #endregion
@@ -696,6 +696,12 @@ namespace ySlide
         private void txt_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             TextBox txt = (TextBox)sender;
+        }
+
+        private void btnPresent_Click(object sender, RoutedEventArgs e)
+        {
+            Presentation f = new Presentation(Document.Instance.slides ,0);
+            f.ShowDialog();
         }
 
         #endregion

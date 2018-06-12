@@ -67,3 +67,5 @@ C:\Users\victorlee\source\repos\ySlide\ySlidy\ySlide\obj\Debug\ySlide.exe.licens
 C:\Users\victorlee\source\repos\ySlide\ySlidy\ySlide\obj\Debug\ySlide.csproj.CoreCompileInputs.cache
 C:\Users\victorlee\source\repos\ySlide\ySlidy\ySlide\obj\Debug\ySlide.exe
 C:\Users\victorlee\source\repos\ySlide\ySlidy\ySlide\obj\Debug\ySlide.pdb
+C:\Users\victorlee\source\repos\ySlide\ySlidy\ySlide\obj\Debug\Presentation.g.cs
+C:\Users\victorlee\source\repos\ySlide\ySlidy\ySlide\obj\Debug\Presentation.baml

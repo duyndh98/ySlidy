@@ -72,6 +72,9 @@
     <Compile Include="PersonCollectionViewModel.cs" />
     <Compile Include="Adorners\ResizeRotateAdorner.cs" />
     <Compile Include="Adorners\ResizeRotateChrome.cs" />
+    <Compile Include="Presentation.xaml.cs">
+      <DependentUpon>Presentation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ResizeThumb.cs" />
     <Compile Include="RotateThumb.cs" />
     <Compile Include="Adorners\SizeAdorner.cs" />
@@ -93,6 +96,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Presentation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\DesignerItem.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

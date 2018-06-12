@@ -37,6 +37,16 @@ namespace ySlide
         public InkCanvas canvas;  //Danh sách các hình trên trang
         private static DrawType drawType; //Kiểu vẽ hiện tại.
         private SetUpTextBox setUpTextBox = new SetUpTextBox();
+        private bool isNumberSlide;
+        public bool IsNumberSlide
+        {
+            get { return isNumberSlide; }
+            set
+            {
+                isNumberSlide = value;
+                NumberSlide(value);
+            }
+        }
 
         public static Document Instance { get { if (instance == null) instance = new Document(); return instance; } set => instance = value; }
 
@@ -454,6 +464,64 @@ namespace ySlide
             img.Height = c.ActualHeight;
             img.Source = BitmapToImageSource(CanvasToBitmap(c));
             return img;
+        }
+
+        /// <summary>
+        /// Parameter equal true to add, false to remove
+        /// </summary>
+        private void NumberSlide(bool addOrRemove)
+        {
+            if (addOrRemove)
+            {
+                int i = 1;
+                foreach (InkCanvas canvas in slides)
+                {
+                    bool itHave = false;
+                    foreach (UIElement ui in canvas.Children)
+                    {
+                        if (ui.GetType() == typeof(TextBox) && (ui as TextBox).Name == "NumberOfSlide")
+                        {
+                            itHave = true;
+                            break;
+                        }
+                    }
+                    if (!itHave)
+                    {
+                        TextBox txt = new TextBox();
+                        txt.Name = "NumberOfSlide";
+                        txt.Text = i.ToString();
+                        txt.TextWrapping = TextWrapping.NoWrap;
+                        txt.Height = 20;
+                        txt.Width = canvas.Width;
+                        txt.IsReadOnly = true;
+                        txt.FontFamily = new System.Windows.Media.FontFamily("Arial");
+                        txt.FontSize = 12;
+                        txt.TextAlignment = TextAlignment.Center;
+                        txt.Foreground = System.Windows.Media.Brushes.Gray;
+                        txt.Background = System.Windows.Media.Brushes.Transparent;
+                        txt.BorderBrush = System.Windows.Media.Brushes.Transparent;
+                        txt.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+
+                        InkCanvas.SetLeft(txt, 0);
+                        InkCanvas.SetTop(txt, 0);
+                        canvas.Children.Add(txt);
+                    }
+                    i++;
+                }
+            }
+            else
+            {
+                foreach (InkCanvas canvas in slides)
+                {
+                    foreach (UIElement ui in canvas.Children)
+                    {
+                        if (ui.GetType() == typeof(TextBox) && (ui as TextBox).Name == "NumberOfSlide")
+                        {
+                            canvas.Children.Remove(ui);
+                        }
+                    }
+                }
+            }
         }
     }
 

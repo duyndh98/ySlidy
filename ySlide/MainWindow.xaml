@@ -36,7 +36,7 @@
                                 <MenuItem Name="ChangeImage" Header="Image" Click="ChangeBackGroundImage_Click"></MenuItem>
                             </MenuItem>
                             <Separator/>
-                            <MenuItem Name="CopyItem" Header="Copy(Ctrl + C)" ></MenuItem>
+                            <MenuItem Name="AddNumberSlide" Header="Add number slide" Click="AddNumberForEachSlide" IsCheckable="true"></MenuItem>
                         </ContextMenu>
                     </StackPanel.ContextMenu>
                     <InkCanvas EditingMode="Select" x:Name="curCanvas" AllowDrop="True" Height="600" Width="800" Background="WhiteSmoke"
@@ -100,6 +100,7 @@
                     </ListView>
 
                     <Button Height="20" Content="+" x:Name="btnAddSlide" Click="btnAddSlide_Click"/>
+                    <Button Height="20" Content="()" x:Name="btnPresent" Click="btnPresent_Click"/>
                 </DockPanel>
             </ScrollViewer>
         </Grid>
