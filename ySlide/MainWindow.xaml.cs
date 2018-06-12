@@ -109,17 +109,6 @@ namespace ySlide
             return deepCopy;
         }
 
-        private void ChangeCurCanvas(InkCanvas c)
-        {
-            curCanvas = c;
-            curCanvas.MouseDown += canvas_MouseDown;
-            curCanvas.MouseUp += canvas_MouseUp;
-            curCanvas.MouseMove += canvas_MouseMove;
-            curCanvas.MouseLeftButtonUp += canvas_MouseLeftButtonUp;
-            curCanvas.PreviewMouseLeftButtonDown += canvas_PreviewMouseLeftButtonDown;
-            curCanvas.PreviewMouseLeftButtonUp += canvas_PreviewMouseLeftButtonUp;
-        }
-
         private void AddNumberForEachSlide()
         {
 
@@ -356,21 +345,12 @@ namespace ySlide
 
         #endregion
 
+        #region Menu Open Save
         private void menuFileOpen_Click(object sender, RoutedEventArgs e)
         {
             currentFilePath = Document.Instance.OpenFile();
             listSlides.SelectedIndex = 0;
             Document.Instance.UpdateThumbs();
-            //ScaleTransform scale = new ScaleTransform(5, 5);
-            //curCanvas.RenderTransform = scale;
-
-            foreach(InkCanvas cv in Document.Instance.slides)
-            {
-                foreach(UIElement cc in cv.Children)
-                {
-                    //cc.Style = FindResource("DesignerItemStyle") as Style;
-                }
-            }
         }
 
         private void menuFileSave_Click(object sender, RoutedEventArgs e)
@@ -382,6 +362,7 @@ namespace ySlide
         {
             Document.Instance.SaveFile();   //Hien thi hop thoai luu tap tin
         }
+        #endregion
 
         private void ColorButton_Click(object sender, RoutedEventArgs e)
         {
@@ -481,301 +462,6 @@ namespace ySlide
                 control.Background = new SolidColorBrush(Colors.White);
                 //control.Style = FindResource("DesignerItemStyle") as Style;
                 Document.Instance.InsertText(control);
-            }
-        }
-
-        private void canvas_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            mDown = e.GetPosition(this.curCanvas);
-            capture = true;
-            if (Document.DrawType == DrawType.brush || Document.DrawType == DrawType.pencil || Document.DrawType == DrawType.erase)
-            {
-                pathGeometry = new PathGeometry();
-                pathFigure = new PathFigure();
-                pathFigure.StartPoint = mDown;
-                pathFigure.IsClosed = false;
-                pathGeometry.Figures.Add(pathFigure);
-                path = new Path();
-                path.Stroke = new SolidColorBrush(penColor);
-                if (Document.DrawType == DrawType.erase)
-                {
-                    path.Stroke = new SolidColorBrush(Colors.White);
-                }
-                if (Document.DrawType == DrawType.brush || Document.DrawType == DrawType.erase)
-                {
-                    path.StrokeThickness = penThickness;
-                }
-                else if (Document.DrawType == DrawType.pencil)
-                {
-                    path.StrokeThickness = 1;
-                }
-                path.Data = pathGeometry;
-                Document.Instance.DrawShape(path, 1);
-            }
-        }
-
-        private void canvas_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
-        private void canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            capture = false;
-            if (curShape != null)
-            {
-                if (Document.DrawType == DrawType.ellipse || Document.DrawType == DrawType.rectangle || Document.DrawType == DrawType.triangle || Document.DrawType == DrawType.arrow || Document.DrawType == DrawType.heart)
-                {
-                    Shape temp;
-                    if (Document.DrawType == DrawType.ellipse)
-                    {
-                        temp = new Ellipse();
-                    }
-                    else if (Document.DrawType == DrawType.rectangle)
-                    {
-                        temp = new Rectangle();
-                    }
-                    else if (Document.DrawType == DrawType.triangle)
-                    {
-                        temp = new Triangle();
-                    }
-                    else if (Document.DrawType == DrawType.arrow)
-                    {
-                        temp = new Arrow();
-                    }
-                    else
-                    {
-                        temp = new Heart();
-                    }
-                    temp.Stroke = new SolidColorBrush(penColor);
-                    temp.StrokeThickness = penThickness;
-                    temp.Fill = new SolidColorBrush(Colors.Transparent);
-                    curControl = new ContentControl();
-                    temp.IsHitTestVisible = true;
-                    if (Document.DrawType == DrawType.triangle)
-                    {
-                        ((Triangle)temp).Start = ((Triangle)curShape).Start;
-                        temp.Width = curShape.Width;
-                        temp.Height = curShape.Height;
-                    }
-                    if (Document.DrawType == DrawType.arrow)
-                    {
-                        ((Arrow)temp).Start = ((Arrow)curShape).Start;
-                        temp.Width = curShape.Width;
-                        temp.Height = curShape.Height;
-                    }
-                    if (Document.DrawType == DrawType.heart)
-                    {
-                        ((Heart)temp).Start = ((Heart)curShape).Start;
-                        temp.Width = curShape.Width;
-                        temp.Height = curShape.Height;
-                    }
-                    InkCanvas.SetLeft(curControl, curShape.Margin.Left);
-                    InkCanvas.SetTop(curControl, curShape.Margin.Top);
-                    curControl.Width = curShape.Width;
-                    curControl.Height = curShape.Height;
-                    curControl.Content = temp;
-                    //curControl.Style = FindResource("DesignerItemStyle") as Style;
-                    curControl.Background = new SolidColorBrush(Colors.White);
-                    Document.Instance.DrawShape(curControl, GetOutline());
-
-                }
-
-                curShape = null;
-            }
-            else if (Document.DrawType == DrawType.line && curLine != null)
-            {
-                Line line = new Line();
-                line.Stroke = new SolidColorBrush(penColor);
-                line.StrokeThickness = penThickness;
-                line.X1 = curLine.X1;
-                line.X2 = curLine.X2;
-                line.Y1 = curLine.Y1;
-                line.Y2 = curLine.Y2;
-                Document.Instance.DrawShape(line, GetOutline());
-                curLine = null;
-            }
-
-            Document.Instance.UpdateThumbs();
-        }
-
-        private void canvas_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            //if (Document.drawType == DrawType.nothing)
-            //{
-            if (e.Source != curCanvas && e.Source.GetType() == typeof(ContentControl))
-            {
-                foreach (UIElement control in curCanvas.Children)
-                {
-                    Selector.SetIsSelected(control, false);
-                }
-                Selector.SetIsSelected((DependencyObject)e.Source, true);
-            }
-            else if(e.Source.GetType() == typeof(Image) || e.Source.GetType() == typeof(CustomVideo) || e.Source.GetType() == typeof(TextBox))
-            {
-                foreach (UIElement control in curCanvas.Children)
-                {
-                    if(control.GetType() == typeof(ContentControl))
-                    {
-                        if((control as ContentControl).Content == e.Source)
-                        {
-                            Selector.SetIsSelected((DependencyObject)control, true);
-                        }
-                    }
-                }
-                if (e.Source.GetType() == typeof(TextBox))
-                {
-                    FocusedTextbox = e.Source as TextBox;
-                    curCanvas.Select(curCanvas.Strokes, new UIElement[] { e.Source as TextBox });
-                    Document.Instance.UpdateSetUpTextBox(FocusedTextbox);
-                }
-            }
-            else if (Document.DrawType == DrawType.text && e.Source.GetType() != typeof(TextBox))  //Insert text
-            {
-                TextBox txt = new TextBox();
-                txt.Text = "Add text here.";
-                txt.TextWrapping = TextWrapping.Wrap;
-                txt.AcceptsReturn = true;
-                txt.FontFamily = Document.Instance.SetUpTextBox.FontFamily;
-                txt.FontSize = Document.Instance.SetUpTextBox.FontSize;
-                txt.FontStyle = Document.Instance.SetUpTextBox.FontStyle;
-                txt.FontWeight = Document.Instance.SetUpTextBox.FontWeight;
-                txt.TextAlignment = Document.Instance.SetUpTextBox.TextAlignment;
-                txt.Foreground = Document.Instance.SetUpTextBox.Foreground;
-
-                txt.Background = Brushes.Transparent;
-                txt.BorderBrush = Brushes.Transparent;
-                txt.LostKeyboardFocus += txt_LostKeyboardFocus;
-                txt.SizeChanged += TextBox_SizeChanged;
-                txt.GotKeyboardFocus += txt_GotKeyboardFocus;
-                txt.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
-
-                InkCanvas.SetLeft(txt, e.GetPosition(curCanvas).X);
-                InkCanvas.SetTop(txt, e.GetPosition(curCanvas).Y);
-                Document.Instance.InsertText(txt);
-
-                curCanvas.Cursor = Cursors.Arrow;
-                Document.DrawType = DrawType.nothing;
-            }
-            //}
-        }
-
-        private void canvas_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            Line temp = new Line();
-            //if (Document.drawType == DrawType.nothing)
-            //{
-                if (e.Source == curCanvas && e.Source.GetType() != temp.GetType())
-                {
-                    foreach (UIElement control in curCanvas.Children)
-                    {
-                        Selector.SetIsSelected(control, false);
-                    }
-                }
-            //}
-            //else if (Document.drawType == DrawType.fill)
-            //{
-            //    System.Drawing.Color color = new System.Drawing.Color();
-            //    color = System.Drawing.Color.FromArgb(fillColor.A, fillColor.R, fillColor.G, fillColor.B);
-            //    System.Drawing.Bitmap bm = Document.Instance.CanvasToBitmap(Document.Instance.canvas);
-            //    Document.Instance.FloodFill(bm, new System.Drawing.Point((int)e.GetPosition(Document.Instance.canvas).X, (int)e.GetPosition(Document.Instance.canvas).Y), color);
-            //}
-
-            Document.Instance.UpdateThumbs();
-        }
-
-        private void canvas_MouseMove(object sender, MouseEventArgs e)
-        {
-            mMovePre = mMove;
-            mMove = e.GetPosition(this.curCanvas);
-            bool addShape = false;
-
-            if ((Document.DrawType == DrawType.ellipse || Document.DrawType == DrawType.rectangle || Document.DrawType == DrawType.triangle || Document.DrawType == DrawType.arrow || Document.DrawType == DrawType.heart) && capture)
-            {
-
-                if (curShape == null)
-                {
-
-                    if (Document.DrawType == DrawType.ellipse)
-                    {
-                        curShape = new Ellipse();
-                    }
-                    else if (Document.DrawType == DrawType.rectangle)
-                    {
-                        curShape = new Rectangle();
-                    }
-                    else if (Document.DrawType == DrawType.triangle)
-                    {
-
-                        curShape = new Triangle();
-                        ((Triangle)curShape).Start = mDown;
-                    }
-                    else if (Document.DrawType == DrawType.arrow)
-                    {
-
-                        curShape = new Arrow();
-                        ((Arrow)curShape).Start = mDown;
-                    }
-                    else
-                    {
-                        curShape = new Heart();
-                        ((Heart)curShape).Start = mDown;
-                    }
-                    addShape = true;
-                    curShape.StrokeThickness = penThickness;
-                    curShape.Stroke = new SolidColorBrush(penColor);
-                }
-
-                if (mMove.X <= mDown.X && mMove.Y <= mDown.Y)  //Góc phần tư thứ nhất
-                {
-                    curShape.Margin = new Thickness(mMove.X, mMove.Y, 0, 0);
-                }
-                else if (mMove.X >= mDown.X && mMove.Y <= mDown.Y)
-                {
-                    curShape.Margin = new Thickness(mDown.X, mMove.Y, 0, 0);
-                }
-                else if (mMove.X >= mDown.X && mMove.Y >= mDown.Y)
-                {
-                    curShape.Margin = new Thickness(mDown.X, mDown.Y, 0, 0);
-                }
-                else if (mMove.X <= mDown.X && mMove.Y >= mDown.Y)
-                {
-                    curShape.Margin = new Thickness(mMove.X, mDown.Y, 0, 0);
-                }
-
-                curShape.Width = Math.Abs(mMove.X - mDown.X);
-                curShape.Height = Math.Abs(mMove.Y - mDown.Y);
-
-
-                if (addShape)
-                {
-                    Document.Instance.DrawCapture(curShape);
-                }
-            }
-            else if (Document.DrawType == DrawType.line && capture)
-            {
-                if (curLine == null)
-                {
-                    curLine = new Line();
-                    addShape = true;
-                }
-                curLine.X1 = mDown.X;
-                curLine.Y1 = mDown.Y;
-                curLine.X2 = mMove.X;
-                curLine.Y2 = mMove.Y;
-                curLine.StrokeThickness = penThickness;
-                curLine.Stroke = new SolidColorBrush(penColor);
-                if (addShape)
-                {
-                    Document.Instance.DrawCapture(curLine);
-
-                }
-            }
-            else if ((Document.DrawType == DrawType.brush || Document.DrawType == DrawType.pencil || Document.DrawType == DrawType.erase) && capture)
-            {
-                LineSegment ls = new LineSegment();
-                ls.Point = mMove;
-                pathFigure.Segments.Add(ls);
             }
         }
 
@@ -969,33 +655,9 @@ namespace ySlide
 
         }
 
-        private void curCanvas_SelectionMoved(object sender, EventArgs e)
-        {
-            ReadOnlyCollection<UIElement> selectedElements = curCanvas.GetSelectedElements();
-
-            foreach (UIElement element in selectedElements)
-            {
-                Document.Instance.SetLocationInCanvas(element, curCanvas);
-            }
-
-        }
-
         private void TextBox_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             Document.Instance.SetLocationInCanvas(e.Source as TextBox, curCanvas);
-        }
-
-        private void curCanvas_SelectionChanged(object sender, EventArgs e)
-        {
-            ReadOnlyCollection<UIElement> selectedElements = curCanvas.GetSelectedElements();
-
-            foreach (UIElement element in selectedElements)
-            {
-                if (element.GetType() == typeof(TextBox)) {
-                    FocusedTextbox = element as TextBox;
-                    Document.Instance.UpdateSetUpTextBox(FocusedTextbox);
-                }
-            }
         }
 
         private void listSlides_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -1034,6 +696,345 @@ namespace ySlide
         private void txt_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             TextBox txt = (TextBox)sender;
+        }
+
+        #endregion
+
+
+
+        #region Method for InkCanvas
+
+        private void ChangeCurCanvas(InkCanvas c)
+        {
+            curCanvas = c;
+            curCanvas.MouseDown += canvas_MouseDown;
+            curCanvas.MouseUp += canvas_MouseUp;
+            curCanvas.MouseMove += canvas_MouseMove;
+            curCanvas.MouseLeftButtonUp += canvas_MouseLeftButtonUp;
+            curCanvas.PreviewMouseLeftButtonDown += canvas_PreviewMouseLeftButtonDown;
+            curCanvas.PreviewMouseLeftButtonUp += canvas_PreviewMouseLeftButtonUp;
+            curCanvas.SelectionMoved += canvas_SelectionMoved;
+            curCanvas.SelectionChanged += canvas_SelectionChanged;
+        }
+
+        public void canvas_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            mDown = e.GetPosition(this.curCanvas);
+            capture = true;
+            if (Document.DrawType == DrawType.brush || Document.DrawType == DrawType.pencil || Document.DrawType == DrawType.erase)
+            {
+                pathGeometry = new PathGeometry();
+                pathFigure = new PathFigure();
+                pathFigure.StartPoint = mDown;
+                pathFigure.IsClosed = false;
+                pathGeometry.Figures.Add(pathFigure);
+                path = new Path();
+                path.Stroke = new SolidColorBrush(penColor);
+                if (Document.DrawType == DrawType.erase)
+                {
+                    path.Stroke = new SolidColorBrush(Colors.White);
+                }
+                if (Document.DrawType == DrawType.brush || Document.DrawType == DrawType.erase)
+                {
+                    path.StrokeThickness = penThickness;
+                }
+                else if (Document.DrawType == DrawType.pencil)
+                {
+                    path.StrokeThickness = 1;
+                }
+                path.Data = pathGeometry;
+                Document.Instance.DrawShape(path, 1);
+            }
+        }
+
+        private void canvas_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            capture = false;
+            if (curShape != null)
+            {
+                if (Document.DrawType == DrawType.ellipse || Document.DrawType == DrawType.rectangle || Document.DrawType == DrawType.triangle || Document.DrawType == DrawType.arrow || Document.DrawType == DrawType.heart)
+                {
+                    Shape temp;
+                    if (Document.DrawType == DrawType.ellipse)
+                    {
+                        temp = new Ellipse();
+                    }
+                    else if (Document.DrawType == DrawType.rectangle)
+                    {
+                        temp = new Rectangle();
+                    }
+                    else if (Document.DrawType == DrawType.triangle)
+                    {
+                        temp = new Triangle();
+                    }
+                    else if (Document.DrawType == DrawType.arrow)
+                    {
+                        temp = new Arrow();
+                    }
+                    else
+                    {
+                        temp = new Heart();
+                    }
+                    temp.Stroke = new SolidColorBrush(penColor);
+                    temp.StrokeThickness = penThickness;
+                    temp.Fill = new SolidColorBrush(Colors.Transparent);
+                    curControl = new ContentControl();
+                    temp.IsHitTestVisible = true;
+                    if (Document.DrawType == DrawType.triangle)
+                    {
+                        ((Triangle)temp).Start = ((Triangle)curShape).Start;
+                        temp.Width = curShape.Width;
+                        temp.Height = curShape.Height;
+                    }
+                    if (Document.DrawType == DrawType.arrow)
+                    {
+                        ((Arrow)temp).Start = ((Arrow)curShape).Start;
+                        temp.Width = curShape.Width;
+                        temp.Height = curShape.Height;
+                    }
+                    if (Document.DrawType == DrawType.heart)
+                    {
+                        ((Heart)temp).Start = ((Heart)curShape).Start;
+                        temp.Width = curShape.Width;
+                        temp.Height = curShape.Height;
+                    }
+                    InkCanvas.SetLeft(curControl, curShape.Margin.Left);
+                    InkCanvas.SetTop(curControl, curShape.Margin.Top);
+                    curControl.Width = curShape.Width;
+                    curControl.Height = curShape.Height;
+                    curControl.Content = temp;
+                    //curControl.Style = FindResource("DesignerItemStyle") as Style;
+                    curControl.Background = new SolidColorBrush(Colors.White);
+                    Document.Instance.DrawShape(curControl, GetOutline());
+
+                }
+
+                curShape = null;
+            }
+            else if (Document.DrawType == DrawType.line && curLine != null)
+            {
+                Line line = new Line();
+                line.Stroke = new SolidColorBrush(penColor);
+                line.StrokeThickness = penThickness;
+                line.X1 = curLine.X1;
+                line.X2 = curLine.X2;
+                line.Y1 = curLine.Y1;
+                line.Y2 = curLine.Y2;
+                Document.Instance.DrawShape(line, GetOutline());
+                curLine = null;
+            }
+
+            Document.Instance.UpdateThumbs();
+        }
+
+        private void canvas_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            //if (Document.drawType == DrawType.nothing)
+            //{
+            if (e.Source != curCanvas && e.Source.GetType() == typeof(ContentControl))
+            {
+                foreach (UIElement control in curCanvas.Children)
+                {
+                    Selector.SetIsSelected(control, false);
+                }
+                Selector.SetIsSelected((DependencyObject)e.Source, true);
+            }
+            else if (e.Source.GetType() == typeof(Image) || e.Source.GetType() == typeof(CustomVideo) || e.Source.GetType() == typeof(TextBox))
+            {
+                foreach (UIElement control in curCanvas.Children)
+                {
+                    if (control.GetType() == typeof(ContentControl))
+                    {
+                        if ((control as ContentControl).Content == e.Source)
+                        {
+                            Selector.SetIsSelected((DependencyObject)control, true);
+                        }
+                    }
+                }
+                if (e.Source.GetType() == typeof(TextBox))
+                {
+                    FocusedTextbox = e.Source as TextBox;
+                    curCanvas.Select(curCanvas.Strokes, new UIElement[] { e.Source as TextBox });
+                    Document.Instance.UpdateSetUpTextBox(FocusedTextbox);
+                }
+            }
+            else if (Document.DrawType == DrawType.text && e.Source.GetType() != typeof(TextBox))  //Insert text
+            {
+                TextBox txt = new TextBox();
+                txt.Text = "Add text here.";
+                txt.TextWrapping = TextWrapping.Wrap;
+                txt.AcceptsReturn = true;
+                txt.FontFamily = Document.Instance.SetUpTextBox.FontFamily;
+                txt.FontSize = Document.Instance.SetUpTextBox.FontSize;
+                txt.FontStyle = Document.Instance.SetUpTextBox.FontStyle;
+                txt.FontWeight = Document.Instance.SetUpTextBox.FontWeight;
+                txt.TextAlignment = Document.Instance.SetUpTextBox.TextAlignment;
+                txt.Foreground = Document.Instance.SetUpTextBox.Foreground;
+
+                txt.Background = Brushes.Transparent;
+                txt.BorderBrush = Brushes.Transparent;
+                txt.LostKeyboardFocus += txt_LostKeyboardFocus;
+                txt.SizeChanged += TextBox_SizeChanged;
+                txt.GotKeyboardFocus += txt_GotKeyboardFocus;
+                txt.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+
+                InkCanvas.SetLeft(txt, e.GetPosition(curCanvas).X);
+                InkCanvas.SetTop(txt, e.GetPosition(curCanvas).Y);
+                Document.Instance.InsertText(txt);
+
+                curCanvas.Cursor = Cursors.Arrow;
+                Document.DrawType = DrawType.nothing;
+            }
+            //}
+        }
+
+        private void canvas_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Line temp = new Line();
+            //if (Document.drawType == DrawType.nothing)
+            //{
+            if (e.Source == curCanvas && e.Source.GetType() != temp.GetType())
+            {
+                foreach (UIElement control in curCanvas.Children)
+                {
+                    Selector.SetIsSelected(control, false);
+                }
+            }
+            //}
+            //else if (Document.drawType == DrawType.fill)
+            //{
+            //    System.Drawing.Color color = new System.Drawing.Color();
+            //    color = System.Drawing.Color.FromArgb(fillColor.A, fillColor.R, fillColor.G, fillColor.B);
+            //    System.Drawing.Bitmap bm = Document.Instance.CanvasToBitmap(Document.Instance.canvas);
+            //    Document.Instance.FloodFill(bm, new System.Drawing.Point((int)e.GetPosition(Document.Instance.canvas).X, (int)e.GetPosition(Document.Instance.canvas).Y), color);
+            //}
+
+            Document.Instance.UpdateThumbs();
+        }
+
+        private void canvas_MouseMove(object sender, MouseEventArgs e)
+        {
+            mMovePre = mMove;
+            mMove = e.GetPosition(this.curCanvas);
+            bool addShape = false;
+
+            if ((Document.DrawType == DrawType.ellipse || Document.DrawType == DrawType.rectangle || Document.DrawType == DrawType.triangle || Document.DrawType == DrawType.arrow || Document.DrawType == DrawType.heart) && capture)
+            {
+
+                if (curShape == null)
+                {
+
+                    if (Document.DrawType == DrawType.ellipse)
+                    {
+                        curShape = new Ellipse();
+                    }
+                    else if (Document.DrawType == DrawType.rectangle)
+                    {
+                        curShape = new Rectangle();
+                    }
+                    else if (Document.DrawType == DrawType.triangle)
+                    {
+
+                        curShape = new Triangle();
+                        ((Triangle)curShape).Start = mDown;
+                    }
+                    else if (Document.DrawType == DrawType.arrow)
+                    {
+
+                        curShape = new Arrow();
+                        ((Arrow)curShape).Start = mDown;
+                    }
+                    else
+                    {
+                        curShape = new Heart();
+                        ((Heart)curShape).Start = mDown;
+                    }
+                    addShape = true;
+                    curShape.StrokeThickness = penThickness;
+                    curShape.Stroke = new SolidColorBrush(penColor);
+                }
+
+                if (mMove.X <= mDown.X && mMove.Y <= mDown.Y)  //Góc phần tư thứ nhất
+                {
+                    curShape.Margin = new Thickness(mMove.X, mMove.Y, 0, 0);
+                }
+                else if (mMove.X >= mDown.X && mMove.Y <= mDown.Y)
+                {
+                    curShape.Margin = new Thickness(mDown.X, mMove.Y, 0, 0);
+                }
+                else if (mMove.X >= mDown.X && mMove.Y >= mDown.Y)
+                {
+                    curShape.Margin = new Thickness(mDown.X, mDown.Y, 0, 0);
+                }
+                else if (mMove.X <= mDown.X && mMove.Y >= mDown.Y)
+                {
+                    curShape.Margin = new Thickness(mMove.X, mDown.Y, 0, 0);
+                }
+
+                curShape.Width = Math.Abs(mMove.X - mDown.X);
+                curShape.Height = Math.Abs(mMove.Y - mDown.Y);
+
+
+                if (addShape)
+                {
+                    Document.Instance.DrawCapture(curShape);
+                }
+            }
+            else if (Document.DrawType == DrawType.line && capture)
+            {
+                if (curLine == null)
+                {
+                    curLine = new Line();
+                    addShape = true;
+                }
+                curLine.X1 = mDown.X;
+                curLine.Y1 = mDown.Y;
+                curLine.X2 = mMove.X;
+                curLine.Y2 = mMove.Y;
+                curLine.StrokeThickness = penThickness;
+                curLine.Stroke = new SolidColorBrush(penColor);
+                if (addShape)
+                {
+                    Document.Instance.DrawCapture(curLine);
+
+                }
+            }
+            else if ((Document.DrawType == DrawType.brush || Document.DrawType == DrawType.pencil || Document.DrawType == DrawType.erase) && capture)
+            {
+                LineSegment ls = new LineSegment();
+                ls.Point = mMove;
+                pathFigure.Segments.Add(ls);
+            }
+        }
+
+        private void canvas_SelectionChanged(object sender, EventArgs e)
+        {
+            ReadOnlyCollection<UIElement> selectedElements = curCanvas.GetSelectedElements();
+
+            foreach (UIElement element in selectedElements)
+            {
+                if (element.GetType() == typeof(TextBox))
+                {
+                    FocusedTextbox = element as TextBox;
+                    Document.Instance.UpdateSetUpTextBox(FocusedTextbox);
+                }
+            }
+        }
+
+        private void canvas_SelectionMoved(object sender, EventArgs e)
+        {
+            ReadOnlyCollection<UIElement> selectedElements = curCanvas.GetSelectedElements();
+
+            foreach (UIElement element in selectedElements)
+            {
+                Document.Instance.SetLocationInCanvas(element, curCanvas);
+            }
+
         }
 
         #endregion

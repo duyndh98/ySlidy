@@ -16,6 +16,7 @@ using System.Collections.ObjectModel;
 using System.Xml.Serialization;
 using System.Xml;
 using System.ComponentModel;
+using System.Windows.Input;
 
 namespace ySlide
 {
