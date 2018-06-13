@@ -231,8 +231,16 @@ namespace ySlide
 
         private void btnErazer_Click(object sender, RoutedEventArgs e)
         {
-            Document.DrawType = DrawType.erase;
-            curCanvas.Cursor = Cursors.Arrow;
+            //Document.DrawType = DrawType.erase;
+            //curCanvas.Cursor = Cursors.Arrow;
+
+            List<UIElement> listPrePareToRemove = new List<UIElement>();
+            foreach(UIElement ui in curCanvas.GetSelectedElements())
+            {
+                listPrePareToRemove.Add(ui);
+            }
+            foreach (UIElement ui in listPrePareToRemove) 
+                curCanvas.Children.Remove(ui);
         }
 
         private void btnTriangle_Click(object sender, RoutedEventArgs e)
@@ -1040,7 +1048,6 @@ namespace ySlide
             {
                 Document.Instance.SetLocationInCanvas(element, curCanvas);
             }
-
         }
 
         #endregion

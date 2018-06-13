@@ -518,6 +518,7 @@ namespace ySlide
                         if (ui.GetType() == typeof(TextBox) && (ui as TextBox).Name == "NumberOfSlide")
                         {
                             canvas.Children.Remove(ui);
+                            break;
                         }
                     }
                 }

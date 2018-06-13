@@ -41,7 +41,7 @@
                     </StackPanel.ContextMenu>
                     <InkCanvas EditingMode="Select" x:Name="curCanvas" AllowDrop="True" Height="600" Width="800" Background="WhiteSmoke"
                             MouseDown="canvas_MouseDown" MouseUp="canvas_MouseUp" MouseMove="canvas_MouseMove" MouseLeftButtonUp="canvas_MouseLeftButtonUp" PreviewMouseLeftButtonDown="canvas_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="canvas_PreviewMouseLeftButtonUp" ResizeEnabled="True" SelectionMoved="canvas_SelectionMoved" SelectionChanged="canvas_SelectionChanged">
-                        <ContentControl>
+                        <!--<ContentControl>
                             <Ellipse Width="50" Height="50" Stroke="Black" StrokeThickness="2" Fill="Yellow" 
                                      Canvas.Top="20" Canvas.Left="100" />
                         </ContentControl>
@@ -51,13 +51,8 @@
 
                         <ContentControl>
                             <TextBox  Background="Transparent" Width="100" BorderBrush="Transparent" TextWrapping="Wrap" AcceptsReturn="True" SizeChanged="TextBox_SizeChanged">
-                                <TextBox.Resources>
-                                    <Style TargetType="{x:Type Paragraph}">
-                                        <Setter Property="Margin" Value="0" />
-                                    </Style>
-                                </TextBox.Resources>
                             </TextBox>
-                        </ContentControl>
+                        </ContentControl>-->
                         <!--<Line X1="10" Y1="20" X2="50" Y2="50" Stroke="Black" StrokeThickness="4" />
                         <Grid>
                             <Ellipse Width="50" Height="50" Stroke="Black" StrokeThickness="2" Fill="Yellow" 
