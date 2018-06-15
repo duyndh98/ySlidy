@@ -433,21 +433,19 @@ namespace ySlide
                 Height = 600,
                 Width = 800,
                 AllowDrop = true,
-                Name = "canvas",
             };
-            newCanvas.MouseDown += canvas_MouseDown;
-            newCanvas.MouseMove += canvas_MouseMove;
-            newCanvas.MouseLeftButtonUp += canvas_MouseLeftButtonUp;
-            newCanvas.PreviewMouseLeftButtonDown += canvas_PreviewMouseLeftButtonDown;
-            newCanvas.PreviewMouseLeftButtonUp += canvas_PreviewMouseLeftButtonUp;
-
-            curCanvas = newCanvas;
+            ChangeCurCanvas(newCanvas);
             canvasParents.Children.Clear();
             canvasParents.Children.Add(curCanvas);
 
             Document.Instance.AddSlide(curCanvas);
 
             listSlides.SelectedIndex = listSlides.Items.Count - 1;
+        }
+
+        private void btnDelSlide_Click(object sender, RoutedEventArgs e)
+        {
+            Document.Instance.DelSlide(listSlides.SelectedIndex);
         }
 
         private void btnVideo_Click(object sender, RoutedEventArgs e)

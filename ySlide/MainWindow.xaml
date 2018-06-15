@@ -39,6 +39,7 @@
                             <MenuItem Name="AddNumberSlide" Header="Add number slide" Click="AddNumberForEachSlide" IsCheckable="true"></MenuItem>
                         </ContextMenu>
                     </StackPanel.ContextMenu>
+                    <Button Height="20" Content="[]" x:Name="btnPresent" Click="btnPresent_Click"/>
                     <InkCanvas EditingMode="Select" x:Name="curCanvas" AllowDrop="True" Height="600" Width="800" Background="WhiteSmoke"
                             MouseDown="canvas_MouseDown" MouseMove="canvas_MouseMove" MouseLeftButtonUp="canvas_MouseLeftButtonUp" PreviewMouseLeftButtonDown="canvas_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="canvas_PreviewMouseLeftButtonUp" ResizeEnabled="True" SelectionMoved="canvas_SelectionMoved" SelectionChanged="canvas_SelectionChanged">
                         <!--<ContentControl>
@@ -95,7 +96,7 @@
                     </ListView>
 
                     <Button Height="20" Content="+" x:Name="btnAddSlide" Click="btnAddSlide_Click"/>
-                    <Button Height="20" Content="()" x:Name="btnPresent" Click="btnPresent_Click"/>
+                    <Button Height="20" Content="-" x:Name="btnDelSlide" Click="btnDelSlide_Click"/>
                 </DockPanel>
             </ScrollViewer>
         </Grid>

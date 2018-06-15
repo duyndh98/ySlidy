@@ -117,6 +117,21 @@ namespace ySlide
         }
 
         /// <summary>
+        /// Xóa slide
+        /// </summary>
+        /// <param name="index">Vị trí slide cần xóa</param>
+        public void DelSlide(int index)
+        {
+            if (slides.Count <= 1) return;
+            if (index < 0 || index >= slides.Count) return;
+            slides.RemoveAt(index);
+            if (index != slides.Count)
+                canvas = slides[index];
+            else canvas = slides[index - 1];
+            UpdateThumbs();
+        }
+
+        /// <summary>
         /// Cập nhật lại hình thu nhỏ
         /// </summary>
         public void UpdateThumbs()
