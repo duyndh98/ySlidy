@@ -35,8 +35,9 @@ namespace ySlide
         private bool capture;   //Trạng thái vẽ: dragging hoặc vẽ thật
         private ContentControl curControl;
         private Shape curShape;
-        private Line curLine;
-        private Color fillColor, penColor;
+        private Polyline curLine;
+        private Color fillColor;
+        private Color penColor;
         private double penThickness;
         private PathGeometry pathGeometry;
         private Path path;
@@ -142,6 +143,7 @@ namespace ySlide
             Document.DrawType = DrawType.pencil;
             curCanvas.Cursor = Cursors.Pen;
             curCanvas.EditingMode = InkCanvasEditingMode.Ink;
+            curCanvas.DefaultDrawingAttributes.Color = penColor;
         }
 
         private void btnLine_Click(object sender, RoutedEventArgs e)
@@ -353,11 +355,19 @@ namespace ySlide
 
         #endregion
 
-        #region Menu Open Save
+        #region Menu Open Save NewFile
+
+        private void menuNewFile_Click(object sender, RoutedEventArgs e)
+        {
+            Document.Instance.NewFile();
+            listSlides.SelectedIndex = 0; //Thay đổi selected slide vê 0 để đổi cả curCanvas
+            Document.Instance.UpdateThumbs();
+        }
+
         private void menuFileOpen_Click(object sender, RoutedEventArgs e)
         {
             currentFilePath = Document.Instance.OpenFile();
-            listSlides.SelectedIndex = 0;
+            listSlides.SelectedIndex = 0; //Thay đổi selected slide vê 0 để đổi cả curCanvas
             Document.Instance.UpdateThumbs();
         }
 
@@ -410,8 +420,8 @@ namespace ySlide
                     selectedControl = curCanvas.Children[1] as ContentControl;
                     ((Shape)selectedControl.Content).Stroke = new SolidColorBrush(penColor);
                 }
-
             }
+            curCanvas.DefaultDrawingAttributes.Color = penColor;
         }
 
         private void btnAddSlide_Click(object sender, RoutedEventArgs e)
@@ -426,7 +436,6 @@ namespace ySlide
                 Name = "canvas",
             };
             newCanvas.MouseDown += canvas_MouseDown;
-            newCanvas.MouseUp += canvas_MouseUp;
             newCanvas.MouseMove += canvas_MouseMove;
             newCanvas.MouseLeftButtonUp += canvas_MouseLeftButtonUp;
             newCanvas.PreviewMouseLeftButtonDown += canvas_PreviewMouseLeftButtonDown;
@@ -722,7 +731,6 @@ namespace ySlide
         {
             curCanvas = c;
             curCanvas.MouseDown += canvas_MouseDown;
-            curCanvas.MouseUp += canvas_MouseUp;
             curCanvas.MouseMove += canvas_MouseMove;
             curCanvas.MouseLeftButtonUp += canvas_MouseLeftButtonUp;
             curCanvas.PreviewMouseLeftButtonDown += canvas_PreviewMouseLeftButtonDown;
@@ -759,11 +767,6 @@ namespace ySlide
                 path.Data = pathGeometry;
                 Document.Instance.DrawShape(path, 1);
             }
-        }
-
-        private void canvas_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-
         }
 
         private void canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -832,13 +835,14 @@ namespace ySlide
             }
             else if (Document.DrawType == DrawType.line && curLine != null)
             {
-                Line line = new Line();
+                Polyline line = new Polyline();
                 line.Stroke = new SolidColorBrush(penColor);
                 line.StrokeThickness = penThickness;
-                line.X1 = curLine.X1;
-                line.X2 = curLine.X2;
-                line.Y1 = curLine.Y1;
-                line.Y2 = curLine.Y2;
+                //line.X1 = curLine.X1;
+                //line.X2 = curLine.X2;
+                //line.Y1 = curLine.Y1;
+                //line.Y2 = curLine.Y2;
+                line.Points = curLine.Points;
                 Document.Instance.DrawShape(line, GetOutline());
                 curLine = null;
             }
@@ -1003,13 +1007,16 @@ namespace ySlide
             {
                 if (curLine == null)
                 {
-                    curLine = new Line();
+                    curLine = new Polyline();
                     addShape = true;
                 }
-                curLine.X1 = mDown.X;
-                curLine.Y1 = mDown.Y;
-                curLine.X2 = mMove.X;
-                curLine.Y2 = mMove.Y;
+                //curLine.X1 = mDown.X;
+                //curLine.Y1 = mDown.Y;
+                //curLine.X2 = mMove.X;
+                //curLine.Y2 = mMove.Y;
+                curLine.Points.Clear();
+                curLine.Points.Add(new Point(mDown.X, mDown.Y));
+                curLine.Points.Add(new Point(mMove.X, mMove.Y));
                 curLine.StrokeThickness = penThickness;
                 curLine.Stroke = new SolidColorBrush(penColor);
                 if (addShape)

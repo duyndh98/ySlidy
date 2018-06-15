@@ -23,21 +23,20 @@ namespace ySlide
     /// <summary>
     /// Các kiểu vẽ/chức năng của paint
     /// </summary>
-    enum DrawType { nothing, pencil, brush, line, ellipse, rectangle, triangle, arrow, heart, fill, erase, text, image, video };
+    public enum DrawType { nothing, pencil, brush, line, ellipse, rectangle, triangle, arrow, heart, fill, erase, text, image, video };
 
     /// <summary>
-    /// Trang hiện hành chứa các hình đang được vẽ
+    /// Quản lý danh sách slide, slide hiện tại, hình thu nhỏ, style của textbox, đánh số slide
     /// </summary>
     public class Document : Window
     {
         private static Document instance;
         public ObservableCollection<InkCanvas> slides;
         public ObservableCollection<System.Windows.Controls.Image> thumbs;
-        public ObservableCollection<InkCanvas> minislides;
         public InkCanvas canvas;  //Danh sách các hình trên trang
         private static DrawType drawType; //Kiểu vẽ hiện tại.
-        private SetUpTextBox setUpTextBox = new SetUpTextBox();
-        private bool isNumberSlide;
+        private SetUpTextBox setUpTextBox = new SetUpTextBox(); //Style của textbox
+        private bool isNumberSlide; //Biến để kiểm tra tính năng đánh số slide có đang bật hay không
         public bool IsNumberSlide
         {
             get { return isNumberSlide; }
@@ -51,8 +50,12 @@ namespace ySlide
         public static Document Instance { get { if (instance == null) instance = new Document(); return instance; } set => instance = value; }
 
         internal static DrawType DrawType { get => drawType; set => drawType = value; }
+
         public SetUpTextBox SetUpTextBox { get => setUpTextBox; set => setUpTextBox = value; }
 
+        /// <summary>
+        /// Khởi tạo mặc định
+        /// </summary>
         public Document()
         {
             InkCanvas newCanvas = new InkCanvas();
@@ -61,9 +64,11 @@ namespace ySlide
             slides.Add(newCanvas);
             thumbs.Add(CanvasToImage(newCanvas));
             DrawType = DrawType.nothing;
-            minislides = slides;
         }
 
+        /// <summary>
+        /// Khởi tạo tài liệu với 1 slide
+        /// </summary>
         public Document(InkCanvas c)
         {
             slides = new ObservableCollection<InkCanvas>();
@@ -74,6 +79,10 @@ namespace ySlide
             AddThumb(CanvasToImage(c));
         }
 
+        /// <summary>
+        /// Khởi tạo tài liệu với 1 danh sách slide
+        /// </summary>
+        /// <param name="l">Danh sách slide</param>
         public Document(ObservableCollection<InkCanvas> l)
         {
             slides = l;
@@ -86,6 +95,9 @@ namespace ySlide
             }
         }
 
+        /// <summary>
+        /// Xóa, làm sạch tài liệu
+        /// </summary>
         private void Clear()
         {
             slides.Clear();
@@ -94,6 +106,9 @@ namespace ySlide
             DrawType = DrawType.nothing;
         }
 
+        /// <summary>
+        /// Thêm slide mới từ 1 inkcanvas
+        /// </summary>
         public void AddSlide(InkCanvas c)
         {
             slides.Add(c);
@@ -101,6 +116,9 @@ namespace ySlide
             AddThumb(CanvasToImage(c));
         }
 
+        /// <summary>
+        /// Cập nhật lại hình thu nhỏ
+        /// </summary>
         public void UpdateThumbs()
         {
             thumbs.Clear();
@@ -110,9 +128,13 @@ namespace ySlide
             }
         }
 
+        /// <summary>
+        /// Thêm hình thu nhỏ vào list
+        /// </summary>
+        /// <param name="thumb">Hình thu nhỏ</param>
         public void AddThumb(System.Windows.Controls.Image thumb)
         {
-            if (thumb.Source == null)
+            if (thumb.Source == null) //Nếu như hình thu nhỏ chưa vẽ được thì tạo 1 hình default
             {
                 thumb.Width = 100;
                 thumb.Height = 75;
@@ -121,7 +143,11 @@ namespace ySlide
             thumbs.Add(thumb);
         }
 
-        public void DrawCapture(Shape shape) //Vẽ hình được kéo ra lúc chưa nhả chuột
+        /// <summary>
+        /// Vẽ đường nét đứt mẫu hình khi đang kéo hình
+        /// </summary>
+        /// <param name="shape">Hình</param>
+        public void DrawCapture(Shape shape)
         {
             double[] dashes = { 2, 2 };
             shape.StrokeDashArray = new System.Windows.Media.DoubleCollection(dashes);
@@ -129,9 +155,14 @@ namespace ySlide
             canvas.Children.Add(shape);
         }
 
+        /// <summary>
+        /// Vẽ hình tùy theo outline
+        /// </summary>
+        /// <param name="control"></param>
+        /// <param name="outline"></param>
         public void DrawShape(ContentControl control, int outline)
         {
-            canvas.Children.RemoveAt(canvas.Children.Count - 1);
+            canvas.Children.RemoveAt(canvas.Children.Count - 1);// Xóa capture
             RefreshCanvas();
             if (outline == 1)
             {
@@ -155,6 +186,7 @@ namespace ySlide
 
         public void DrawShape(Shape shape, int outline)
         {
+            canvas.Children.RemoveAt(canvas.Children.Count - 1);
             RefreshCanvas();
             if (outline == 1)
             {
@@ -181,6 +213,25 @@ namespace ySlide
             canvas.Children.Remove(shape);
         }
 
+        public void NewFile()
+        {
+            Instance.Clear();
+
+            InkCanvas inkCanvas = new InkCanvas();
+            inkCanvas.Width = 800;
+            inkCanvas.Height = 600;
+            inkCanvas.EditingMode = InkCanvasEditingMode.Select;
+            inkCanvas.AllowDrop = true;
+            inkCanvas.Background = System.Windows.Media.Brushes.WhiteSmoke;
+
+            AddSlide(inkCanvas);
+            UpdateThumbs();
+        }
+
+        /// <summary>
+        /// Mở file
+        /// </summary>
+        /// <returns>Trả về đường dẫn file mở để lưu lại</returns>
         public string OpenFile()
         {
             Instance.Clear();
@@ -211,55 +262,6 @@ namespace ySlide
 
         public void SaveFile(string path = null)
         {
-            #region OldSave
-            //Rect bounds = VisualTreeHelper.GetDescendantBounds(canvas);
-            //double dpi = 96d;
-
-
-            //RenderTargetBitmap rtb = new RenderTargetBitmap((int)bounds.Width, (int)bounds.Height, dpi, dpi, System.Windows.Media.PixelFormats.Default);
-
-
-            //DrawingVisual dv = new DrawingVisual();
-            //using (DrawingContext dc = dv.RenderOpen())
-            //{
-            //    VisualBrush vb = new VisualBrush(canvas);
-            //    dc.DrawRectangle(vb, null, new Rect(new System.Windows.Point(), bounds.Size));
-            //}
-            //rtb.Render(dv);
-            //BitmapEncoder pngEncoder = new PngBitmapEncoder();
-            //pngEncoder.Frames.Add(BitmapFrame.Create(rtb));
-
-            //try
-            //{
-            //    System.IO.MemoryStream ms = new System.IO.MemoryStream();
-
-            //    pngEncoder.Save(ms);
-
-            //    ms.Close();
-            //    ms.Dispose();
-            //    System.Windows.Forms.SaveFileDialog dlg = new System.Windows.Forms.SaveFileDialog();
-            //    dlg.Title = "Save as";
-            //    dlg.Filter = "Bitmap files (*.bmp)|*.bmp|JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|PNG (*.png)|*.png|All files (*.*)|*.*";
-            //    if (path == null)
-            //    {
-            //        if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            //        {
-
-            //            string fileName = dlg.FileName;
-            //            System.IO.File.WriteAllBytes(fileName, ms.ToArray());
-            //        }
-            //    }
-            //    else
-            //    {
-            //        System.IO.File.WriteAllBytes(path, ms.ToArray());
-            //    }
-            //    
-            //}
-            //catch (Exception err)
-            //{
-            //    MessageBox.Show(err.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            //}
-            #endregion
             if (path == null)
             {
                 System.Windows.Forms.SaveFileDialog dlg = new System.Windows.Forms.SaveFileDialog();
