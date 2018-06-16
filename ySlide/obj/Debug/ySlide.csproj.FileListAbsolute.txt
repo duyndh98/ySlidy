@@ -69,3 +69,10 @@ C:\Users\victorlee\source\repos\ySlide\ySlidy\ySlide\obj\Debug\ySlide.exe
 C:\Users\victorlee\source\repos\ySlide\ySlidy\ySlide\obj\Debug\ySlide.pdb
 C:\Users\victorlee\source\repos\ySlide\ySlidy\ySlide\obj\Debug\Presentation.g.cs
 C:\Users\victorlee\source\repos\ySlide\ySlidy\ySlide\obj\Debug\Presentation.baml
+C:\Users\victorlee\source\repos\ySlide\ySlidy\ySlide\obj\Debug\Themes\Generic.baml
+C:\Users\victorlee\source\repos\ySlide\ySlidy\ySlide\bin\Debug\MaterialDesignColors.dll
+C:\Users\victorlee\source\repos\ySlide\ySlidy\ySlide\bin\Debug\MaterialDesignThemes.Wpf.dll
+C:\Users\victorlee\source\repos\ySlide\ySlidy\ySlide\bin\Debug\MaterialDesignThemes.Wpf.pdb
+C:\Users\victorlee\source\repos\ySlide\ySlidy\ySlide\bin\Debug\MaterialDesignThemes.Wpf.xml
+C:\Users\victorlee\source\repos\ySlide\ySlidy\ySlide\obj\Debug\ySlide.csproj.CopyComplete
+C:\Users\victorlee\source\repos\ySlide\ySlidy\ySlide\obj\Debug\App.baml

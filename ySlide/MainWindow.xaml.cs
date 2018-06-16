@@ -719,9 +719,17 @@ namespace ySlide
             f.ShowDialog();
         }
 
+        private void AngleValue_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ReadOnlyCollection<UIElement> selectedElements = curCanvas.GetSelectedElements();
+
+            foreach (UIElement element in selectedElements)
+            {
+                (element.RenderTransform as RotateTransform).Angle = (double)angelObject.Value;
+            }
+        }
+
         #endregion
-
-
 
         #region Method for InkCanvas
 
@@ -1042,6 +1050,19 @@ namespace ySlide
                     FocusedTextbox = element as TextBox;
                     Document.Instance.UpdateSetUpTextBox(FocusedTextbox);
                 }
+            }
+
+            //Get angle của các phần tử đưuọc select
+            for (int i = 0; i < selectedElements.Count; i++) 
+            {
+                selectedElements[i].RenderTransformOrigin = new Point(0.5, 0.5);
+                var x = (selectedElements[i].RenderTransform as RotateTransform);
+                if (x == null) { 
+                    selectedElements[i].RenderTransform = new RotateTransform(0);
+                    x = (selectedElements[i].RenderTransform as RotateTransform);
+                }
+
+                AngleValue.Text = x.Angle.ToString();
             }
         }
 
