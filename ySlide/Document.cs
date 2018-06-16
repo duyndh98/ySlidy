@@ -354,7 +354,7 @@ namespace ySlide
             }
         }
 
-        public void InsertText(ContentControl control)
+        public void Insert(ContentControl control)
         {
             canvas.Children.Add(control);
         }

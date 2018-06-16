@@ -54,6 +54,21 @@ namespace ySlide
                 cbxFontSize.SelectedValue = focusedTextbox.FontSize;
                 cbxFontFamily.SelectedItem = focusedTextbox.FontFamily;
                 btnColorText.Background = focusedTextbox.Foreground;
+                switch (focusedTextbox.TextAlignment)
+                {
+                    case TextAlignment.Left:
+                        btnTextAlignLeft.IsSelected = true;
+                        break;
+                    case TextAlignment.Center:
+                        btnTextAlignCenter.IsSelected = true;
+                        break;
+                    case TextAlignment.Right:
+                        btnTextAlignRight.IsSelected = true;
+                        break;
+                    case TextAlignment.Justify:
+                        btnTextAlignJustify.IsSelected = true;
+                        break;
+                }
             }
         }
         bool bold = false, italic = false, underlined = false;
@@ -227,7 +242,7 @@ namespace ySlide
                 //control.Padding = new Thickness(1);
                 control.Background = new SolidColorBrush(Colors.White);
                 //control.Style = FindResource("DesignerItemStyle") as Style;
-                Document.Instance.InsertText(control);
+                Document.Instance.Insert(control);
             }
         }
 
@@ -261,6 +276,79 @@ namespace ySlide
         {
             Document.DrawType = DrawType.heart;
             curCanvas.Cursor = Cursors.Cross;
+        }
+
+        private void btnInsertTable_Click(object sender, RoutedEventArgs e)
+        {
+            //var container = new ContentControl();
+            //var flowdocument = new FlowDocument();
+            //container.Content = flowdocument;
+            //var table = new Table();
+            //table.CellSpacing = 0;
+            //flowdocument.Blocks.Add(table);
+
+            //int columns = Convert.ToInt32(tbTableColumn.Text);
+            //int rows = Convert.ToInt32(tbTableRow.Text);
+
+            //for (int i = 0; i < columns; i++) {
+            //    var tableColumn = new TableColumn();
+            //    tableColumn.Width = new GridLength(50);
+            //    table.Columns.Add(tableColumn);
+            //}
+
+
+            //for (int i = 0; i < rows; i++)
+            //{
+            //    var tablerowgroup = new TableRowGroup();
+            //    table.RowGroups.Add(tablerowgroup);
+            //    var tablerow = new TableRow();
+            //    tablerowgroup.Rows.Add(tablerow);
+            //    tablerow.FontSize = 14;
+            //    if (i == 0)
+            //    {
+            //        for(int j = 0; j < columns; j++)
+            //        {
+            //            var tablecell = new TableCell();
+            //            if(j == 0)
+            //            {
+            //                tablecell.BorderThickness = new Thickness(1);
+            //            }
+            //            else
+            //            {
+            //                tablecell.BorderThickness = new Thickness(0, 1, 1, 1);
+            //            }
+            //            tablecell.BorderBrush = Brushes.Black;
+            //            var paragraph = new Paragraph();
+            //            tablecell.Blocks.Add(paragraph);
+            //            var textbox = new TextBox();
+            //            textbox.Text = "123";
+            //            paragraph.Inlines.Add(textbox);
+            //        }
+            //    }
+            //    else
+            //    {
+            //        for (int j = 0; j < columns; j++)
+            //        {
+            //            var tablecell = new TableCell();
+            //            if (j == 0)
+            //            {
+            //                tablecell.BorderThickness = new Thickness(1, 0, 1, 1);
+            //            }
+            //            else
+            //            {
+            //                tablecell.BorderThickness = new Thickness(0, 0, 1, 1);
+            //            }
+            //            tablecell.BorderBrush = Brushes.Black;
+            //            var paragraph = new Paragraph();
+            //            tablecell.Blocks.Add(paragraph);
+            //            var textbox = new TextBox();
+            //            textbox.Text = "123";
+            //            paragraph.Inlines.Add(textbox);
+            //        }
+            //    }
+            //}
+            //container.Width = 50 * columns;
+            //Document.Instance.Insert(container);
         }
 
         #region Edit Text
@@ -476,7 +564,7 @@ namespace ySlide
                 control.Height = 300;
                 control.Background = new SolidColorBrush(Colors.White);
                 //control.Style = FindResource("DesignerItemStyle") as Style;
-                Document.Instance.InsertText(control);
+                Document.Instance.Insert(control);
             }
         }
 
@@ -729,6 +817,15 @@ namespace ySlide
             }
         }
 
+        /// <summary>
+        /// Event cho textbox PreviewTextInput chỉ cho phép nhập số
+        /// </summary>
+        private void NumericOnly(object sender, TextCompositionEventArgs e)
+        {
+            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
         #endregion
 
         #region Method for InkCanvas
@@ -906,6 +1003,7 @@ namespace ySlide
                 txt.SizeChanged += TextBox_SizeChanged;
                 txt.GotKeyboardFocus += txt_GotKeyboardFocus;
                 txt.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+                txt.VerticalContentAlignment = VerticalAlignment.Center;
 
                 InkCanvas.SetLeft(txt, e.GetPosition(curCanvas).X);
                 InkCanvas.SetTop(txt, e.GetPosition(curCanvas).Y);
@@ -915,6 +1013,34 @@ namespace ySlide
                 Document.DrawType = DrawType.nothing;
             }
             //}
+        }
+
+        private void btnTextAlignLeft_Selected(object sender, RoutedEventArgs e)
+        {
+            Document.Instance.SetUpTextBox.TextAlignment = TextAlignment.Left;
+            if(FocusedTextbox !=null)
+                FocusedTextbox.TextAlignment = TextAlignment.Left;
+        }
+
+        private void btnTextAlignCenter_Selected(object sender, RoutedEventArgs e)
+        {
+            Document.Instance.SetUpTextBox.TextAlignment = TextAlignment.Center;
+            if (FocusedTextbox != null)
+                FocusedTextbox.TextAlignment = TextAlignment.Center;
+        }
+
+        private void btnTextAlignRight_Selected(object sender, RoutedEventArgs e)
+        {
+            Document.Instance.SetUpTextBox.TextAlignment = TextAlignment.Right;
+            if (FocusedTextbox != null)
+                FocusedTextbox.TextAlignment = TextAlignment.Right;
+        }
+
+        private void btnTextAlignJustify_Selected(object sender, RoutedEventArgs e)
+        {
+            Document.Instance.SetUpTextBox.TextAlignment = TextAlignment.Justify;
+            if (FocusedTextbox != null)
+                FocusedTextbox.TextAlignment = TextAlignment.Justify;
         }
 
         private void canvas_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)

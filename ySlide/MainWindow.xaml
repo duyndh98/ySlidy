@@ -50,13 +50,101 @@
                     </StackPanel.ContextMenu>
                     <InkCanvas EditingMode="Select" x:Name="curCanvas" AllowDrop="True" Height="600" Width="800" Background="WhiteSmoke"
                             MouseDown="canvas_MouseDown" MouseMove="canvas_MouseMove" MouseLeftButtonUp="canvas_MouseLeftButtonUp" PreviewMouseLeftButtonDown="canvas_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="canvas_PreviewMouseLeftButtonUp" ResizeEnabled="True" SelectionMoved="canvas_SelectionMoved" SelectionChanged="canvas_SelectionChanged">
-                        <Image Height="100" Width="100" Source="Images/testImage.jpg" Margin="0" RenderTransformOrigin="0.5,0.5">
+
+                        <!--<ContentControl Height="540">
+
+                            <FlowDocument>
+                                <Table CellSpacing="0" >
+                                    <Table.Columns>
+                                        <TableColumn Width="120"/>
+                                        <TableColumn Width="180"/>
+                                        <TableColumn Width="120"/>
+                                        <TableColumn Width="140"/>
+                                    </Table.Columns>
+                                    <TableRowGroup>
+                                        <TableRow>
+                                            <TableCell BorderBrush="Black" BorderThickness="1">
+                                                <Paragraph FontWeight="Bold">
+                                                    <TextBox Height="auto" Width="auto" BorderBrush="Transparent">Category</TextBox>
+                                                </Paragraph>
+                                            </TableCell>
+                                            <TableCell BorderBrush="Black" BorderThickness="0,1,1,1">
+                                                <Paragraph FontWeight="Bold">A</Paragraph>
+                                            </TableCell>
+                                            <TableCell BorderBrush="Black" BorderThickness="0,1,1,1">
+                                                <Paragraph FontWeight="Bold">B</Paragraph>
+                                            </TableCell>
+                                            <TableCell BorderBrush="Black" BorderThickness="0,1,1,1">
+                                                <Paragraph FontWeight="Bold">C</Paragraph>
+                                            </TableCell>
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableCell BorderBrush="Black" BorderThickness="1,0,1,1">
+                                                <Paragraph FontWeight="Bold">Subscription</Paragraph>
+                                            </TableCell>
+                                            <TableCell BorderBrush="Black" BorderThickness="0,0,1,1">
+                                                <Paragraph>Monthly</Paragraph>
+                                            </TableCell>
+                                            <TableCell BorderBrush="Black" BorderThickness="0,0,1,1">
+                                                <Paragraph>Yearly</Paragraph>
+                                            </TableCell>
+                                            <TableCell BorderBrush="Black" BorderThickness="0,0,1,1">
+                                                <Paragraph>Monthly</Paragraph>
+                                            </TableCell>
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableCell BorderBrush="Black" BorderThickness="1,0,1,1" TextAlignment="Center">
+                                                <Paragraph FontWeight="Bold">Price</Paragraph>
+                                            </TableCell>
+                                            <TableCell BorderBrush="Black" BorderThickness="0,0,1,1">
+                                                <Paragraph>$120.00</Paragraph>
+                                            </TableCell>
+                                            <TableCell BorderBrush="Black" BorderThickness="0,0,1,1">
+                                                <Paragraph>$1000.00</Paragraph>
+                                            </TableCell>
+                                            <TableCell BorderBrush="Black" BorderThickness="0,0,1,1">
+                                                <Paragraph>$130.00</Paragraph>
+                                            </TableCell>
+                                        </TableRow>
+                                    </TableRowGroup>
+                                </Table>
+                            </FlowDocument>
+                        </ContentControl>-->
+                        <!--<Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <GridSplitter Grid.Column="1" 
+                              Grid.RowSpan="99" 
+                              HorizontalAlignment="Left" 
+                              VerticalAlignment="Stretch"
+                              Background="Black" 
+                              ShowsPreview="true"
+                              Width="2"/>
+                            <TextBox BorderBrush="Transparent" Text="Row0 Column0" Grid.Row="0" Grid.Column="0" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBox>
+                            <TextBox Text="Row0 Column1" Grid.Row="0" Grid.Column="1" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBox>
+                            <TextBox Text="Row0 Column2" Grid.Row="0" Grid.Column="2" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBox>
+                            <TextBox Text="Row1 Column0" Grid.Row="1" Grid.Column="0" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBox>
+                            <TextBox Text="Row1 Column1" Grid.Row="1" Grid.Column="1" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBox>
+                            <TextBox Text="Row1 Column2" Grid.Row="1" Grid.Column="2" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBox>
+                            <TextBox Text="Row2 Column0" Grid.Row="2" Grid.Column="0" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBox>
+                            <TextBox Text="Row2 Column1" Grid.Row="2" Grid.Column="1" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBox>
+                            <TextBox Text="Row2 Column2" Grid.Row="2" Grid.Column="2" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBox>
+                        </Grid>-->
+                        <!--<Image Height="100" Width="100" Source="Images/testImage.jpg" Margin="0" RenderTransformOrigin="0.5,0.5">
                             <Image.RenderTransform>
                                 <TransformGroup>
                                     <RotateTransform Angle="45"/>
                                 </TransformGroup>
                             </Image.RenderTransform>
-                        </Image>
+                        </Image>-->
                         <!--<ContentControl>
                             <Ellipse Width="50" Height="50" Stroke="Black" StrokeThickness="2" Fill="Yellow" 
                                      Canvas.Top="20" Canvas.Left="100" />
@@ -473,8 +561,8 @@
                             TickFrequency="10"
                             TickPlacement="BottomRight"
                             Orientation="Horizontal"
-                            Minimum="0"
-                            Maximum="359" 
+                            Minimum="-180"
+                            Maximum="180" 
                             Value="0"
                             IsSelectionRangeEnabled="True"
                             IsSnapToTickEnabled="True"
@@ -595,8 +683,42 @@
                         </Grid>
                     </Grid>
                 </Custom:RibbonGroup>
+                <Custom:RibbonGroup>
+                    <Grid>
+                        <ListBox
+                            Style="{StaticResource MaterialDesignToolToggleListBox}"
+                            SelectedIndex="0">
+                            <ListBox.ToolTip>
+                                <StackPanel>
+                                    <TextBlock
+                                        Text="MaterialDesignToolToggleListBox" />
+                                    <TextBlock
+                                        Text="Exclusive selection" />
+                                    <TextBlock
+                                        Text="ListBoxAssist.IsToggle allows more natural toggle behaviour" />
+                                </StackPanel>
+                            </ListBox.ToolTip>
+                            <ListBoxItem Name="btnTextAlignLeft" Selected="btnTextAlignLeft_Selected">
+                                <materialDesign:PackIcon
+                                    Kind="FormatAlignLeft" />
+                            </ListBoxItem>
+                            <ListBoxItem Name="btnTextAlignCenter" Selected="btnTextAlignCenter_Selected">
+                                <materialDesign:PackIcon
+                                    Kind="FormatAlignCenter" />
+                            </ListBoxItem>
+                            <ListBoxItem Name="btnTextAlignRight" Selected="btnTextAlignRight_Selected">
+                                <materialDesign:PackIcon
+                                    Kind="FormatAlignRight" />
+                            </ListBoxItem>
+                            <ListBoxItem Name="btnTextAlignJustify" Selected="btnTextAlignJustify_Selected">
+                                <materialDesign:PackIcon
+                                    Kind="FormatAlignJustify" />
+                            </ListBoxItem>
+                        </ListBox>
+                    </Grid>
+                </Custom:RibbonGroup>
             </Custom:RibbonTab>
-            <Custom:RibbonTab Name="tabMedia" Header="Media">
+            <Custom:RibbonTab Name="tabInsert" Header="Insert">
                 <Custom:RibbonGroup Name="imageGroup" Header="Image">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -632,6 +754,23 @@
                                 </Button.Background>
                             </Button>
                             <Label Grid.Row ="1" Content="Video" Margin="5, 0, 0, 0"/>
+                        </Grid>
+                    </Grid>
+                </Custom:RibbonGroup>
+                <Custom:RibbonGroup Name="tableGroup" Header="Table">
+                    <Grid Width="100">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" HorizontalAlignment="Stretch">
+                            <TextBox Name="tbTableColumn" Text="00" HorizontalAlignment="Left" PreviewTextInput="NumericOnly" Width="20" MaxLength="2">
+                            </TextBox>
+                            <Label Content="x" HorizontalAlignment="Center" />
+                            <TextBox Name="tbTableRow" Text="00" HorizontalAlignment="Right" PreviewTextInput="NumericOnly" Width="20" MaxLength="2"/>
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <Button Name="btnInsertTable" Content="Insert" Click="btnInsertTable_Click" />
                         </Grid>
                     </Grid>
                 </Custom:RibbonGroup>
