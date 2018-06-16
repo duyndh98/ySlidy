@@ -1,0 +1,693 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ySlide"
+        xmlns:Custom="clr-namespace:System.Windows.Controls.Ribbon;assembly=System.Windows.Controls.Ribbon" 
+        x:Class="ySlide.MainWindow"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="784" Width="1382" WindowStyle="ThreeDBorderWindow"
+        WindowState="Maximized" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Closing="Window_Closing"
+    
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal" 
+        TextOptions.TextRenderingMode="Auto"        
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/DesignerItem.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid Height="753" VerticalAlignment="Top" Width="1374" HorizontalAlignment="Left">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions >
+        
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="8*" />
+            </Grid.ColumnDefinitions>
+            <ScrollViewer Grid.Column="1" HorizontalAlignment="Stretch" x:Name="mainArea">
+                <StackPanel Width="800" Height="600" x:Name="canvasParents">
+                    <StackPanel.ContextMenu x:Uid="cxt">
+                        <ContextMenu Name="ContextMenu">
+                            <MenuItem Name="ChangeBackground" Header="Change Background">
+                                <MenuItem Name="ChangeColor" Header="Color" Click="ChangeBackGroundColor_Click"></MenuItem>
+                                <MenuItem Name="ChangeImage" Header="Image" Click="ChangeBackGroundImage_Click"></MenuItem>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Name="AddNumberSlide" Header="Add number slide" Click="AddNumberForEachSlide" IsCheckable="true"></MenuItem>
+                        </ContextMenu>
+                    </StackPanel.ContextMenu>
+                    <InkCanvas EditingMode="Select" x:Name="curCanvas" AllowDrop="True" Height="600" Width="800" Background="WhiteSmoke"
+                            MouseDown="canvas_MouseDown" MouseMove="canvas_MouseMove" MouseLeftButtonUp="canvas_MouseLeftButtonUp" PreviewMouseLeftButtonDown="canvas_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="canvas_PreviewMouseLeftButtonUp" ResizeEnabled="True" SelectionMoved="canvas_SelectionMoved" SelectionChanged="canvas_SelectionChanged">
+
+                        <!--<ContentControl Height="540">
+
+                            <FlowDocument>
+                                <Table CellSpacing="0" >
+                                    <Table.Columns>
+                                        <TableColumn Width="120"/>
+                                        <TableColumn Width="180"/>
+                                        <TableColumn Width="120"/>
+                                        <TableColumn Width="140"/>
+                                    </Table.Columns>
+                                    <TableRowGroup>
+                                        <TableRow>
+                                            <TableCell BorderBrush="Black" BorderThickness="1">
+                                                <Paragraph FontWeight="Bold">
+                                                    <TextBox Height="auto" Width="auto" BorderBrush="Transparent">Category</TextBox>
+                                                </Paragraph>
+                                            </TableCell>
+                                            <TableCell BorderBrush="Black" BorderThickness="0,1,1,1">
+                                                <Paragraph FontWeight="Bold">A</Paragraph>
+                                            </TableCell>
+                                            <TableCell BorderBrush="Black" BorderThickness="0,1,1,1">
+                                                <Paragraph FontWeight="Bold">B</Paragraph>
+                                            </TableCell>
+                                            <TableCell BorderBrush="Black" BorderThickness="0,1,1,1">
+                                                <Paragraph FontWeight="Bold">C</Paragraph>
+                                            </TableCell>
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableCell BorderBrush="Black" BorderThickness="1,0,1,1">
+                                                <Paragraph FontWeight="Bold">Subscription</Paragraph>
+                                            </TableCell>
+                                            <TableCell BorderBrush="Black" BorderThickness="0,0,1,1">
+                                                <Paragraph>Monthly</Paragraph>
+                                            </TableCell>
+                                            <TableCell BorderBrush="Black" BorderThickness="0,0,1,1">
+                                                <Paragraph>Yearly</Paragraph>
+                                            </TableCell>
+                                            <TableCell BorderBrush="Black" BorderThickness="0,0,1,1">
+                                                <Paragraph>Monthly</Paragraph>
+                                            </TableCell>
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableCell BorderBrush="Black" BorderThickness="1,0,1,1" TextAlignment="Center">
+                                                <Paragraph FontWeight="Bold">Price</Paragraph>
+                                            </TableCell>
+                                            <TableCell BorderBrush="Black" BorderThickness="0,0,1,1">
+                                                <Paragraph>$120.00</Paragraph>
+                                            </TableCell>
+                                            <TableCell BorderBrush="Black" BorderThickness="0,0,1,1">
+                                                <Paragraph>$1000.00</Paragraph>
+                                            </TableCell>
+                                            <TableCell BorderBrush="Black" BorderThickness="0,0,1,1">
+                                                <Paragraph>$130.00</Paragraph>
+                                            </TableCell>
+                                        </TableRow>
+                                    </TableRowGroup>
+                                </Table>
+                            </FlowDocument>
+                        </ContentControl>-->
+                        <!--<Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <GridSplitter Grid.Column="1" 
+                              Grid.RowSpan="99" 
+                              HorizontalAlignment="Left" 
+                              VerticalAlignment="Stretch"
+                              Background="Black" 
+                              ShowsPreview="true"
+                              Width="2"/>
+                            <TextBox BorderBrush="Transparent" Text="Row0 Column0" Grid.Row="0" Grid.Column="0" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBox>
+                            <TextBox Text="Row0 Column1" Grid.Row="0" Grid.Column="1" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBox>
+                            <TextBox Text="Row0 Column2" Grid.Row="0" Grid.Column="2" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBox>
+                            <TextBox Text="Row1 Column0" Grid.Row="1" Grid.Column="0" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBox>
+                            <TextBox Text="Row1 Column1" Grid.Row="1" Grid.Column="1" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBox>
+                            <TextBox Text="Row1 Column2" Grid.Row="1" Grid.Column="2" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBox>
+                            <TextBox Text="Row2 Column0" Grid.Row="2" Grid.Column="0" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBox>
+                            <TextBox Text="Row2 Column1" Grid.Row="2" Grid.Column="1" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBox>
+                            <TextBox Text="Row2 Column2" Grid.Row="2" Grid.Column="2" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBox>
+                        </Grid>-->
+                        <!--<Image Height="100" Width="100" Source="Images/testImage.jpg" Margin="0" RenderTransformOrigin="0.5,0.5">
+                            <Image.RenderTransform>
+                                <TransformGroup>
+                                    <RotateTransform Angle="45"/>
+                                </TransformGroup>
+                            </Image.RenderTransform>
+                        </Image>-->
+                        <!--<ContentControl>
+                            <Ellipse Width="50" Height="50" Stroke="Black" StrokeThickness="2" Fill="Yellow" 
+                                     Canvas.Top="20" Canvas.Left="100" />
+                        </ContentControl>
+                        <ContentControl>
+                            <Image Height="100" Width="100" Source="Images/testImage.jpg" Margin="0"/>
+                        </ContentControl>
+
+                        <ContentControl>
+                            <TextBox  Background="Transparent" Width="100" BorderBrush="Transparent" TextWrapping="Wrap" AcceptsReturn="True" SizeChanged="TextBox_SizeChanged">
+                            </TextBox>
+                        </ContentControl>-->
+                        <!--<Line X1="10" Y1="20" X2="50" Y2="50" Stroke="Black" StrokeThickness="4" />
+                        <Grid>
+                            <Ellipse Width="50" Height="50" Stroke="Black" StrokeThickness="2" Fill="Yellow" 
+                                     Canvas.Top="20" Canvas.Left="100" />
+                            <TextBlock Text="Lorem Ipsum"/>
+                        </Grid>
+
+                        <Rectangle Fill="Blue" Height="50" Width="100" Canvas.Left="240" Canvas.Top="20">
+                            <Rectangle.RenderTransform>
+                                <RotateTransform x:Name="rotate" CenterX="0" CenterY="0" Angle="45" />
+                            </Rectangle.RenderTransform>
+                        </Rectangle>
+
+                        <Thumb Name="myThumb" Canvas.Left="80" Canvas.Top="80" Background="Blue" 
+                              Width="20" Height="20" DragDelta="onDragDelta" 
+                              DragStarted="onDragStarted" DragCompleted="onDragCompleted"
+                            />
+
+                        <local:EditableTextBlock Text="sdfsdfs" Cursor="IBeam" Canvas.Left="240" Canvas.Top="200"/>
+                        <Grid Canvas.Left="313" Canvas.Top="143" Height="200" Width="200">
+                            <Image Height="100" Width="100" Source="Images/testImage.jpg" Margin="0"/>
+                        </Grid>
+                        <local:CustomVideo Height="200" Width="300" x:Name="video" Source="asd"></local:CustomVideo>-->
+                    </InkCanvas>
+                </StackPanel>
+            </ScrollViewer>
+            <ScrollViewer Grid.Column="0">
+                <DockPanel>
+                    <ListView x:Name="listSlides" SelectionChanged="listSlides_SelectionChanged" ItemsSource="{Binding}">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding Source}" Width="100" Height="75"/>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <StackPanel Orientation="Vertical">
+                        <Button Width="50" Content="+" x:Name="btnAddSlide" Click="btnAddSlide_Click"/>
+                        <Button Width="50" Content="-" x:Name="btnDelSlide" Click="btnDelSlide_Click"/>
+                        <Button Width="50" Content="[]" x:Name="btnPresent" Click="btnPresent_Click">
+                            <Button.Background>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="Black" Offset="0"/>
+                                    <GradientStop Color="White" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Button.Background>
+                        </Button>
+                    </StackPanel>
+                </DockPanel>
+            </ScrollViewer>
+        </Grid>
+        
+        <Grid Name="menus_1" Grid.Row="0" DockPanel.Dock="Top" Margin="5,5,-187,5">
+
+            <Menu IsMainMenu="True" Margin="0,0,186,0">
+
+                <MenuItem Header="_File">
+
+                    <MenuItem Header="_New" Click="menuNewFile_Click">
+
+                        <MenuItem.Icon>
+
+                            <materialDesign:PackIcon Kind="File" />
+
+                        </MenuItem.Icon>
+
+                    </MenuItem>
+
+                    <MenuItem Header="_Open" Click="menuFileOpen_Click">
+
+                        <MenuItem.Icon>
+
+                            <materialDesign:PackIcon Kind="FileImport" />
+
+                        </MenuItem.Icon>
+
+                    </MenuItem>
+
+                    <MenuItem Header="Save" Click="menuFileSave_Click">
+
+                        <MenuItem.Icon>
+
+                            <materialDesign:PackIcon Kind="ContentSave" />
+
+                        </MenuItem.Icon>
+
+                    </MenuItem>
+
+                    <MenuItem Header="_Save As.." Click="menuFileSaveAs_Click">
+                        <MenuItem.Icon>
+
+                            <materialDesign:PackIcon Kind="ContentSave" />
+
+                        </MenuItem.Icon>
+                    </MenuItem>
+
+                    <MenuItem Header="_Export" >
+
+                        <MenuItem.Icon>
+
+                            <materialDesign:PackIcon Kind="FileExport" />
+
+                        </MenuItem.Icon>
+
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem Header="_Exit" InputGestureText="Ctrl+E" Click="MenuItemClose_Click">
+
+                        <MenuItem.Icon>
+
+                            <materialDesign:PackIcon Kind="ExitToApp" />
+
+                        </MenuItem.Icon>
+
+                    </MenuItem>
+
+
+                </MenuItem>
+
+                <MenuItem Header="_Insert">
+
+                    <MenuItem Header="_Shape" >
+
+                        <MenuItem.Icon>
+
+                            <materialDesign:PackIcon Kind="Shape" />
+
+                        </MenuItem.Icon>
+                        <MenuItem Header="_Line" Click="btnLine_Click">
+
+                            <MenuItem.Icon>
+
+                                <materialDesign:PackIcon Kind="VectorLine" />
+
+                            </MenuItem.Icon>
+
+                        </MenuItem>
+                        <MenuItem Header="_Ellipse" Click="btnEllipse_Click">
+
+                            <MenuItem.Icon>
+
+                                <materialDesign:PackIcon Kind="Circle" />
+
+                            </MenuItem.Icon>
+
+                        </MenuItem>
+                        <MenuItem Header="_Rectangle" Click="btnRectangle_Click">
+
+                            <MenuItem.Icon>
+
+                                <materialDesign:PackIcon Kind="Square" />
+
+                            </MenuItem.Icon>
+
+                        </MenuItem>
+                    </MenuItem>
+
+                    <MenuItem Header="_Image" Click="btnImage_Click">
+
+                        <MenuItem.Icon>
+
+                            <materialDesign:PackIcon Kind="FileImage" />
+
+                        </MenuItem.Icon>
+
+                    </MenuItem>
+
+                    <MenuItem Header="_Video" Click="btnVideo_Click">
+
+                        <MenuItem.Icon>
+
+                            <materialDesign:PackIcon Kind="FileVideo" />
+
+                        </MenuItem.Icon>
+
+                    </MenuItem>
+
+                    <MenuItem Header="_Chart" >
+
+                        <MenuItem.Icon>
+
+                            <materialDesign:PackIcon Kind="ChartBar" />
+
+                        </MenuItem.Icon>
+
+                    </MenuItem>
+
+
+
+                </MenuItem>
+                <MenuItem Header="_Table">
+
+                    <MenuItem Header="_Insert table">
+
+                        <MenuItem.Icon>
+
+                            <materialDesign:PackIcon Kind="Table" />
+
+                        </MenuItem.Icon>
+
+                    </MenuItem>
+
+                </MenuItem>
+
+
+
+            </Menu>
+
+        </Grid>
+
+        <StackPanel Grid.Row="1" Orientation="Vertical" >
+            <Grid Name="textMenu" DockPanel.Dock="Top"  Visibility="Visible">
+
+                <ToolBarTray Height="62" VerticalAlignment="Top">
+
+                    <ToolBar Style="{DynamicResource MaterialDesignToolBar}" ClipToBounds="False" Margin="0">
+
+                        <Button ToolTip="Play" Click="btnPresent_Click">
+
+                            <materialDesign:PackIcon Kind="YoutubePlay" />
+
+                        </Button>
+
+                        <Button ToolTip="Save" Click="menuFileSave_Click">
+
+                            <materialDesign:PackIcon Kind="ContentSave" />
+
+                        </Button>
+
+                        <Separator />
+
+                        <Button Command="Cut" ToolTip="Cut" ToolBar.OverflowMode="AsNeeded">
+
+                            <materialDesign:PackIcon Kind="ContentCut" />
+
+                        </Button>
+
+                        <Button Command="Copy" ToolTip="Copy that object" ToolBar.OverflowMode="AsNeeded">
+
+                            <materialDesign:PackIcon Kind="ContentCopy" />
+
+                        </Button>
+
+
+
+                        <Button Command="Paste" ToolTip="Paste some object" ToolBar.OverflowMode="AsNeeded">
+
+                            <materialDesign:PackIcon Kind="ContentPaste" />
+
+                        </Button>
+
+                        <Separator />
+
+
+
+                        <Button ToolTip="Format text background color" Click="btnText_Click">
+                            <materialDesign:PackIcon Kind="FormatText"  />
+                        </Button>
+
+                        <Separator/>
+
+                        <ListBox SelectedIndex="0">
+
+                            <ListBoxItem Name="btnTextAlignLeft" Selected="btnTextAlignLeft_Selected">
+                                <materialDesign:PackIcon
+                                    Kind="FormatAlignLeft" />
+                            </ListBoxItem>
+                            <ListBoxItem Name="btnTextAlignCenter" Selected="btnTextAlignCenter_Selected">
+                                <materialDesign:PackIcon
+                                    Kind="FormatAlignCenter" />
+                            </ListBoxItem>
+                            <ListBoxItem Name="btnTextAlignRight" Selected="btnTextAlignRight_Selected">
+                                <materialDesign:PackIcon
+                                    Kind="FormatAlignRight" />
+                            </ListBoxItem>
+                            <ListBoxItem Name="btnTextAlignJustify" Selected="btnTextAlignJustify_Selected">
+                                <materialDesign:PackIcon
+                                    Kind="FormatAlignJustify" />
+                            </ListBoxItem>
+                        </ListBox>
+
+                        <Separator/>
+
+                        <ListBox SelectionMode="Extended">
+
+                            <ListBoxItem Name="btnBold" Selected="btnBold_Click" Unselected="btnBold_Click">
+
+                                <materialDesign:PackIcon Kind="FormatBold"/>
+
+                            </ListBoxItem>
+
+                            <ListBoxItem Name="btnItalic" Selected="btnItalic_Click" Unselected="btnItalic_Click">
+
+                                <materialDesign:PackIcon Kind="FormatItalic"/>
+
+                            </ListBoxItem>
+
+                            <ListBoxItem x:Name="btnUnderlined" Selected="btnUnderlined_Click" Unselected="btnUnderlined_Click">
+
+                                <materialDesign:PackIcon Kind="FormatUnderline"/>
+
+                            </ListBoxItem>
+
+                        </ListBox>
+
+                        <Separator/>
+
+                        <Label Content="Font:" VerticalAlignment="Center"/>
+
+                        <ComboBox Grid.Column="0" Name="cbxFontFamily" Width="150" MaxDropDownHeight="500" ItemsSource="{Binding Source={x:Static Fonts.SystemFontFamilies}}" SelectedItem="{Binding MyFontFamily, ElementName=ThisWindow}" IsEditable="True" Margin="0, 5, 0, 0" SelectedIndex="0" SelectionChanged="cbxFontFamily_SelectionChanged"/>
+
+                        <Label Content="Size:" VerticalAlignment="Center"/>
+
+                        <ComboBox Grid.Column="0" Name="cbxFontSize" Width="40" IsEditable="True" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxDropDownHeight="500" SelectionChanged="cbxFontSize_SelectionChanged" />
+                        <!--SelectionChanged="cbxFontSize_SelectionChanged"-->
+                        <Separator/>
+                        <Button ToolTip="Format text color" Name="btnColorText" Click="btnOtherColorsText_Click">
+                            <materialDesign:PackIcon Kind="FormatColorText" />
+                        </Button>
+
+                        <Button ToolTip="Format text background color">
+                            <materialDesign:PackIcon Kind="FormatColorFill" />
+                        </Button>
+
+
+                    </ToolBar>
+
+                </ToolBarTray>
+            </Grid>
+            <Grid Name="normalMenu" DockPanel.Dock="Top" >
+
+                <ToolBarTray Height="62" VerticalAlignment="Top">
+
+                    <ToolBar Style="{DynamicResource MaterialDesignToolBar}" ClipToBounds="False" Margin="0">
+
+                        <Button ToolTip="Play" Click="btnPresent_Click">
+
+                            <materialDesign:PackIcon Kind="YoutubePlay" />
+
+                        </Button>
+
+                        <Button ToolTip="Save" Click="menuFileSave_Click">
+
+                            <materialDesign:PackIcon Kind="ContentSave" />
+
+                        </Button>
+
+                        <Separator />
+
+                        <Button Command="Cut" ToolTip="Cut" ToolBar.OverflowMode="AsNeeded">
+
+                            <materialDesign:PackIcon Kind="ContentCut" />
+
+                        </Button>
+
+                        <Button Command="Copy" ToolTip="Copy that object" ToolBar.OverflowMode="AsNeeded">
+
+                            <materialDesign:PackIcon Kind="ContentCopy" />
+
+                        </Button>
+
+
+
+                        <Button Command="Paste" ToolTip="Paste some object" ToolBar.OverflowMode="AsNeeded">
+
+                            <materialDesign:PackIcon Kind="ContentPaste" />
+
+                        </Button>
+
+                        <Button  ToolTip="Delete object" Click="btnErazer_Click">
+
+                            <materialDesign:PackIcon Kind="Delete" />
+
+                        </Button>
+
+                        <Button  ToolTip="Mouse" Click="btnArrow_Click">
+
+                            <materialDesign:PackIcon Kind="CursorDefaultOutline" />
+
+                        </Button>
+
+                        <Button  ToolTip="Select" Click="btnSelect_Click">
+
+                            <materialDesign:PackIcon Kind="Select" />
+
+                        </Button>
+
+
+                        <Button  ToolTip="Pencil" Click="btnPencil_Click">
+
+                            <materialDesign:PackIcon Kind="Pencil" />
+
+                        </Button>
+
+
+
+                        <Separator />
+
+
+
+
+                        <Button ToolTip="Format text background color" Click="btnText_Click">
+                            <materialDesign:PackIcon Kind="FormatText"  />
+                        </Button>
+
+                        <Separator/>
+
+
+
+                        <ListBox SelectionMode="Extended">
+
+
+
+
+                        </ListBox>
+
+                        <Button ToolTip="Format text background color" Name="btnColor1" Click="btnOtherColors_Click">
+                            <materialDesign:PackIcon Kind="FormatColorFill"  />
+
+                        </Button>
+
+                        <materialDesign:PopupBox   StaysOpen="True" Width="54" Background="White">
+                            <materialDesign:PopupBox.ToggleContent>
+                                <materialDesign:PackIcon Kind="RotateRight"  BorderBrush="Black" Foreground="Black"/>
+                            </materialDesign:PopupBox.ToggleContent>
+                            <Grid Width="300" Margin="8,8,8,8" Background="White">
+                                <Grid.Resources>
+                                    <Style TargetType="CheckBox" BasedOn="{StaticResource MaterialDesignCheckBox}">
+                                        <Setter Property="Margin" Value="8,8,10,8" />
+                                    </Style>
+                                    <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignTextBox}">
+                                        <Setter Property="materialDesign:HintAssist.IsFloating" Value="True" />
+                                        <Setter Property="Margin" Value="8,8,8,8" />
+                                    </Style>
+                                </Grid.Resources>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+
+                                </Grid.RowDefinitions>
+                                <Slider
+                            Name="angelObject"
+                            TickFrequency="10"
+                            TickPlacement="BottomRight"
+                            Orientation="Horizontal"
+                            Minimum="-180"
+                            Maximum="180" 
+                            Value="0"
+                            IsSelectionRangeEnabled="True"
+                            IsSnapToTickEnabled="True"
+                           Grid.Row="0"
+                            />
+                                <TextBox Name="AngleValue" Margin="20" HorizontalContentAlignment="Center" Grid.Row="1" Text="{Binding ElementName=angelObject, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextChanged="AngleValue_TextChanged"></TextBox>
+                            </Grid>
+                        </materialDesign:PopupBox>
+
+                        <Separator />
+
+                        <Label VerticalAlignment="Center">Thickness</Label>
+                        <ComboBox Grid.Row ="1" x:Name="cbxThickness" HorizontalAlignment="Left" VerticalAlignment="Center" Width="20" Height="20" MaxDropDownHeight="1000" SelectionChanged="cbxThickness_SelectionChanged">
+                            <ComboBox.Background>
+                                <ImageBrush ImageSource="Icons/Thickness1.png"/>
+                            </ComboBox.Background>
+                            <ComboBoxItem Height="30" Width="70" ToolTip="1 px">
+                                <ComboBoxItem.Background>
+                                    <ImageBrush ImageSource="Icons/Thickness1.png"/>
+                                </ComboBoxItem.Background>
+                            </ComboBoxItem>
+                            <ComboBoxItem Height="30" Width="70" ToolTip="3 px">
+                                <ComboBoxItem.Background>
+                                    <ImageBrush ImageSource="Icons/Thickness3.png"/>
+                                </ComboBoxItem.Background>
+                            </ComboBoxItem>
+                            <ComboBoxItem Height="30" Width="70" ToolTip="5 px">
+                                <ComboBoxItem.Background>
+                                    <ImageBrush ImageSource="Icons/Thickness5.png"/>
+                                </ComboBoxItem.Background>
+                            </ComboBoxItem>
+                            <ComboBoxItem Height="30" Width="70" ToolTip="7 px">
+                                <ComboBoxItem.Background>
+                                    <ImageBrush ImageSource="Icons/Thickness7.png"/>
+                                </ComboBoxItem.Background>
+                            </ComboBoxItem>
+                        </ComboBox>
+
+
+                        <materialDesign:PopupBox   StaysOpen="True" Foreground="#DDFFFFFF" BorderBrush="#00000000" Background="#00000000" Width="auto"  >
+                            <materialDesign:PopupBox.ToggleContent>
+                                <Label>Outlines</Label>
+                            </materialDesign:PopupBox.ToggleContent>
+                            <Grid Width="100" Margin="8,8,8,8">
+                                <Grid.Resources>
+                                    <Style TargetType="CheckBox" BasedOn="{StaticResource MaterialDesignCheckBox}">
+                                        <Setter Property="Margin" Value="8,8,10,8" />
+                                    </Style>
+                                    <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignTextBox}">
+                                        <Setter Property="materialDesign:HintAssist.IsFloating" Value="True" />
+                                        <Setter Property="Margin" Value="8,8,8,8" />
+                                    </Style>
+                                </Grid.Resources>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <RadioButton Grid.Row="0" Margin="10" IsChecked="True" Name="btnSmooth">
+                                    Smooth
+                                </RadioButton>
+                                <RadioButton Grid.Row="1" Margin="10" Name="btnDash">
+                                    Dash
+                                </RadioButton>
+                                <RadioButton Grid.Row="2" Margin="10" Name="btnDot">
+                                    Dot
+                                </RadioButton>
+
+                            </Grid>
+                        </materialDesign:PopupBox>
+
+
+
+                    </ToolBar>
+
+                </ToolBarTray>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,4 @@
+DevExpress.Patch.InMemoryPatch, DevExpress.Patch.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7fc7bfca2443de66
+DevExpress.Xpf.PropertyGrid.PropertyGridControl, DevExpress.Xpf.PropertyGrid.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a
+DevExpress.Xpf.Editors.SparklineEdit, DevExpress.Xpf.Core.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a
+DevExpress.Xpf.Charts.RangeControlClient.NumericChartRangeControlClient, DevExpress.Xpf.Charts.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a
