@@ -70,22 +70,11 @@
     <Compile Include="CustomVideo.xaml.cs">
       <DependentUpon>CustomVideo.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DesignerItemDecorator.cs" />
     <Compile Include="Document.cs" />
-    <Compile Include="EditableTextBlock.cs" />
-    <Compile Include="Adorners\EditableTextBlockAdorner.cs" />
-    <Compile Include="MoveThumb.cs" />
-    <Compile Include="NumericUpDown.cs" />
     <Compile Include="PersonCollectionViewModel.cs" />
-    <Compile Include="Adorners\ResizeRotateAdorner.cs" />
-    <Compile Include="Adorners\ResizeRotateChrome.cs" />
     <Compile Include="Presentation.xaml.cs">
       <DependentUpon>Presentation.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ResizeThumb.cs" />
-    <Compile Include="RotateThumb.cs" />
-    <Compile Include="Adorners\SizeAdorner.cs" />
-    <Compile Include="Adorners\SizeChrome.cs" />
     <Compile Include="ViewModelBase.cs" />
     <Page Include="CustomVideo.xaml">
       <SubType>Designer</SubType>
@@ -106,22 +95,6 @@
     <Page Include="Presentation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Resources\DesignerItem.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\ResizeRotateChrome.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\SizeChrome.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Generic.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -203,7 +176,6 @@
     <Resource Include="Icons\video.png" />
     <Resource Include="Icons\select.png" />
     <Resource Include="Images\BackgroundCaro.jpg" />
-    <Content Include="Videos\video.mkv" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
