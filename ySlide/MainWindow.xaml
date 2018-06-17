@@ -26,7 +26,7 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <Grid Height="753" VerticalAlignment="Top" Width="1374" HorizontalAlignment="Left">
+    <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
@@ -39,6 +39,9 @@
                 <ColumnDefinition Width="8*" />
             </Grid.ColumnDefinitions>
             <ScrollViewer Grid.Column="1" HorizontalAlignment="Stretch" x:Name="mainArea">
+                <ScrollViewer.Foreground>
+                    <ImageBrush Stretch="UniformToFill" TileMode="Tile" ImageSource="Images/BackgroundCaro.jpg"/>
+                </ScrollViewer.Foreground>
                 <StackPanel Width="800" Height="600" x:Name="canvasParents">
                     <StackPanel.ContextMenu x:Uid="cxt">
                         <ContextMenu Name="ContextMenu">
@@ -185,16 +188,20 @@
                     </InkCanvas>
                 </StackPanel>
             </ScrollViewer>
-            <ScrollViewer Grid.Column="0">
-                <StackPanel Orientation="Vertical">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Width="50" Content="+" x:Name="btnAddSlide" Click="btnAddSlide_Click"/>
-                        <Button Grid.Column="1" Width="50" Content="-" x:Name="btnDelSlide" Click="btnDelSlide_Click"/>
-                    </Grid>
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Width="50" Content="+" x:Name="btnAddSlide" Click="btnAddSlide_Click"/>
+                    <Button Grid.Column="1" Width="50" Content="-" x:Name="btnDelSlide" Click="btnDelSlide_Click"/>
+                </Grid>
+                <ScrollViewer VerticalAlignment="Stretch" Grid.Row="1">
                     <ListView x:Name="listSlides" SelectionChanged="listSlides_SelectionChanged" ItemsSource="{Binding}">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
@@ -207,8 +214,8 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                </StackPanel>
-            </ScrollViewer>
+                </ScrollViewer>
+            </Grid>
         </Grid>
 
         <Grid Name="menus_1" Grid.Row="0" DockPanel.Dock="Top" Margin="5,5,-187,5">

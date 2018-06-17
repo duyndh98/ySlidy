@@ -202,6 +202,7 @@
     <Resource Include="Icons\noneVideo.png" />
     <Resource Include="Icons\video.png" />
     <Resource Include="Icons\select.png" />
+    <Resource Include="Images\BackgroundCaro.jpg" />
     <Content Include="Videos\video.mkv" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
