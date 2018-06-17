@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace ySlide
+namespace ySlidy
 {
     /// <summary>
     /// Interaction logic for Presentation.xaml

@@ -20,7 +20,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Xml;
 
-namespace ySlide
+namespace ySlidy
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -467,11 +467,13 @@ namespace ySlide
             Document.Instance.NewFile();
             listSlides.SelectedIndex = 0; //Thay đổi selected slide vê 0 để đổi cả curCanvas
             Document.Instance.UpdateThumbs();
+            this.Title = "ySlidy";
         }
 
         private void menuFileOpen_Click(object sender, RoutedEventArgs e)
         {
             currentFilePath = Document.Instance.OpenFile();
+            this.Title = "ySlidy - " + currentFilePath;
             listSlides.SelectedIndex = 0; //Thay đổi selected slide vê 0 để đổi cả curCanvas
             Document.Instance.UpdateThumbs();
         }
@@ -479,11 +481,13 @@ namespace ySlide
         private void menuFileSave_Click(object sender, RoutedEventArgs e)
         {
             Document.Instance.SaveFile(currentFilePath);
+            this.Title = "ySlidy - " + currentFilePath;
         }
 
         private void menuFileSaveAs_Click(object sender, RoutedEventArgs e)
         {
             Document.Instance.SaveFile();   //Hien thi hop thoai luu tap tin
+            this.Title = "ySlidy - " + currentFilePath;
         }
         #endregion
 

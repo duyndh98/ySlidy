@@ -1,9 +1,9 @@
-﻿<Window x:Class="ySlide.Presentation"
+﻿<Window x:Class="ySlidy.Presentation"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ySlide"
+        xmlns:local="clr-namespace:ySlidy"
         mc:Ignorable="d"
         Title="Presentation" WindowState="Maximized" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None" Loaded="Window_Loaded" PreviewMouseDown="Window_PreviewMouseDown">
     <Grid Name="MainGrid" Background="Black">

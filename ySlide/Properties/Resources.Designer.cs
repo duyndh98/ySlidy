@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ySlide.Properties
+namespace ySlidy.Properties
 {
 
 

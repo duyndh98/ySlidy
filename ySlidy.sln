@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ySlide", "ySlide\ySlide.csproj", "{5143E7B6-B861-403C-87F7-05C7CEBC0C47}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ySlidy", "ySlide\ySlidy.csproj", "{5143E7B6-B861-403C-87F7-05C7CEBC0C47}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{00ABCB8D-CBA7-49D1-81D7-4C1D0B5526B8}"
 EndProject

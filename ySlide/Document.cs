@@ -18,7 +18,7 @@ using System.Xml;
 using System.ComponentModel;
 using System.Windows.Input;
 
-namespace ySlide
+namespace ySlidy
 {
     /// <summary>
     /// Các kiểu vẽ/chức năng của paint

@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
-namespace ySlide
+namespace ySlidy
 {
     /// <summary>
     /// Interaction logic for CustomVideo.xaml

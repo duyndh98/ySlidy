@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace ySlide
+namespace ySlidy
 {
     public class PersonCollectionViewModel : ViewModelBase
     {

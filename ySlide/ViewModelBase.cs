@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace ySlide
+namespace ySlidy
 {
     public class ViewModelBase : INotifyPropertyChanged
     {
