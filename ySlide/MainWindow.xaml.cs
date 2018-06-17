@@ -1184,22 +1184,25 @@ namespace ySlide
                 {
                     FocusedTextbox = element as TextBox;
                     Document.Instance.UpdateSetUpTextBox(FocusedTextbox);
+                    textMenu.Visibility = Visibility.Visible;
                 }
-            }
+                else
+                {
+                    textMenu.Visibility = Visibility.Collapsed;
+                }
 
-            //Get angle của các phần tử đưuọc select
-            for (int i = 0; i < selectedElements.Count; i++)
-            {
-                selectedElements[i].RenderTransformOrigin = new Point(0.5, 0.5);
-                var x = (selectedElements[i].RenderTransform as RotateTransform);
+                //Get angle của các phần tử đưuọc select
+                element.RenderTransformOrigin = new Point(0.5, 0.5);
+                var x = (element.RenderTransform as RotateTransform);
                 if (x == null)
                 {
-                    selectedElements[i].RenderTransform = new RotateTransform(0);
-                    x = (selectedElements[i].RenderTransform as RotateTransform);
+                    element.RenderTransform = new RotateTransform(0);
+                    x = (element.RenderTransform as RotateTransform);
                 }
 
                 AngleValue.Text = x.Angle.ToString();
             }
+
         }
 
         private void canvas_SelectionMoved(object sender, EventArgs e)

@@ -186,7 +186,15 @@
                 </StackPanel>
             </ScrollViewer>
             <ScrollViewer Grid.Column="0">
-                <DockPanel>
+                <StackPanel Orientation="Vertical">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Width="50" Content="+" x:Name="btnAddSlide" Click="btnAddSlide_Click"/>
+                        <Button Grid.Column="1" Width="50" Content="-" x:Name="btnDelSlide" Click="btnDelSlide_Click"/>
+                    </Grid>
                     <ListView x:Name="listSlides" SelectionChanged="listSlides_SelectionChanged" ItemsSource="{Binding}">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
@@ -199,19 +207,7 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                    <StackPanel Orientation="Vertical">
-                        <Button Width="50" Content="+" x:Name="btnAddSlide" Click="btnAddSlide_Click"/>
-                        <Button Width="50" Content="-" x:Name="btnDelSlide" Click="btnDelSlide_Click"/>
-                        <Button Width="50" Content="[]" x:Name="btnPresent" Click="btnPresent_Click">
-                            <Button.Background>
-                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                    <GradientStop Color="Black" Offset="0"/>
-                                    <GradientStop Color="White" Offset="1"/>
-                                </LinearGradientBrush>
-                            </Button.Background>
-                        </Button>
-                    </StackPanel>
-                </DockPanel>
+                </StackPanel>
             </ScrollViewer>
         </Grid>
 
@@ -374,124 +370,6 @@
         </Grid>
 
         <StackPanel Grid.Row="1" Orientation="Vertical" >
-            <Grid Name="textMenu" DockPanel.Dock="Top"  Visibility="Visible">
-
-                <ToolBarTray Height="62" VerticalAlignment="Top">
-
-                    <ToolBar Style="{DynamicResource MaterialDesignToolBar}" ClipToBounds="False" Margin="0">
-
-                        <Button ToolTip="Play" Click="btnPresent_Click">
-
-                            <materialDesign:PackIcon Kind="YoutubePlay" />
-
-                        </Button>
-
-                        <Button ToolTip="Save" Click="menuFileSave_Click">
-
-                            <materialDesign:PackIcon Kind="ContentSave" />
-
-                        </Button>
-
-                        <Separator />
-
-                        <Button Command="Cut" ToolTip="Cut" ToolBar.OverflowMode="AsNeeded">
-
-                            <materialDesign:PackIcon Kind="ContentCut" />
-
-                        </Button>
-
-                        <Button Command="Copy" ToolTip="Copy that object" ToolBar.OverflowMode="AsNeeded">
-
-                            <materialDesign:PackIcon Kind="ContentCopy" />
-
-                        </Button>
-
-
-
-                        <Button Command="Paste" ToolTip="Paste some object" ToolBar.OverflowMode="AsNeeded">
-
-                            <materialDesign:PackIcon Kind="ContentPaste" />
-
-                        </Button>
-
-                        <Separator />
-
-
-
-                        <Button ToolTip="Format text background color" Click="btnText_Click">
-                            <materialDesign:PackIcon Kind="FormatText"  />
-                        </Button>
-
-                        <Separator/>
-
-                        <ListBox SelectedIndex="0">
-
-                            <ListBoxItem Name="btnTextAlignLeft" Selected="btnTextAlignLeft_Selected">
-                                <materialDesign:PackIcon
-                                    Kind="FormatAlignLeft" />
-                            </ListBoxItem>
-                            <ListBoxItem Name="btnTextAlignCenter" Selected="btnTextAlignCenter_Selected">
-                                <materialDesign:PackIcon
-                                    Kind="FormatAlignCenter" />
-                            </ListBoxItem>
-                            <ListBoxItem Name="btnTextAlignRight" Selected="btnTextAlignRight_Selected">
-                                <materialDesign:PackIcon
-                                    Kind="FormatAlignRight" />
-                            </ListBoxItem>
-                            <ListBoxItem Name="btnTextAlignJustify" Selected="btnTextAlignJustify_Selected">
-                                <materialDesign:PackIcon
-                                    Kind="FormatAlignJustify" />
-                            </ListBoxItem>
-                        </ListBox>
-
-                        <Separator/>
-
-                        <ListBox SelectionMode="Extended">
-
-                            <ListBoxItem Name="btnBold" Selected="btnBold_Click" Unselected="btnBold_Click">
-
-                                <materialDesign:PackIcon Kind="FormatBold"/>
-
-                            </ListBoxItem>
-
-                            <ListBoxItem Name="btnItalic" Selected="btnItalic_Click" Unselected="btnItalic_Click">
-
-                                <materialDesign:PackIcon Kind="FormatItalic"/>
-
-                            </ListBoxItem>
-
-                            <ListBoxItem x:Name="btnUnderlined" Selected="btnUnderlined_Click" Unselected="btnUnderlined_Click">
-
-                                <materialDesign:PackIcon Kind="FormatUnderline"/>
-
-                            </ListBoxItem>
-
-                        </ListBox>
-
-                        <Separator/>
-
-                        <Label Content="Font:" VerticalAlignment="Center"/>
-
-                        <ComboBox Grid.Column="0" Name="cbxFontFamily" Width="150" MaxDropDownHeight="500" ItemsSource="{Binding Source={x:Static Fonts.SystemFontFamilies}}" SelectedItem="{Binding MyFontFamily, ElementName=ThisWindow}" IsEditable="True" Margin="0, 5, 0, 0" SelectedIndex="0" SelectionChanged="cbxFontFamily_SelectionChanged"/>
-
-                        <Label Content="Size:" VerticalAlignment="Center"/>
-
-                        <ComboBox Grid.Column="0" Name="cbxFontSize" Width="40" IsEditable="True" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxDropDownHeight="500" SelectionChanged="cbxFontSize_SelectionChanged" />
-                        <!--SelectionChanged="cbxFontSize_SelectionChanged"-->
-                        <Separator/>
-                        <Button ToolTip="Format text color" Name="btnColorText" Click="btnOtherColorsText_Click">
-                            <materialDesign:PackIcon Kind="FormatColorText" />
-                        </Button>
-
-                        <Button ToolTip="Format text background color">
-                            <materialDesign:PackIcon Kind="FormatColorFill" />
-                        </Button>
-
-
-                    </ToolBar>
-
-                </ToolBarTray>
-            </Grid>
             <Grid Name="normalMenu" DockPanel.Dock="Top" >
 
                 <ToolBarTray Height="62" VerticalAlignment="Top">
@@ -682,6 +560,81 @@
                             </Grid>
                         </materialDesign:PopupBox>
 
+
+
+                    </ToolBar>
+
+                </ToolBarTray>
+            </Grid>
+            <Grid Name="textMenu" DockPanel.Dock="Top"  Visibility="Visible">
+
+                <ToolBarTray Height="62" VerticalAlignment="Top">
+
+                    <ToolBar Style="{DynamicResource MaterialDesignToolBar}" ClipToBounds="False" Margin="0">
+
+                        <Label Content="Font:" VerticalAlignment="Center"/>
+
+                        <ComboBox Grid.Column="0" Name="cbxFontFamily" Width="150" MaxDropDownHeight="500" ItemsSource="{Binding Source={x:Static Fonts.SystemFontFamilies}}" SelectedItem="{Binding MyFontFamily, ElementName=ThisWindow}" IsEditable="True" Margin="0, 5, 0, 0" SelectedIndex="0" SelectionChanged="cbxFontFamily_SelectionChanged"/>
+
+                        <Label Content="Size:" VerticalAlignment="Center"/>
+
+                        <ComboBox Grid.Column="0" Name="cbxFontSize" Width="40" IsEditable="True" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxDropDownHeight="500" SelectionChanged="cbxFontSize_SelectionChanged" />
+                        <!--SelectionChanged="cbxFontSize_SelectionChanged"-->
+                        <Separator/>
+
+                        <ListBox SelectedIndex="0">
+
+                            <ListBoxItem Name="btnTextAlignLeft" Selected="btnTextAlignLeft_Selected">
+                                <materialDesign:PackIcon
+                                    Kind="FormatAlignLeft" />
+                            </ListBoxItem>
+                            <ListBoxItem Name="btnTextAlignCenter" Selected="btnTextAlignCenter_Selected">
+                                <materialDesign:PackIcon
+                                    Kind="FormatAlignCenter" />
+                            </ListBoxItem>
+                            <ListBoxItem Name="btnTextAlignRight" Selected="btnTextAlignRight_Selected">
+                                <materialDesign:PackIcon
+                                    Kind="FormatAlignRight" />
+                            </ListBoxItem>
+                            <ListBoxItem Name="btnTextAlignJustify" Selected="btnTextAlignJustify_Selected">
+                                <materialDesign:PackIcon
+                                    Kind="FormatAlignJustify" />
+                            </ListBoxItem>
+                        </ListBox>
+
+                        <Separator/>
+
+                        <ListBox SelectionMode="Extended">
+
+                            <ListBoxItem Name="btnBold" Selected="btnBold_Click" Unselected="btnBold_Click">
+
+                                <materialDesign:PackIcon Kind="FormatBold"/>
+
+                            </ListBoxItem>
+
+                            <ListBoxItem Name="btnItalic" Selected="btnItalic_Click" Unselected="btnItalic_Click">
+
+                                <materialDesign:PackIcon Kind="FormatItalic"/>
+
+                            </ListBoxItem>
+
+                            <ListBoxItem x:Name="btnUnderlined" Selected="btnUnderlined_Click" Unselected="btnUnderlined_Click">
+
+                                <materialDesign:PackIcon Kind="FormatUnderline"/>
+
+                            </ListBoxItem>
+
+                        </ListBox>
+
+                        <Separator/>
+                        
+                        <Button ToolTip="Format text color" Name="btnColorText" Click="btnOtherColorsText_Click">
+                            <materialDesign:PackIcon Kind="FormatColorText" />
+                        </Button>
+
+                        <Button ToolTip="Format text background color">
+                            <materialDesign:PackIcon Kind="FormatColorFill" />
+                        </Button>
 
 
                     </ToolBar>
