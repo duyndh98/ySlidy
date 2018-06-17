@@ -5,13 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ySlide"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="400">
+             d:DesignHeight="300" d:DesignWidth="400" Loaded="UserControl_Loaded">
 
-    <Canvas Background="Black" x:Name="canvas">
-        <MediaElement Name="MediaPlayer" LoadedBehavior="Manual" Height="{Binding ElementName=canvas, Path=ActualHeight}" Width="{Binding ElementName=canvas, Path=ActualWidth}"></MediaElement>
-        <Label x:Name="label" Canvas.Bottom="25" Foreground="White"/>
-        <Grid x:Name="btnPlay" Width="{Binding ElementName=canvas, Path=ActualWidth}" Height="{Binding ElementName=canvas, Path=ActualHeight}" MouseLeftButtonDown="Grid_MouseLeftButtonDown">
-            <!--<Button x:Name="btnPlay" Click="btnPlay_Click" Background="Transparent">
+    <Canvas Background="Black" MouseLeftButtonDown="Grid_MouseLeftButtonDown">
+        <MediaElement LoadedBehavior="Manual" Height="{Binding ElementName=canvas, Path=ActualHeight}" Width="{Binding ElementName=canvas, Path=ActualWidth}"></MediaElement>
+        <!--<Label Canvas.Bottom="25" Foreground="White"/>-->
+        <!--<Grid Width="{Binding ElementName=canvas, Path=ActualWidth}" Height="{Binding ElementName=canvas, Path=ActualHeight}" Background="Transparent" MouseLeftButtonDown="Grid_MouseLeftButtonDown">
+            --><!--<Button x:Name="btnPlay" Click="btnPlay_Click" Background="Transparent">
                 <Button.Style>
                     <Style TargetType="Button">
                         <Style.Triggers>
@@ -23,14 +23,14 @@
                     </Style>
                 </Button.Style>
                 <Image Source="Icons/noneVideo.png" Height="200" Width="200" ></Image>
-            </Button>-->
+            </Button>--><!--
             <Image Source="Icons/noneVideo.png" Height="200" Width="200" ></Image>
-        </Grid>
-        <StackPanel Orientation="Horizontal" Margin="0" Canvas.Bottom="0" x:Name="stackControl">
-            <Button x:Name="btnStop" Content="Stop" Click="btnStop_Click" Width="50" Height="25" Canvas.Left="50"/>
-            <Button x:Name="btnMoveBack" Content="Back" Click="btnMoveBack_Click" Width="50" Height="25" Canvas.Left="100"/>
-            <Button x:Name="btnMoveForward" Content="Forward" Click="btnMoveForward_Click" Width="50" Height="25" Canvas.Left="150"/>
-            <!--<Button x:Name="btnOpen" Content="Open" Click="btnOpen_Click" Width="50" Height="25" Canvas.Left="200"/>-->
-        </StackPanel>
+        </Grid>-->
+        <!--<StackPanel Orientation="Horizontal" Margin="0" Canvas.Bottom="0" x:Name="stackControl">
+            <Button x:Name="btnStop" Content="Stop" Width="50" Height="25" Canvas.Left="50"/>
+            <Button x:Name="btnMoveBack" Content="Back" Width="50" Height="25" Canvas.Left="100"/>
+            <Button x:Name="btnMoveForward" Content="Forward" Width="50" Height="25" Canvas.Left="150"/>
+            --><!--<Button x:Name="btnOpen" Content="Open" Click="btnOpen_Click" Width="50" Height="25" Canvas.Left="200"/>--><!--
+        </StackPanel>-->
     </Canvas>
 </UserControl>

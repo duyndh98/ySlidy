@@ -198,8 +198,20 @@
                         <ColumnDefinition Width="*"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" Width="50" Content="+" x:Name="btnAddSlide" Click="btnAddSlide_Click"/>
-                    <Button Grid.Column="1" Width="50" Content="-" x:Name="btnDelSlide" Click="btnDelSlide_Click"/>
+                    <ToolBar  HorizontalAlignment="Center" ToolBarTray.IsLocked="True" Grid.Row="1"  Grid.ColumnSpan="2" Margin="0,0,0,0"  RenderTransformOrigin="0.921,0.625" Background="#00212121" >
+                        <Button Width="auto" ToolTip="New empty slide" Click="btnAddSlide_Click">
+
+                            <materialDesign:PackIcon Kind="PlusBoxOutline" />
+
+                        </Button>
+
+
+                        <Button   Width="auto" ToolTip="Delete slide" Click="btnDelSlide_Click">
+
+                            <materialDesign:PackIcon Kind="MinusBoxOutline" />
+
+                        </Button>
+                    </ToolBar>
                 </Grid>
                 <ScrollViewer VerticalAlignment="Stretch" Grid.Row="1">
                     <ListView x:Name="listSlides" SelectionChanged="listSlides_SelectionChanged" ItemsSource="{Binding}">
@@ -370,6 +382,22 @@
 
                 </MenuItem>
 
+                <MenuItem Header="_Setting">
+
+                    <MenuItem Header="_Theme change" Click="btnChangeTheme_Click">
+
+                        <MenuItem.Icon>
+
+                            <materialDesign:PackIcon Kind="ThemeLightDark" RenderTransformOrigin="0.5,0.5" Name="iconThemeChange">
+
+                            </materialDesign:PackIcon>
+
+                        </MenuItem.Icon>
+
+                    </MenuItem>
+
+                </MenuItem>
+
 
 
             </Menu>
@@ -449,31 +477,22 @@
 
 
 
-                        <Button ToolTip="Format text background color" Click="btnText_Click">
+                        <Button ToolTip="Format text background color" Click="btnText_Click" Name="btnText">
                             <materialDesign:PackIcon Kind="FormatText"  />
                         </Button>
 
                         <Separator/>
-
-
-
-                        <ListBox SelectionMode="Extended">
-
-
-
-
-                        </ListBox>
 
                         <Button ToolTip="Format text background color" Name="btnColor1" Click="btnOtherColors_Click">
                             <materialDesign:PackIcon Kind="FormatColorFill"  />
 
                         </Button>
 
-                        <materialDesign:PopupBox   StaysOpen="True" Width="54" Background="White">
+                        <materialDesign:PopupBox StaysOpen="True" Width="54" Background="White">
                             <materialDesign:PopupBox.ToggleContent>
-                                <materialDesign:PackIcon Kind="RotateRight"  BorderBrush="Black" Foreground="Black"/>
+                                <materialDesign:PackIcon Kind="RotateRight" Foreground="{Binding ElementName=btnText, Path=Foreground}"/>
                             </materialDesign:PopupBox.ToggleContent>
-                            <Grid Width="300" Margin="8,8,8,8" Background="White">
+                            <Grid Width="300" Margin="8,8,8,8">
                                 <Grid.Resources>
                                     <Style TargetType="CheckBox" BasedOn="{StaticResource MaterialDesignCheckBox}">
                                         <Setter Property="Margin" Value="8,8,10,8" />
@@ -573,7 +592,7 @@
 
                 </ToolBarTray>
             </Grid>
-            <Grid Name="textMenu" DockPanel.Dock="Top"  Visibility="Visible">
+            <Grid Name="textMenu" DockPanel.Dock="Top"  Visibility="Collapsed">
 
                 <ToolBarTray Height="62" VerticalAlignment="Top">
 
@@ -607,6 +626,25 @@
                                 <materialDesign:PackIcon
                                     Kind="FormatAlignJustify" />
                             </ListBoxItem>
+                        </ListBox>
+
+                        <Separator/>
+
+                        <ListBox SelectedIndex="0">
+
+                            <ListBoxItem ToolTip="Allign top" Name="btnTextAllignTop" Selected="btnTextAllignTop_Selected">
+                                <materialDesign:PackIcon
+                                    Kind="FormatAlignTop" />
+                            </ListBoxItem>
+                            <ListBoxItem ToolTip="Allign center" Name="btnTextVerticalAlignCenter" Selected="btnTextVerticalAlignCenter_Selected">
+                                <materialDesign:PackIcon
+                                    Kind="FormatVerticalAlignCenter" />
+                            </ListBoxItem>
+                            <ListBoxItem ToolTip="Allign bottom" Name="btnTextAllignBottom" Selected="btnTextAllignBottom_Selected">
+                                <materialDesign:PackIcon
+                                    Kind="FormatAlignBottom" />
+                            </ListBoxItem>
+
                         </ListBox>
 
                         <Separator/>

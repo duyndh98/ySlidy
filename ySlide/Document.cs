@@ -47,6 +47,8 @@ namespace ySlide
             }
         }
 
+        private string themeURI;
+
         public static Document Instance { get { if (instance == null) instance = new Document(); return instance; } set => instance = value; }
 
         internal static DrawType DrawType { get => drawType; set => drawType = value; }
@@ -261,6 +263,20 @@ namespace ySlide
                     foreach (String item in stringlist)
                     {
                         InkCanvas deepCopy = System.Windows.Markup.XamlReader.Parse(item) as InkCanvas;
+                        int n = deepCopy.Children.Count;
+                        for(int i = 0;i<n;i++)
+                        {
+                            if(deepCopy.Children[i].GetType() == typeof(ContentControl))
+                            {
+                                if((deepCopy.Children[i] as ContentControl).Content.GetType() == typeof(CustomVideo))
+                                {
+                                    var oldvideo = (deepCopy.Children[i] as ContentControl).Content as CustomVideo;
+                                    var c = new CustomVideo();
+                                    c.Source = oldvideo.Source;
+                                    (deepCopy.Children[i] as ContentControl).Content = c;
+                                }
+                            }
+                        }
                         AddSlide(deepCopy);
                     }
                 }
@@ -282,9 +298,16 @@ namespace ySlide
                 System.Windows.Forms.SaveFileDialog dlg = new System.Windows.Forms.SaveFileDialog();
                 dlg.Title = "Save as";
                 dlg.Filter = "YSlidy files (*.ys)|*.ys|All files (*.*)|*.*";
-                if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                try
                 {
-                    path = dlg.FileName;
+                    if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    {
+                        path = dlg.FileName;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Windows.Forms.MessageBox.Show("Error: Could not read file from disk.\nOriginal error: " + ex.Message);
                 }
             }
 
@@ -295,8 +318,8 @@ namespace ySlide
                 var xaml = System.Windows.Markup.XamlWriter.Save(item);
                 stringlist.Add(xaml.ToString());
             }
-
-            File.WriteAllLines(path, stringlist);
+            if(path != null)
+                File.WriteAllLines(path, stringlist);
         }
 
         private string CreateTempFile()
@@ -552,6 +575,7 @@ namespace ySlide
         private System.Windows.TextAlignment textAlignment;
         private System.Windows.Media.Brush foreground;
         private TextDecorationCollection textDecorations;
+        private VerticalAlignment verticalContentAlignment;
 
         public System.Windows.Media.FontFamily FontFamily { get => fontFamily; set => fontFamily = value; }
         public double FontSize { get => fontSize; set => fontSize = value; }
@@ -560,6 +584,7 @@ namespace ySlide
         public TextAlignment TextAlignment { get => textAlignment; set => textAlignment = value; }
         public System.Windows.Media.Brush Foreground { get => foreground; set => foreground = value; }
         public TextDecorationCollection TextDecorations { get { if (textDecorations == null) textDecorations = new TextDecorationCollection(); return textDecorations; } set => textDecorations = value; }
+        public VerticalAlignment VerticalContentAlignment { get => verticalContentAlignment; set => verticalContentAlignment = value; }
 
         public SetUpTextBox()
         {
@@ -569,6 +594,8 @@ namespace ySlide
             fontWeight = FontWeights.Normal;
             textAlignment = TextAlignment.Left;
             foreground = System.Windows.Media.Brushes.Black;
+            textDecorations = System.Windows.TextDecorations.Underline;
+            verticalContentAlignment = VerticalAlignment.Top;
         }
     }
 }

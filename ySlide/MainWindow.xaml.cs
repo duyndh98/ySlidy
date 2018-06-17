@@ -69,9 +69,22 @@ namespace ySlide
                         btnTextAlignJustify.IsSelected = true;
                         break;
                 }
+                switch (focusedTextbox.VerticalContentAlignment)
+                {
+                    case VerticalAlignment.Top:
+                        btnTextAllignTop.IsSelected = true;
+                        break;
+                    case VerticalAlignment.Center:
+                        btnTextAllignBottom.IsSelected = true;
+                        break;
+                    case VerticalAlignment.Bottom:
+                        btnTextVerticalAlignCenter.IsSelected = true;
+                        break;
+                }
                 btnBold.IsSelected = focusedTextbox.FontWeight == FontWeights.Bold ? true : false;
                 btnItalic.IsSelected = focusedTextbox.FontStyle == FontStyles.Italic ? true : false;
                 btnUnderlined.IsSelected = focusedTextbox.TextDecorations == TextDecorations.Underline ? true : false;
+
             }
         }
         /// </Text Adjustment>
@@ -1011,8 +1024,7 @@ namespace ySlide
                 txt.LostKeyboardFocus += txt_LostKeyboardFocus;
                 txt.SizeChanged += TextBox_SizeChanged;
                 txt.GotKeyboardFocus += txt_GotKeyboardFocus;
-                txt.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
-                txt.VerticalContentAlignment = VerticalAlignment.Center;
+                txt.VerticalContentAlignment = VerticalAlignment.Top;
 
                 InkCanvas.SetLeft(txt, e.GetPosition(curCanvas).X);
                 InkCanvas.SetTop(txt, e.GetPosition(curCanvas).Y);
@@ -1050,6 +1062,27 @@ namespace ySlide
             Document.Instance.SetUpTextBox.TextAlignment = TextAlignment.Justify;
             if (FocusedTextbox != null)
                 FocusedTextbox.TextAlignment = TextAlignment.Justify;
+        }
+
+        private void btnTextAllignTop_Selected(object sender, RoutedEventArgs e)
+        {
+            Document.Instance.SetUpTextBox.VerticalContentAlignment = VerticalAlignment.Top;
+            if (FocusedTextbox != null)
+                FocusedTextbox.VerticalContentAlignment = VerticalAlignment.Top;
+        }
+
+        private void btnTextVerticalAlignCenter_Selected(object sender, RoutedEventArgs e)
+        {
+            Document.Instance.SetUpTextBox.VerticalContentAlignment = VerticalAlignment.Center;
+            if (FocusedTextbox != null)
+                FocusedTextbox.VerticalContentAlignment = VerticalAlignment.Center;
+        }
+
+        private void btnTextAllignBottom_Selected(object sender, RoutedEventArgs e)
+        {
+            Document.Instance.SetUpTextBox.VerticalContentAlignment = VerticalAlignment.Bottom;
+            if (FocusedTextbox != null)
+                FocusedTextbox.VerticalContentAlignment = VerticalAlignment.Bottom;
         }
 
         private void canvas_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -1174,9 +1207,29 @@ namespace ySlide
             }
         }
 
+        private void btnChangeTheme_Click(object sender, RoutedEventArgs e)
+        {
+            var x = Application.Current.Resources.MergedDictionaries;
+            var rotate = iconThemeChange.RenderTransform as RotateTransform;
+            foreach(var item in x)
+            {
+                if(item.Source == new Uri("pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Dark.xaml"))
+                {
+                    item.Source = new Uri("pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml");
+                }
+                else
+                {
+                    item.Source = new Uri("pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Dark.xaml");
+                }
+                return;
+            }
+        }
+
         private void canvas_SelectionChanged(object sender, EventArgs e)
         {
             ReadOnlyCollection<UIElement> selectedElements = curCanvas.GetSelectedElements();
+
+            textMenu.Visibility = Visibility.Collapsed;
 
             foreach (UIElement element in selectedElements)
             {
@@ -1185,10 +1238,6 @@ namespace ySlide
                     FocusedTextbox = element as TextBox;
                     Document.Instance.UpdateSetUpTextBox(FocusedTextbox);
                     textMenu.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    textMenu.Visibility = Visibility.Collapsed;
                 }
 
                 //Get angle của các phần tử đưuọc select
