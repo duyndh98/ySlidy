@@ -28,10 +28,12 @@
 
     <Grid Height="753" VerticalAlignment="Top" Width="1374" HorizontalAlignment="Left">
         <Grid.RowDefinitions>
-            <RowDefinition Height="137*"/>
-            <RowDefinition Height="616*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions >
-        <Grid Grid.Row="1">
+
+        <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="8*" />
@@ -212,295 +214,420 @@
                 </DockPanel>
             </ScrollViewer>
         </Grid>
-        <Custom:Ribbon x:Name="rib" HorizontalAlignment="Left" VerticalAlignment="Top" Height="137" Width="1374" Cursor="Arrow" SelectionChanged="rib_SelectionChanged">
-            <Custom:Ribbon.ApplicationMenu>
-                <Custom:RibbonApplicationMenu>
-                    <Custom:RibbonApplicationMenu.Background>
-                        <ImageBrush ImageSource="Icons/File-btn.png"/>
-                    </Custom:RibbonApplicationMenu.Background>
-                    <Custom:RibbonApplicationMenuItem Header="New File" ImageSource="Icons/Open-icon.png" Click="menuNewFile_Click"/>
-                    <Custom:RibbonApplicationMenuItem Header="Open" ImageSource="Icons/Open-icon.png" Click="menuFileOpen_Click"/>
-                    <Custom:RibbonApplicationMenuItem Header="Save" ImageSource="Icons/save.png" Click="menuFileSave_Click"/>
-                    <Custom:RibbonApplicationMenuItem Header="Save as" ImageSource="Icons/Save-as-icon.png" Click="menuFileSaveAs_Click"/>
-                    <Custom:RibbonApplicationMenu.AuxiliaryPaneContent>
-                        <Custom:RibbonGallery CanUserFilter="False" ScrollViewer.VerticalScrollBarVisibility="Auto">
-                            <Custom:RibbonGalleryCategory Header="Recent Documents" Background="Transparent">
-                                <Custom:RibbonGalleryCategory.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <StackPanel Orientation="Vertical" IsItemsHost="True"/>
-                                    </ItemsPanelTemplate>
-                                </Custom:RibbonGalleryCategory.ItemsPanel>
-                            </Custom:RibbonGalleryCategory>
-                        </Custom:RibbonGallery>
-                    </Custom:RibbonApplicationMenu.AuxiliaryPaneContent>
-                </Custom:RibbonApplicationMenu>
 
-            </Custom:Ribbon.ApplicationMenu>
-            <Custom:RibbonTab Name="tabHome" Header="Home">
-                <Custom:RibbonGroup Name="grSize" Header="Size">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Grid Grid.Row="0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Name="lblWidth" Content="Width"/>
-                            <TextBox Grid.Column="1" Name="txtWidth" Width="50" Height="20"  Margin="4,3,0,0" LostKeyboardFocus="CanvasSizeChange" VerticalAlignment="Top" KeyDown="ConfirmCanvasSize"/>
-                        </Grid>
-                        <Grid Grid.Row="1">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Name="lblHeight" Content="Height"/>
-                            <TextBox Grid.Column="1" Name="txtHeight" Width="50" Height="20" LostKeyboardFocus="CanvasSizeChange" Margin="0,0,0,3" VerticalAlignment="Bottom" KeyDown="ConfirmCanvasSize"/>
-                        </Grid>
-                    </Grid>
-                </Custom:RibbonGroup>
-                <Custom:RibbonGroup Name="grTool" Header="Tools">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
+        <Grid Name="menus_1" Grid.Row="0" DockPanel.Dock="Top" Margin="5,5,-187,5">
 
-                        <Grid Grid.Row="0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Custom:RibbonButton Grid.Column="0" Name="btnPencil" Width="30" Height="20" ToolTip="Pencil" Click="btnPencil_Click">
-                                <Custom:RibbonButton.PressedBackground>
-                                    <ImageBrush Stretch="Uniform" ImageSource="Icons/Pencil-icon.png"/>
-                                </Custom:RibbonButton.PressedBackground>
-                                <Custom:RibbonButton.MouseOverBackground>
-                                    <ImageBrush ImageSource="Icons/Pencil-icon.png" Stretch="Uniform"/>
-                                </Custom:RibbonButton.MouseOverBackground>
-                                <Custom:RibbonButton.FocusedBackground>
-                                    <ImageBrush ImageSource="Icons/Pencil-icon.png" Stretch="Uniform"/>
-                                </Custom:RibbonButton.FocusedBackground>
-                                <Custom:RibbonButton.Background>
-                                    <ImageBrush ImageSource="Icons/Pencil-icon.png" Stretch="Uniform"/>
-                                </Custom:RibbonButton.Background>
-                            </Custom:RibbonButton>
+            <Menu IsMainMenu="True" Margin="0,0,186,0">
 
-                            <Custom:RibbonButton Grid.Column="1" Name="btnPointer" Width="30" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Click="btnPointer_Click">
-                                <Custom:RibbonButton.PressedBackground>
-                                    <ImageBrush Stretch="Uniform" ImageSource="Icons/cursor.png"/>
-                                </Custom:RibbonButton.PressedBackground>
-                                <Custom:RibbonButton.MouseOverBackground>
-                                    <ImageBrush ImageSource="Icons/cursor.png" Stretch="Uniform"/>
-                                </Custom:RibbonButton.MouseOverBackground>
-                                <Custom:RibbonButton.FocusedBackground>
-                                    <ImageBrush ImageSource="Icons/cursor.png" Stretch="Uniform"/>
-                                </Custom:RibbonButton.FocusedBackground>
-                                <Custom:RibbonButton.Background>
-                                    <ImageBrush ImageSource="Icons/cursor.png" Stretch="Uniform"/>
-                                </Custom:RibbonButton.Background>
+                <MenuItem Header="_File">
 
-                            </Custom:RibbonButton>
-                            <Custom:RibbonButton Name="btnErazer" Width="30" Grid.Column="2" Click="btnErazer_Click">
-                                <Custom:RibbonButton.PressedBackground>
-                                    <ImageBrush Stretch="Uniform" ImageSource="Icons/eraser.png"/>
-                                </Custom:RibbonButton.PressedBackground>
-                                <Custom:RibbonButton.MouseOverBackground>
-                                    <ImageBrush ImageSource="Icons/eraser.png" Stretch="Uniform"/>
-                                </Custom:RibbonButton.MouseOverBackground>
-                                <Custom:RibbonButton.FocusedBackground>
-                                    <ImageBrush Stretch="Uniform" ImageSource="Icons/eraser.png"/>
-                                </Custom:RibbonButton.FocusedBackground>
-                                <Custom:RibbonButton.Background>
-                                    <ImageBrush ImageSource="Icons/eraser.png" Stretch="Uniform"/>
-                                </Custom:RibbonButton.Background>
-                            </Custom:RibbonButton>
-                        </Grid>
-                        <Grid Grid.Row="1">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <Custom:RibbonButton Grid.Column="0" x:Name="btnText" Width="30" Height="20"  FontWeight="Bold" FontSize="16" Click="btnText_Click">
-                                <Custom:RibbonButton.PressedBackground>
-                                    <ImageBrush Stretch="Uniform" ImageSource="Icons/A.png"/>
-                                </Custom:RibbonButton.PressedBackground>
-                                <Custom:RibbonButton.MouseOverBackground>
-                                    <ImageBrush Stretch="Uniform" ImageSource="Icons/A.png"/>
-                                </Custom:RibbonButton.MouseOverBackground>
-                                <Custom:RibbonButton.FocusedBackground>
-                                    <ImageBrush ImageSource="Icons/A.png" Stretch="Uniform"/>
-                                </Custom:RibbonButton.FocusedBackground>
-                                <Custom:RibbonButton.Background>
-                                    <ImageBrush ImageSource="Icons/A.png" Stretch="Uniform"/>
-                                </Custom:RibbonButton.Background>
-                            </Custom:RibbonButton>
-                            <Custom:RibbonButton Grid.Column="1" x:Name="btnSelect" Width="30" Height="20"  FontWeight="Bold" FontSize="16" Click="btnSelect_Click">
-                                <Custom:RibbonButton.PressedBackground>
-                                    <ImageBrush Stretch="Uniform" ImageSource="Icons/select.png"/>
-                                </Custom:RibbonButton.PressedBackground>
-                                <Custom:RibbonButton.MouseOverBackground>
-                                    <ImageBrush Stretch="Uniform" ImageSource="Icons/select.png"/>
-                                </Custom:RibbonButton.MouseOverBackground>
-                                <Custom:RibbonButton.FocusedBackground>
-                                    <ImageBrush ImageSource="Icons/select.png" Stretch="Uniform"/>
-                                </Custom:RibbonButton.FocusedBackground>
-                                <Custom:RibbonButton.Background>
-                                    <ImageBrush ImageSource="Icons/select.png" Stretch="Uniform"/>
-                                </Custom:RibbonButton.Background>
-                            </Custom:RibbonButton>
-                        </Grid>
-                    </Grid>
-                </Custom:RibbonGroup>
+                    <MenuItem Header="_New" Click="menuNewFile_Click">
 
-                <!--<Custom:RibbonGroup x:Name="grBrush" Header="Brush" Margin="0">
-                    <Custom:RibbonButton x:Name="btnBrush"  HorizontalAlignment="Stretch" Width="50" Height="66" ToolTip="Brush" Click="btnBrush_Click" >
-                        <Custom:RibbonButton.PressedBackground>
-                            <ImageBrush ImageSource="Icons/brush.png" Stretch="UniformToFill"/>
-                        </Custom:RibbonButton.PressedBackground>
-                        <Custom:RibbonButton.MouseOverBackground>
-                            <ImageBrush ImageSource="Icons/brush.png" Stretch="UniformToFill"/>
-                        </Custom:RibbonButton.MouseOverBackground>
-                        <Custom:RibbonButton.FocusedBackground>
-                            <ImageBrush ImageSource="Icons/brush.png" Stretch="UniformToFill"/>
-                        </Custom:RibbonButton.FocusedBackground>
-                        <Custom:RibbonButton.Background>
-                            <ImageBrush ImageSource="Icons/brush.png" Stretch="UniformToFill"/>
-                        </Custom:RibbonButton.Background>
-                    </Custom:RibbonButton>
-                </Custom:RibbonGroup>-->
+                        <MenuItem.Icon>
 
-                <Custom:RibbonGroup Name="grShapes" Width="110" Header="Shapes" Background="White" Margin="0">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Grid Grid.Row="0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
+                            <materialDesign:PackIcon Kind="File" />
 
-                            <Custom:RibbonButton Grid.Column="0" Height="20" Width="30" ToolTip="Line" Click="btnLine_Click">
-                                <Custom:RibbonButton.PressedBackground>
-                                    <ImageBrush Stretch="Uniform" ImageSource="Icons/Editing-Line-icon.png"/>
-                                </Custom:RibbonButton.PressedBackground>
-                                <Custom:RibbonButton.MouseOverBackground>
-                                    <ImageBrush Stretch="Uniform" ImageSource="Icons/Editing-Line-icon.png"/>
-                                </Custom:RibbonButton.MouseOverBackground>
-                                <Custom:RibbonButton.FocusedBackground>
-                                    <ImageBrush ImageSource="Icons/Editing-Line-icon.png" Stretch="Uniform"/>
-                                </Custom:RibbonButton.FocusedBackground>
-                                <Custom:RibbonButton.Background>
-                                    <ImageBrush ImageSource="Icons/Editing-Line-icon.png" Stretch="Uniform"/>
-                                </Custom:RibbonButton.Background>
-                            </Custom:RibbonButton>
+                        </MenuItem.Icon>
 
-                            <Custom:RibbonButton Grid.Column="1" Width="30" Height="20" ToolTip="Ellipse" Click="btnEllipse_Click">
-                                <Custom:RibbonButton.PressedBackground>
-                                    <ImageBrush ImageSource="Icons/Ellipse.png" Stretch="Uniform"/>
-                                </Custom:RibbonButton.PressedBackground>
-                                <Custom:RibbonButton.MouseOverBackground>
-                                    <ImageBrush ImageSource="Icons/Ellipse.png" Stretch="Uniform"/>
-                                </Custom:RibbonButton.MouseOverBackground>
-                                <Custom:RibbonButton.FocusedBackground>
-                                    <ImageBrush ImageSource="Icons/Ellipse.png" Stretch="Uniform"/>
-                                </Custom:RibbonButton.FocusedBackground>
-                                <Custom:RibbonButton.Background>
-                                    <ImageBrush ImageSource="Icons/Ellipse.png" Stretch="Uniform"/>
-                                </Custom:RibbonButton.Background>
-                            </Custom:RibbonButton>
+                    </MenuItem>
 
-                            <Custom:RibbonButton Grid.Column="2" Width="30" Height="20" ToolTip="Rectangle" Click="btnRectangle_Click">
-                                <Custom:RibbonButton.PressedBackground>
-                                    <ImageBrush ImageSource="Icons/Rectangle.png" Stretch="Uniform"/>
-                                </Custom:RibbonButton.PressedBackground>
-                                <Custom:RibbonButton.MouseOverBackground>
-                                    <ImageBrush ImageSource="Icons/Rectangle.png" Stretch="Uniform"/>
-                                </Custom:RibbonButton.MouseOverBackground>
-                                <Custom:RibbonButton.FocusedBackground>
-                                    <ImageBrush ImageSource="Icons/Rectangle.png" Stretch="Uniform"/>
-                                </Custom:RibbonButton.FocusedBackground>
-                                <Custom:RibbonButton.Background>
-                                    <ImageBrush ImageSource="Icons/Rectangle.png" Stretch="Uniform"/>
-                                </Custom:RibbonButton.Background>
-                            </Custom:RibbonButton>
-                        </Grid>
-                        <!--<Grid Grid.Row="1">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Custom:RibbonButton Grid.Column="0" Name="btnTriangle" Width="30" Height="20" ToolTip="Triangle" Click="btnTriangle_Click">
-                                <Custom:RibbonButton.PressedBackground>
-                                    <ImageBrush ImageSource="Icons/Triangle.png"/>
-                                </Custom:RibbonButton.PressedBackground>
-                                <Custom:RibbonButton.MouseOverBackground>
-                                    <ImageBrush ImageSource="Icons/Triangle.png"/>
-                                </Custom:RibbonButton.MouseOverBackground>
-                                <Custom:RibbonButton.FocusedBackground>
-                                    <ImageBrush ImageSource="Icons/Triangle.png" Stretch="Uniform"/>
-                                </Custom:RibbonButton.FocusedBackground>
-                                <Custom:RibbonButton.Background>
-                                    <ImageBrush ImageSource="Icons/Triangle.png"/>
-                                </Custom:RibbonButton.Background>
-                            </Custom:RibbonButton>
-                            <Custom:RibbonButton Grid.Column="1" Name="btnArrow" Width="30" Height="20" ToolTip="Arrow" Click="btnArrow_Click">
-                                <Custom:RibbonButton.PressedBackground>
-                                    <ImageBrush ImageSource="Icons/Arrow.png" Stretch="UniformToFill"/>
-                                </Custom:RibbonButton.PressedBackground>
-                                <Custom:RibbonButton.MouseOverBackground>
-                                    <ImageBrush ImageSource="Icons/Arrow.png" Stretch="UniformToFill"/>
-                                </Custom:RibbonButton.MouseOverBackground>
-                                <Custom:RibbonButton.FocusedBackground>
-                                    <ImageBrush ImageSource="Icons/Arrow.png" Stretch="UniformToFill"/>
-                                </Custom:RibbonButton.FocusedBackground>
-                                <Custom:RibbonButton.Background>
-                                    <ImageBrush ImageSource="Icons/Arrow.png" Stretch="UniformToFill"/>
-                                </Custom:RibbonButton.Background>
-                            </Custom:RibbonButton>
+                    <MenuItem Header="_Open" Click="menuFileOpen_Click">
 
-                            <Custom:RibbonButton Grid.Column="2" Name="btnHeart" Width="30" Height="20" ToolTip="Heart" Click="btnHeart_Click">
-                                <Custom:RibbonButton.PressedBackground>
-                                    <ImageBrush ImageSource="Icons/Heart.png"/>
-                                </Custom:RibbonButton.PressedBackground>
-                                <Custom:RibbonButton.MouseOverBackground>
-                                    <ImageBrush ImageSource="Icons/Heart.png"/>
-                                </Custom:RibbonButton.MouseOverBackground>
-                                <Custom:RibbonButton.FocusedBackground>
-                                    <ImageBrush ImageSource="Icons/Heart.png"/>
-                                </Custom:RibbonButton.FocusedBackground>
-                                <Custom:RibbonButton.Background>
-                                    <ImageBrush ImageSource="Icons/Heart.png"/>
-                                </Custom:RibbonButton.Background>
+                        <MenuItem.Icon>
+
+                            <materialDesign:PackIcon Kind="FileImport" />
+
+                        </MenuItem.Icon>
+
+                    </MenuItem>
+
+                    <MenuItem Header="Save" Click="menuFileSave_Click">
+
+                        <MenuItem.Icon>
+
+                            <materialDesign:PackIcon Kind="ContentSave" />
+
+                        </MenuItem.Icon>
+
+                    </MenuItem>
+
+                    <MenuItem Header="_Save As.." Click="menuFileSaveAs_Click">
+                        <MenuItem.Icon>
+
+                            <materialDesign:PackIcon Kind="ContentSave" />
+
+                        </MenuItem.Icon>
+                    </MenuItem>
+
+                    <MenuItem Header="_Export" >
+
+                        <MenuItem.Icon>
+
+                            <materialDesign:PackIcon Kind="FileExport" />
+
+                        </MenuItem.Icon>
+
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem Header="_Exit" InputGestureText="Ctrl+E" Click="MenuItemClose_Click">
+
+                        <MenuItem.Icon>
+
+                            <materialDesign:PackIcon Kind="ExitToApp" />
+
+                        </MenuItem.Icon>
+
+                    </MenuItem>
 
 
-                            </Custom:RibbonButton>
-                        </Grid>-->
-                    </Grid>
+                </MenuItem>
 
-                </Custom:RibbonGroup>
+                <MenuItem Header="_Insert">
 
-                <Custom:RibbonGroup Name="grThickness" Header="Thickness">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Image Grid.Row="0" Width="70" Height="50" Source="Icons/Thicknesses.png" Stretch="UniformToFill"/>
-                        <ComboBox Grid.Row ="1" x:Name="cbxThickness" HorizontalAlignment="Left" VerticalAlignment="Top" Width="70" Height="20" MaxDropDownHeight="1000" SelectionChanged="cbxThickness_SelectionChanged">
+                    <MenuItem Header="_Shape" >
+
+                        <MenuItem.Icon>
+
+                            <materialDesign:PackIcon Kind="Shape" />
+
+                        </MenuItem.Icon>
+                        <MenuItem Header="_Line" Click="btnLine_Click">
+
+                            <MenuItem.Icon>
+
+                                <materialDesign:PackIcon Kind="VectorLine" />
+
+                            </MenuItem.Icon>
+
+                        </MenuItem>
+                        <MenuItem Header="_Ellipse" Click="btnEllipse_Click">
+
+                            <MenuItem.Icon>
+
+                                <materialDesign:PackIcon Kind="Circle" />
+
+                            </MenuItem.Icon>
+
+                        </MenuItem>
+                        <MenuItem Header="_Rectangle" Click="btnRectangle_Click">
+
+                            <MenuItem.Icon>
+
+                                <materialDesign:PackIcon Kind="Square" />
+
+                            </MenuItem.Icon>
+
+                        </MenuItem>
+                    </MenuItem>
+
+                    <MenuItem Header="_Image" Click="btnImage_Click">
+
+                        <MenuItem.Icon>
+
+                            <materialDesign:PackIcon Kind="FileImage" />
+
+                        </MenuItem.Icon>
+
+                    </MenuItem>
+
+                    <MenuItem Header="_Video" Click="btnVideo_Click">
+
+                        <MenuItem.Icon>
+
+                            <materialDesign:PackIcon Kind="FileVideo" />
+
+                        </MenuItem.Icon>
+
+                    </MenuItem>
+
+                    <MenuItem Header="_Chart" >
+
+                        <MenuItem.Icon>
+
+                            <materialDesign:PackIcon Kind="ChartBar" />
+
+                        </MenuItem.Icon>
+
+                    </MenuItem>
+
+
+
+                </MenuItem>
+                <MenuItem Header="_Table">
+
+                    <MenuItem Header="_Insert table">
+
+                        <MenuItem.Icon>
+
+                            <materialDesign:PackIcon Kind="Table" />
+
+                        </MenuItem.Icon>
+
+                    </MenuItem>
+
+                </MenuItem>
+
+
+
+            </Menu>
+
+        </Grid>
+
+        <StackPanel Grid.Row="1" Orientation="Vertical" >
+            <Grid Name="textMenu" DockPanel.Dock="Top"  Visibility="Visible">
+
+                <ToolBarTray Height="62" VerticalAlignment="Top">
+
+                    <ToolBar Style="{DynamicResource MaterialDesignToolBar}" ClipToBounds="False" Margin="0">
+
+                        <Button ToolTip="Play" Click="btnPresent_Click">
+
+                            <materialDesign:PackIcon Kind="YoutubePlay" />
+
+                        </Button>
+
+                        <Button ToolTip="Save" Click="menuFileSave_Click">
+
+                            <materialDesign:PackIcon Kind="ContentSave" />
+
+                        </Button>
+
+                        <Separator />
+
+                        <Button Command="Cut" ToolTip="Cut" ToolBar.OverflowMode="AsNeeded">
+
+                            <materialDesign:PackIcon Kind="ContentCut" />
+
+                        </Button>
+
+                        <Button Command="Copy" ToolTip="Copy that object" ToolBar.OverflowMode="AsNeeded">
+
+                            <materialDesign:PackIcon Kind="ContentCopy" />
+
+                        </Button>
+
+
+
+                        <Button Command="Paste" ToolTip="Paste some object" ToolBar.OverflowMode="AsNeeded">
+
+                            <materialDesign:PackIcon Kind="ContentPaste" />
+
+                        </Button>
+
+                        <Separator />
+
+
+
+                        <Button ToolTip="Format text background color" Click="btnText_Click">
+                            <materialDesign:PackIcon Kind="FormatText"  />
+                        </Button>
+
+                        <Separator/>
+
+                        <ListBox SelectedIndex="0">
+
+                            <ListBoxItem Name="btnTextAlignLeft" Selected="btnTextAlignLeft_Selected">
+                                <materialDesign:PackIcon
+                                    Kind="FormatAlignLeft" />
+                            </ListBoxItem>
+                            <ListBoxItem Name="btnTextAlignCenter" Selected="btnTextAlignCenter_Selected">
+                                <materialDesign:PackIcon
+                                    Kind="FormatAlignCenter" />
+                            </ListBoxItem>
+                            <ListBoxItem Name="btnTextAlignRight" Selected="btnTextAlignRight_Selected">
+                                <materialDesign:PackIcon
+                                    Kind="FormatAlignRight" />
+                            </ListBoxItem>
+                            <ListBoxItem Name="btnTextAlignJustify" Selected="btnTextAlignJustify_Selected">
+                                <materialDesign:PackIcon
+                                    Kind="FormatAlignJustify" />
+                            </ListBoxItem>
+                        </ListBox>
+
+                        <Separator/>
+
+                        <ListBox SelectionMode="Extended">
+
+                            <ListBoxItem Name="btnBold" Selected="btnBold_Click" Unselected="btnBold_Click">
+
+                                <materialDesign:PackIcon Kind="FormatBold"/>
+
+                            </ListBoxItem>
+
+                            <ListBoxItem Name="btnItalic" Selected="btnItalic_Click" Unselected="btnItalic_Click">
+
+                                <materialDesign:PackIcon Kind="FormatItalic"/>
+
+                            </ListBoxItem>
+
+                            <ListBoxItem x:Name="btnUnderlined" Selected="btnUnderlined_Click" Unselected="btnUnderlined_Click">
+
+                                <materialDesign:PackIcon Kind="FormatUnderline"/>
+
+                            </ListBoxItem>
+
+                        </ListBox>
+
+                        <Separator/>
+
+                        <Label Content="Font:" VerticalAlignment="Center"/>
+
+                        <ComboBox Grid.Column="0" Name="cbxFontFamily" Width="150" MaxDropDownHeight="500" ItemsSource="{Binding Source={x:Static Fonts.SystemFontFamilies}}" SelectedItem="{Binding MyFontFamily, ElementName=ThisWindow}" IsEditable="True" Margin="0, 5, 0, 0" SelectedIndex="0" SelectionChanged="cbxFontFamily_SelectionChanged"/>
+
+                        <Label Content="Size:" VerticalAlignment="Center"/>
+
+                        <ComboBox Grid.Column="0" Name="cbxFontSize" Width="40" IsEditable="True" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxDropDownHeight="500" SelectionChanged="cbxFontSize_SelectionChanged" />
+                        <!--SelectionChanged="cbxFontSize_SelectionChanged"-->
+                        <Separator/>
+                        <Button ToolTip="Format text color" Name="btnColorText" Click="btnOtherColorsText_Click">
+                            <materialDesign:PackIcon Kind="FormatColorText" />
+                        </Button>
+
+                        <Button ToolTip="Format text background color">
+                            <materialDesign:PackIcon Kind="FormatColorFill" />
+                        </Button>
+
+
+                    </ToolBar>
+
+                </ToolBarTray>
+            </Grid>
+            <Grid Name="normalMenu" DockPanel.Dock="Top" >
+
+                <ToolBarTray Height="62" VerticalAlignment="Top">
+
+                    <ToolBar Style="{DynamicResource MaterialDesignToolBar}" ClipToBounds="False" Margin="0">
+
+                        <Button ToolTip="Play" Click="btnPresent_Click">
+
+                            <materialDesign:PackIcon Kind="YoutubePlay" />
+
+                        </Button>
+
+                        <Button ToolTip="Save" Click="menuFileSave_Click">
+
+                            <materialDesign:PackIcon Kind="ContentSave" />
+
+                        </Button>
+
+                        <Separator />
+
+                        <Button Command="Cut" ToolTip="Cut" ToolBar.OverflowMode="AsNeeded">
+
+                            <materialDesign:PackIcon Kind="ContentCut" />
+
+                        </Button>
+
+                        <Button Command="Copy" ToolTip="Copy that object" ToolBar.OverflowMode="AsNeeded">
+
+                            <materialDesign:PackIcon Kind="ContentCopy" />
+
+                        </Button>
+
+
+
+                        <Button Command="Paste" ToolTip="Paste some object" ToolBar.OverflowMode="AsNeeded">
+
+                            <materialDesign:PackIcon Kind="ContentPaste" />
+
+                        </Button>
+
+                        <Button  ToolTip="Delete object" Click="btnErazer_Click">
+
+                            <materialDesign:PackIcon Kind="Delete" />
+
+                        </Button>
+
+                        <Button  ToolTip="Mouse" Click="btnArrow_Click">
+
+                            <materialDesign:PackIcon Kind="CursorDefaultOutline" />
+
+                        </Button>
+
+                        <Button  ToolTip="Select" Click="btnSelect_Click">
+
+                            <materialDesign:PackIcon Kind="Select" />
+
+                        </Button>
+
+
+                        <Button  ToolTip="Pencil" Click="btnPencil_Click">
+
+                            <materialDesign:PackIcon Kind="Pencil" />
+
+                        </Button>
+
+
+
+                        <Separator />
+
+
+
+
+                        <Button ToolTip="Format text background color" Click="btnText_Click">
+                            <materialDesign:PackIcon Kind="FormatText"  />
+                        </Button>
+
+                        <Separator/>
+
+
+
+                        <ListBox SelectionMode="Extended">
+
+
+
+
+                        </ListBox>
+
+                        <Button ToolTip="Format text background color" Name="btnColor1" Click="btnOtherColors_Click">
+                            <materialDesign:PackIcon Kind="FormatColorFill"  />
+
+                        </Button>
+
+                        <materialDesign:PopupBox   StaysOpen="True" Width="54" Background="White">
+                            <materialDesign:PopupBox.ToggleContent>
+                                <materialDesign:PackIcon Kind="RotateRight"  BorderBrush="Black" Foreground="Black"/>
+                            </materialDesign:PopupBox.ToggleContent>
+                            <Grid Width="300" Margin="8,8,8,8" Background="White">
+                                <Grid.Resources>
+                                    <Style TargetType="CheckBox" BasedOn="{StaticResource MaterialDesignCheckBox}">
+                                        <Setter Property="Margin" Value="8,8,10,8" />
+                                    </Style>
+                                    <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignTextBox}">
+                                        <Setter Property="materialDesign:HintAssist.IsFloating" Value="True" />
+                                        <Setter Property="Margin" Value="8,8,8,8" />
+                                    </Style>
+                                </Grid.Resources>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+
+                                </Grid.RowDefinitions>
+                                <Slider
+                            Name="angelObject"
+                            TickFrequency="10"
+                            TickPlacement="BottomRight"
+                            Orientation="Horizontal"
+                            Minimum="-180"
+                            Maximum="180" 
+                            Value="0"
+                            IsSelectionRangeEnabled="True"
+                            IsSnapToTickEnabled="True"
+                           Grid.Row="0"
+                            />
+                                <TextBox Name="AngleValue" Margin="20" HorizontalContentAlignment="Center" Grid.Row="1" Text="{Binding ElementName=angelObject, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextChanged="AngleValue_TextChanged"></TextBox>
+                            </Grid>
+                        </materialDesign:PopupBox>
+
+                        <Separator />
+
+                        <Label VerticalAlignment="Center">Thickness</Label>
+                        <ComboBox Grid.Row ="1" x:Name="cbxThickness" HorizontalAlignment="Left" VerticalAlignment="Center" Width="20" Height="20" MaxDropDownHeight="1000" SelectionChanged="cbxThickness_SelectionChanged">
                             <ComboBox.Background>
                                 <ImageBrush ImageSource="Icons/Thickness1.png"/>
                             </ComboBox.Background>
-                            <ComboBoxItem Content="_____________" ToolTip="1 px">
+                            <ComboBoxItem Height="30" Width="70" ToolTip="1 px">
                                 <ComboBoxItem.Background>
                                     <ImageBrush ImageSource="Icons/Thickness1.png"/>
                                 </ComboBoxItem.Background>
@@ -522,259 +649,45 @@
                             </ComboBoxItem>
                         </ComboBox>
 
-                    </Grid>
-                </Custom:RibbonGroup>
-                <Custom:RibbonGroup Name="grOutline" Header="Outlines">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <RadioButton Grid.Row="0" Name="btnSmooth" Content="Smooth" Margin="0, 0, 0, 0" Checked="btnSmooth_Checked"/>
-                        <RadioButton Grid.Row="1" Name="btnDash" Content="Dash" Margin="0, 5, 0, 0" Checked="btnDash_Checked"/>
-                        <RadioButton Grid.Row="2" Name="btnDot" Content="Mix" Margin="0, 10, 0, 0" Checked="btnDot_Checked"/>
-                    </Grid>
-                </Custom:RibbonGroup>
-                <Custom:RibbonGroup Name="grColor" Header="Colors">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid Grid.Column="0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <Button Grid.Row="0" Name="btnEditColor" Width="40" Height="40" Margin="10, 0, 0, 0" Click="btnOtherColors_Click">
-                                <Label Name="btnColor1" Width="40" Height="40" Grid.Row="0" Background="Black">
-                                </Label>
-                            </Button>
-                            <Label Content="Current Color" Grid.Row="1"/>
-                        </Grid>
-                    </Grid>
-                </Custom:RibbonGroup>
-                <Custom:RibbonGroup Name="angle" Header="Angel">
-                    <Grid Width="200">
-                        <Slider
-                            Name="angelObject"
-                            TickFrequency="10"
-                            TickPlacement="BottomRight"
-                            Orientation="Horizontal"
-                            Minimum="-180"
-                            Maximum="180" 
-                            Value="0"
-                            IsSelectionRangeEnabled="True"
-                            IsSnapToTickEnabled="True"
-                            />
-                        <TextBox Name="AngleValue" Margin="20" Text="{Binding ElementName=angelObject, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextChanged="AngleValue_TextChanged"></TextBox>
-                    </Grid>
-                </Custom:RibbonGroup>
-            </Custom:RibbonTab>
-            <Custom:RibbonTab Name="tabText" Header="Text">
-                <Custom:RibbonGroup Name="grFont" Header="Font">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <ComboBox Grid.Row="0" Name="cbxFontFamily" Width="150" ItemsSource="{Binding Source={x:Static Fonts.SystemFontFamilies}}" SelectedItem="{Binding MyFontFamily, ElementName=ThisWindow}" Background="White" IsEditable="True" Margin="0, 5, 0, 0" SelectedIndex="0" SelectionChanged="cbxFontFamily_SelectionChanged"/>
-                        <Grid Grid.Row="1" Margin="0, 10, 0, 0">
-                            <Grid.Background>
-                                <ImageBrush/>
-                            </Grid.Background>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <ComboBox Grid.Column="0" Name="cbxFontSize" Width="40" IsEditable="True" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxDropDownHeight="500" SelectionChanged="cbxFontSize_SelectionChanged" />
 
-                            <Button Grid.Column="1" Name="btnBold" Width="20" Height="20" Margin="5, 0, 0, 0" Padding="2, 2, 2, 2" BorderBrush="{x:Null}" Click="btnBold_Click" >
-                                <Button.Background>
-                                    <ImageBrush ImageSource="Icons/Bold.png" Stretch="Uniform"/>
-                                </Button.Background>
-                            </Button>
-                            <Button Grid.Column="2" Name="btnItalic" Width="20" Height="20" Margin="10, 0, 0, 0" Padding="2, 2, 2, 2" BorderBrush="{x:Null}" Click="btnItalic_Click" >
-                                <Button.Background>
-                                    <ImageBrush ImageSource="Icons/Italic.png" Stretch="Uniform"/>
-                                </Button.Background>
-                            </Button>
-                            <Button Grid.Column="3" Name="btnUnderlined" Width="20" Height="20" Margin="10, 0, 0, 0" Padding="2, 2, 2, 2" BorderBrush="{x:Null}" Click="btnUnderlined_Click" >
-                                <Button.Background>
-                                    <ImageBrush ImageSource="Icons/Underlined.png" Stretch="Uniform"/>
-                                </Button.Background>
-                            </Button>
-                        </Grid>
+                        <materialDesign:PopupBox   StaysOpen="True" Foreground="#DDFFFFFF" BorderBrush="#00000000" Background="#00000000" Width="auto"  >
+                            <materialDesign:PopupBox.ToggleContent>
+                                <Label>Outlines</Label>
+                            </materialDesign:PopupBox.ToggleContent>
+                            <Grid Width="100" Margin="8,8,8,8">
+                                <Grid.Resources>
+                                    <Style TargetType="CheckBox" BasedOn="{StaticResource MaterialDesignCheckBox}">
+                                        <Setter Property="Margin" Value="8,8,10,8" />
+                                    </Style>
+                                    <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignTextBox}">
+                                        <Setter Property="materialDesign:HintAssist.IsFloating" Value="True" />
+                                        <Setter Property="Margin" Value="8,8,8,8" />
+                                    </Style>
+                                </Grid.Resources>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <RadioButton Grid.Row="0" Margin="10" IsChecked="True" Name="btnSmooth">
+                                    Smooth
+                                </RadioButton>
+                                <RadioButton Grid.Row="1" Margin="10" Name="btnDash">
+                                    Dash
+                                </RadioButton>
+                                <RadioButton Grid.Row="2" Margin="10" Name="btnDot">
+                                    Dot
+                                </RadioButton>
 
-                    </Grid>
-                </Custom:RibbonGroup>
-                <Custom:RibbonGroup Name="grColorText" Header="Colors">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid Grid.Column="0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <Label Name="btnColorText" Width="40" Height="40" Grid.Row="0" Background="Black" >
-                            </Label>
-                            <Label Content="Current Color" Grid.Row="1"/>
-                        </Grid>
+                            </Grid>
+                        </materialDesign:PopupBox>
 
-                        <Grid Grid.Column="1" Margin="5, 0, 0, 0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <Button Grid.Row="0" Width="20" Height="20" Background="Black" HorizontalAlignment="Left" Click = "ColorTextButton_Click"/>
-                            <Button Grid.Row="0" Width="20" Height="20" Background="White" HorizontalAlignment="Left" Margin="23, 0, 0, 0" Click = "ColorTextButton_Click"/>
-                            <Button Grid.Row="0" Width="20" Height="20" Background="#FF880015" HorizontalAlignment="Left" Margin="46, 0, 0, 0" Click = "ColorTextButton_Click"/>
-                            <Button Grid.Row="0" Width="20" Height="20" Background="#FFED1C24" HorizontalAlignment="Left" Margin="69, 0, 0, 0" Click = "ColorTextButton_Click"/>
-                            <Button Grid.Row="0" Width="20" Height="20" Background="#FF22B14C" HorizontalAlignment="Left" Margin="92, 0, 0, 0" Click = "ColorTextButton_Click"/>
-                            <Button Grid.Row="0" Width="20" Height="20" Background="#FF00A2E8" HorizontalAlignment="Left" Margin="115, 0, 0, 0" Click = "ColorTextButton_Click"/>
-                            <Button Grid.Row="0" Width="20" Height="20" Background="#FF3F48CC" HorizontalAlignment="Left" Margin="138, 0, 0, 0" Click = "ColorTextButton_Click"/>
-                            <Button Grid.Row="0" Width="20" Height="20" Background="#FFA349A4" HorizontalAlignment="Left" Margin="161, 0, 0, 0" Click = "ColorTextButton_Click"/>
-                            <Button Grid.Row="0" Width="20" Height="20" Background="Red" HorizontalAlignment="Left" Margin="184, 0, 0, 0" Click = "ColorTextButton_Click"/>
-                            <Button Grid.Row="0" Width="20" Height="20" Background="#FFFF7F27" HorizontalAlignment="Left" Margin="207, 0, 0, 0" Click = "ColorTextButton_Click"/>
 
-                            <Button Grid.Row="1" Width="20" Height="20" Background="Red" HorizontalAlignment="Left" Margin="0, 2, 0, 0" Click = "ColorTextButton_Click"/>
-                            <Button Grid.Row="1" Width="20" Height="20" Background="#FFFF1E1E" HorizontalAlignment="Left" Margin="23, 2, 0, 0" Click = "ColorTextButton_Click"/>
-                            <Button Grid.Row="1" Width="20" Height="20" Background="#FFFF3C3C" HorizontalAlignment="Left" Margin="46, 2, 0, 0" Click = "ColorTextButton_Click"/>
-                            <Button Grid.Row="1" Width="20" Height="20" Background="#FFFF5A5A" HorizontalAlignment="Left" Margin="69, 2, 0, 0" Click = "ColorTextButton_Click"/>
-                            <Button Grid.Row="1" Width="20" Height="20" Background="#FFFF7878" HorizontalAlignment="Left" Margin="92, 2, 0, 0" Click = "ColorTextButton_Click"/>
-                            <Button Grid.Row="1" Width="20" Height="20" Background="#FFFF9696" HorizontalAlignment="Left" Margin="115, 2, 0, 0" Click = "ColorTextButton_Click"/>
-                            <Button Grid.Row="1" Width="20" Height="20" Background="#FFFFB4B4" HorizontalAlignment="Left" Margin="138, 2, 0, 0" Click = "ColorTextButton_Click"/>
-                            <Button Grid.Row="1" Width="20" Height="20" Background="#FFFFD2D2" HorizontalAlignment="Left" Margin="161, 2, 0, 0" Click = "ColorTextButton_Click"/>
-                            <Button Grid.Row="1" Width="20" Height="20" Background="#FFFFF0F0" HorizontalAlignment="Left" Margin="184, 2, 0, 0" Click = "ColorTextButton_Click"/>
-                            <Button Grid.Row="1" Width="20" Height="20" Background="White" HorizontalAlignment="Left" Margin="207, 2, 0, 0" Click = "ColorTextButton_Click"/>
 
-                            <Button Grid.Row="2" Width="20" Height="20" Background="Lime" HorizontalAlignment="Left" Click="ColorTextButton_Click"/>
-                            <Button Grid.Row="2" Width="20" Height="20" Background="#FF00F500" HorizontalAlignment="Left" Margin="23, 2, 0, 0" Click = "ColorTextButton_Click"/>
-                            <Button Grid.Row="2" Width="20" Height="20" Background="#FF00E100" HorizontalAlignment="Left" Margin="46, 2, 0, 0" Click = "ColorTextButton_Click"/>
-                            <Button Grid.Row="2" Width="20" Height="20" Background="#FF00D700" HorizontalAlignment="Left" Margin="69, 2, 0, 0" Click = "ColorTextButton_Click"/>
-                            <Button Grid.Row="2" Width="20" Height="20" Background="#FF00CD00" HorizontalAlignment="Left" Margin="92, 2, 0, 0" Click = "ColorTextButton_Click"/>
-                            <Button Grid.Row="2" Width="20" Height="20" Background="#FF00C300" HorizontalAlignment="Left" Margin="115, 2, 0, 0" Click = "ColorTextButton_Click"/>
-                            <Button Grid.Row="2" Width="20" Height="20" Background="#FF00B900" HorizontalAlignment="Left" Margin="138, 2, 0, 0" Click = "ColorTextButton_Click"/>
-                            <Button Grid.Row="2" Width="20" Height="20" Background="#FF00AF00" HorizontalAlignment="Left" Margin="161, 2, 0, 0" Click = "ColorTextButton_Click"/>
-                            <Button Grid.Row="2" Width="20" Height="20" Background="#FF00AF00" HorizontalAlignment="Left" Margin="184, 2, 0, 0" Click = "ColorTextButton_Click"/>
-                            <Button Grid.Row="2" Width="20" Height="20" Background="#FF00A500" HorizontalAlignment="Left" Margin="207, 2, 0, 0" Click = "ColorTextButton_Click"/>
+                    </ToolBar>
 
-                        </Grid>
-                        <Grid Grid.Column="2">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <Button Grid.Row="0" Name="btnEditColorText" Width="40" Height="40" Margin="10, 0, 0, 0" Click="btnOtherColorsText_Click">
-                                <Button.Background>
-                                    <ImageBrush ImageSource="Icons/EditColor.png" Stretch="UniformToFill"/>
-                                </Button.Background>
-                            </Button>
-                            <Label Grid.Row ="1" Content="Edit Colors" Margin="5, 0, 0, 0"/>
-                        </Grid>
-                    </Grid>
-                </Custom:RibbonGroup>
-                <Custom:RibbonGroup>
-                    <Grid>
-                        <ListBox
-                            Style="{StaticResource MaterialDesignToolToggleListBox}"
-                            SelectedIndex="0">
-                            <ListBox.ToolTip>
-                                <StackPanel>
-                                    <TextBlock
-                                        Text="MaterialDesignToolToggleListBox" />
-                                    <TextBlock
-                                        Text="Exclusive selection" />
-                                    <TextBlock
-                                        Text="ListBoxAssist.IsToggle allows more natural toggle behaviour" />
-                                </StackPanel>
-                            </ListBox.ToolTip>
-                            <ListBoxItem Name="btnTextAlignLeft" Selected="btnTextAlignLeft_Selected">
-                                <materialDesign:PackIcon
-                                    Kind="FormatAlignLeft" />
-                            </ListBoxItem>
-                            <ListBoxItem Name="btnTextAlignCenter" Selected="btnTextAlignCenter_Selected">
-                                <materialDesign:PackIcon
-                                    Kind="FormatAlignCenter" />
-                            </ListBoxItem>
-                            <ListBoxItem Name="btnTextAlignRight" Selected="btnTextAlignRight_Selected">
-                                <materialDesign:PackIcon
-                                    Kind="FormatAlignRight" />
-                            </ListBoxItem>
-                            <ListBoxItem Name="btnTextAlignJustify" Selected="btnTextAlignJustify_Selected">
-                                <materialDesign:PackIcon
-                                    Kind="FormatAlignJustify" />
-                            </ListBoxItem>
-                        </ListBox>
-                    </Grid>
-                </Custom:RibbonGroup>
-            </Custom:RibbonTab>
-            <Custom:RibbonTab Name="tabInsert" Header="Insert">
-                <Custom:RibbonGroup Name="imageGroup" Header="Image">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <Button Grid.Row="0" Name="btnImage" Width="40" Height="40" Margin="10, 0, 0, 0" Click="btnImage_Click">
-                                <Button.Background>
-                                    <ImageBrush ImageSource="Icons/Image.jpg" Stretch="UniformToFill"/>
-                                </Button.Background>
-                            </Button>
-                            <Label Grid.Row ="1" Content="Image" Margin="5, 0, 0, 0"/>
-                        </Grid>
-                    </Grid>
-                </Custom:RibbonGroup>
-                <Custom:RibbonGroup Name="videoGroup" Header="Video">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <Button Grid.Row="0" Name="btnVideo" Width="40" Height="40" Margin="10, 0, 0, 0" Click="btnVideo_Click">
-                                <Button.Background>
-                                    <ImageBrush ImageSource="Icons/video.png" Stretch="UniformToFill"/>
-                                </Button.Background>
-                            </Button>
-                            <Label Grid.Row ="1" Content="Video" Margin="5, 0, 0, 0"/>
-                        </Grid>
-                    </Grid>
-                </Custom:RibbonGroup>
-                <Custom:RibbonGroup Name="tableGroup" Header="Table">
-                    <Grid Width="100">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        <Grid Grid.Row="0" HorizontalAlignment="Stretch">
-                            <TextBox Name="tbTableColumn" Text="00" HorizontalAlignment="Left" PreviewTextInput="NumericOnly" Width="20" MaxLength="2">
-                            </TextBox>
-                            <Label Content="x" HorizontalAlignment="Center" />
-                            <TextBox Name="tbTableRow" Text="00" HorizontalAlignment="Right" PreviewTextInput="NumericOnly" Width="20" MaxLength="2"/>
-                        </Grid>
-                        <Grid Grid.Row="1">
-                            <Button Name="btnInsertTable" Content="Insert" Click="btnInsertTable_Click" />
-                        </Grid>
-                    </Grid>
-                </Custom:RibbonGroup>
-            </Custom:RibbonTab>
-        </Custom:Ribbon>
+                </ToolBarTray>
+            </Grid>
+        </StackPanel>
     </Grid>
 </Window>

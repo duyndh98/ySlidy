@@ -69,9 +69,11 @@ namespace ySlide
                         btnTextAlignJustify.IsSelected = true;
                         break;
                 }
+                btnBold.IsSelected = focusedTextbox.FontWeight == FontWeights.Bold ? true : false;
+                btnItalic.IsSelected = focusedTextbox.FontStyle == FontStyles.Italic ? true : false;
+                btnUnderlined.IsSelected = focusedTextbox.TextDecorations == TextDecorations.Underline ? true : false;
             }
         }
-        bool bold = false, italic = false, underlined = false;
         /// </Text Adjustment>
 
         #endregion
@@ -93,28 +95,28 @@ namespace ySlide
 
         private void UpdateCanvasSize()
         {
-            if (txtWidth.Text == "")
-            {
-                txtWidth.Text = Document.Instance.canvas.Width.ToString();
-            }
-            if (txtHeight.Text == "")
-            {
-                txtHeight.Text = Document.Instance.canvas.Height.ToString();
-            }
-            try
-            {
-                if (txtWidth.Text != "" && txtHeight.Text != "")
-                {
-                    Document.Instance.canvas.ClipToBounds = true;
-                    Document.Instance.canvas.SnapsToDevicePixels = true;
-                    Document.Instance.canvas.Width = Convert.ToDouble(txtWidth.Text);
-                    Document.Instance.canvas.Height = Convert.ToDouble(txtHeight.Text);
-                }
-            }
-            catch (FormatException ex)
-            {
-                MessageBox.Show("Invalid size of paint surface: " + "\n" + ex.Message, "Invalid input", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            //if (txtWidth.Text == "")
+            //{
+            //    txtWidth.Text = Document.Instance.canvas.Width.ToString();
+            //}
+            //if (txtHeight.Text == "")
+            //{
+            //    txtHeight.Text = Document.Instance.canvas.Height.ToString();
+            //}
+            //try
+            //{
+            //    if (txtWidth.Text != "" && txtHeight.Text != "")
+            //    {
+            //        Document.Instance.canvas.ClipToBounds = true;
+            //        Document.Instance.canvas.SnapsToDevicePixels = true;
+            //        Document.Instance.canvas.Width = Convert.ToDouble(txtWidth.Text);
+            //        Document.Instance.canvas.Height = Convert.ToDouble(txtHeight.Text);
+            //    }
+            //}
+            //catch (FormatException ex)
+            //{
+            //    MessageBox.Show("Invalid size of paint surface: " + "\n" + ex.Message, "Invalid input", MessageBoxButton.OK, MessageBoxImage.Error);
+            //}
 
         }
 
@@ -252,11 +254,11 @@ namespace ySlide
             //curCanvas.Cursor = Cursors.Arrow;
 
             List<UIElement> listPrePareToRemove = new List<UIElement>();
-            foreach(UIElement ui in curCanvas.GetSelectedElements())
+            foreach (UIElement ui in curCanvas.GetSelectedElements())
             {
                 listPrePareToRemove.Add(ui);
             }
-            foreach (UIElement ui in listPrePareToRemove) 
+            foreach (UIElement ui in listPrePareToRemove)
                 curCanvas.Children.Remove(ui);
         }
 
@@ -354,12 +356,12 @@ namespace ySlide
         #region Edit Text
         private void btnBold_Click(object sender, RoutedEventArgs e)
         {
-            bold = !bold;
-            if (bold)
+            if (btnBold.IsSelected)
             {
                 if (FocusedTextbox != null)
                 {
                     FocusedTextbox.FontWeight = FontWeights.Bold;
+                    Document.Instance.SetUpTextBox.FontWeight = FontWeights.Bold;
                 }
             }
             else
@@ -367,18 +369,19 @@ namespace ySlide
                 if (FocusedTextbox != null)
                 {
                     FocusedTextbox.FontWeight = FontWeights.Normal;
+                    Document.Instance.SetUpTextBox.FontWeight = FontWeights.Normal;
                 }
             }
         }
 
         private void btnItalic_Click(object sender, RoutedEventArgs e)
         {
-            italic = !italic;
-            if (italic)
+            if (btnItalic.IsSelected)
             {
                 if (FocusedTextbox != null)
                 {
                     FocusedTextbox.FontStyle = FontStyles.Italic;
+                    Document.Instance.FontStyle = FontStyles.Italic;
                 }
             }
             else
@@ -386,14 +389,14 @@ namespace ySlide
                 if (FocusedTextbox != null)
                 {
                     FocusedTextbox.FontStyle = FontStyles.Normal;
+                    Document.Instance.FontStyle = FontStyles.Normal;
                 }
             }
         }
 
         private void btnUnderlined_Click(object sender, RoutedEventArgs e)
         {
-            underlined = !underlined;
-            if (underlined)
+            if (btnUnderlined.IsSelected)
             {
                 if (FocusedTextbox != null)
                 {
@@ -402,7 +405,7 @@ namespace ySlide
                         FocusedTextbox.TextDecorations = new TextDecorationCollection();
                     }
                     FocusedTextbox.TextDecorations = TextDecorations.Underline;
-
+                    Document.Instance.SetUpTextBox.TextDecorations = TextDecorations.Underline;
                 }
             }
             else
@@ -410,6 +413,7 @@ namespace ySlide
                 if (FocusedTextbox != null)
                 {
                     FocusedTextbox.TextDecorations = null;
+                    Document.Instance.SetUpTextBox.TextDecorations = null;
                 }
             }
         }
@@ -569,6 +573,11 @@ namespace ySlide
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void MenuItemClose_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
         }
@@ -753,7 +762,7 @@ namespace ySlide
                 ImageBrush newImage = new ImageBrush();
                 newImage.ImageSource = new BitmapImage(new Uri(dlg.FileName));
 
-                curCanvas.Background = newImage;                
+                curCanvas.Background = newImage;
             }
 
         }
@@ -803,7 +812,7 @@ namespace ySlide
 
         private void btnPresent_Click(object sender, RoutedEventArgs e)
         {
-            Presentation f = new Presentation(Document.Instance.slides ,0);
+            Presentation f = new Presentation(Document.Instance.slides, 0);
             f.ShowDialog();
         }
 
@@ -1018,7 +1027,7 @@ namespace ySlide
         private void btnTextAlignLeft_Selected(object sender, RoutedEventArgs e)
         {
             Document.Instance.SetUpTextBox.TextAlignment = TextAlignment.Left;
-            if(FocusedTextbox !=null)
+            if (FocusedTextbox != null)
                 FocusedTextbox.TextAlignment = TextAlignment.Left;
         }
 
@@ -1179,11 +1188,12 @@ namespace ySlide
             }
 
             //Get angle của các phần tử đưuọc select
-            for (int i = 0; i < selectedElements.Count; i++) 
+            for (int i = 0; i < selectedElements.Count; i++)
             {
                 selectedElements[i].RenderTransformOrigin = new Point(0.5, 0.5);
                 var x = (selectedElements[i].RenderTransform as RotateTransform);
-                if (x == null) { 
+                if (x == null)
+                {
                     selectedElements[i].RenderTransform = new RotateTransform(0);
                     x = (selectedElements[i].RenderTransform as RotateTransform);
                 }

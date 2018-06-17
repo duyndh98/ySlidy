@@ -551,6 +551,7 @@ namespace ySlide
         private FontWeight fontWeight;
         private System.Windows.TextAlignment textAlignment;
         private System.Windows.Media.Brush foreground;
+        private TextDecorationCollection textDecorations;
 
         public System.Windows.Media.FontFamily FontFamily { get => fontFamily; set => fontFamily = value; }
         public double FontSize { get => fontSize; set => fontSize = value; }
@@ -558,6 +559,7 @@ namespace ySlide
         public FontWeight FontWeight { get => fontWeight; set => fontWeight = value; }
         public TextAlignment TextAlignment { get => textAlignment; set => textAlignment = value; }
         public System.Windows.Media.Brush Foreground { get => foreground; set => foreground = value; }
+        public TextDecorationCollection TextDecorations { get { if (textDecorations == null) textDecorations = new TextDecorationCollection(); return textDecorations; } set => textDecorations = value; }
 
         public SetUpTextBox()
         {
